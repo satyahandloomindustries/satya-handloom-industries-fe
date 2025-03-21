@@ -10,7 +10,7 @@ export default {
       colors: {
         background: 'var(--background)',
         foreground: 'var(--foreground)',
-        shi_brown: '#c29958',
+        shi_brown: 'var(--shi_brown)',
       },
     },
   },

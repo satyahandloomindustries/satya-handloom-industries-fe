@@ -1,0 +1,18 @@
+@keyframes borderAnimation {
+  0% {
+    border-bottom: 2px solid transparent;
+  }
+  100% {
+    border-bottom: 2px solid var(--shi_brown)
+  }
+}
+
+.border-animation {
+  transition: all 0.1s ease-in;
+  height: calc(50% + 4px);
+}
+
+.border-animation:hover {
+  animation: borderAnimation 0.3s forwards;
+  color: var(--shi_brown);  
+}
