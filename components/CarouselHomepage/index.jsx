@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
+import UnderlineStroke from '@/components/UnderlineStroke';
 
 const CollectionLink = ({ label = '' }) => {
   return (
@@ -9,7 +10,10 @@ const CollectionLink = ({ label = '' }) => {
       className="absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 text-4xl w-full group-hover:justify-center hidden group-hover:flex"
     >
       <span className="text-white">{label}&nbsp;</span>
-      <span className="text-black">Collec</span>
+      <span className="text-black group">
+        <div>Collec</div>
+        <UnderlineStroke />
+      </span>
       <span className="text-white">tion</span>
     </Link>
   );

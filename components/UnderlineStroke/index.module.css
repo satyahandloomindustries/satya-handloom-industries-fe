@@ -1,0 +1,19 @@
+.underlineStroke {
+
+    width: 0;
+    height: 5px;
+    background-color: rgb(16, 16, 16);
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+    animation: stroke-animation 500ms ease-in 0.2s forwards;
+    margin-left:4px;
+}
+
+@keyframes stroke-animation{
+    0%{
+        width:0;
+    }
+    100%{
+        width: 95%
+    }
+}
