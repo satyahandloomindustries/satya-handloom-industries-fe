@@ -1,10 +1,42 @@
 import CarouselHomepage from '@/components/CarouselHomepage';
-import Image from 'next/image';
+import MultiRenderer from '@/components/MultiRenderer';
+import TwoLiner from '@/components/TwoLiner';
+import DeleteIcon from '@mui/icons-material/Delete';
 
+const twoLiner = [
+  {
+    label: 'Free shipping',
+    value: 'Free shipping all order',
+    Icon: DeleteIcon,
+  },
+  {
+    label: 'Support 24/7',
+    value: 'Support 24 hours a day',
+    Icon: DeleteIcon,
+  },
+  {
+    label: 'Money Return',
+    value: '30 days for free return',
+    Icon: DeleteIcon,
+  },
+  {
+    label: '100% Payment Secure',
+    value: 'We ensure secure payment',
+    Icon: DeleteIcon,
+  },
+];
 export default function Home() {
   return (
     <div>
       <CarouselHomepage />
+      <div className="px-16">
+        <MultiRenderer
+          rendererSet={twoLiner}
+          Component={TwoLiner}
+          mainClassName="grid grid-cols-[repeat(4,1fr)] py-20"
+        />
+        <hr className="border-t-1 border-gray-300" />
+      </div>
       {/* <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
         <Image
           className="dark:invert"
