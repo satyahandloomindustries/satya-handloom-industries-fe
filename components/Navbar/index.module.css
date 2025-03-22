@@ -9,7 +9,7 @@
 
 .border-animation {
   transition: all 0.1s ease-in;
-  height: calc(50% + 4px);
+  height: calc(50% + 6px);
 }
 
 .border-animation:hover {

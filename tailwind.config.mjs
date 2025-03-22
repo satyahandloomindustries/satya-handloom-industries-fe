@@ -12,7 +12,11 @@ export default {
         foreground: 'var(--foreground)',
         shi_brown: 'var(--shi_brown)',
       },
+      backgroundColor: {
+        shi_prussian_blue: 'var(--shi_prussian_blue)',
+        shi_burlywood: '#deb887',
+      },
     },
   },
-  plugins: [],
+  plugins: [require('tailwind-scrollbar-hide')],
 };

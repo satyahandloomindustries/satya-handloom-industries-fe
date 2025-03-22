@@ -1,8 +1,10 @@
+import CarouselHomepage from '@/components/CarouselHomepage';
 import Image from 'next/image';
 
 export default function Home() {
   return (
     <div>
+      <CarouselHomepage />
       {/* <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
         <Image
           className="dark:invert"
