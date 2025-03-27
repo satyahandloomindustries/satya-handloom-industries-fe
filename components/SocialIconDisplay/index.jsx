@@ -15,7 +15,7 @@ const SocialIconDisplay = ({ title = '' }) => {
         {socialIcon.map((Item, index) => (
           <Link
             key={index}
-            className="border border-gray-400 p-4 rounded-full hover:bg-shi_brown hover:text-white"
+            className="border border-gray-400 p-4 rounded-full hover:bg-shi_brown hover:text-white hover:border-none"
             href="/"
           >
             <Item className="text-2xl" />
