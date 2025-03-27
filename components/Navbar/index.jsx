@@ -4,6 +4,7 @@ import clsx from 'clsx';
 import { usePathname } from 'next/navigation';
 import React from 'react';
 import styles from '@/components/Navbar/index.module.css';
+import ShiLogo from '@/components/ShiLogo';
 
 const navbarRoutes = [
   { label: 'Home', value: '/' },
@@ -15,7 +16,7 @@ const Navbar = () => {
   const pathname = usePathname();
   return (
     <div className="grid grid-cols-[100px_1fr] gap-30 py-5 px-6 sticky top-0 z-50 bg-white">
-      <div className="text-4xl italic font-semibold">SHI</div>
+      <ShiLogo />
       <div
         className={`grid items-center gap-10`}
         style={{

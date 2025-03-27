@@ -1,4 +1,5 @@
 import CarouselHomepage from '@/components/CarouselHomepage';
+import ContactUsFooter from '@/components/ContactUsFooter';
 import MultiRenderer from '@/components/MultiRenderer';
 import TwoLiner from '@/components/TwoLiner';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -37,6 +38,7 @@ export default function Home() {
         />
         <hr className="border-t-1 border-gray-300" />
       </div>
+      <ContactUsFooter />
       {/* <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
         <Image
           className="dark:invert"
