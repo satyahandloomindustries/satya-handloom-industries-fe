@@ -1,0 +1,19 @@
+.text-animation {
+  font-size: 34px;
+  font-weight: bold;
+  animation: shine 3s linear infinite;
+  background: linear-gradient(90deg, #c29558, #000, #c29558);
+  background-size: 90%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: rgba(255, 255, 255, 0);
+}
+
+@keyframes shine {
+  0% {
+    background-position: -500%;
+  }
+
+  100% {
+    background-position: 100%;
+  }
+}

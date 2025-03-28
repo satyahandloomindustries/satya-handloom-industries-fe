@@ -1,6 +1,10 @@
+import AnimatedTitle from '@/components/AnimatedTitle';
+import Carousel from '@/components/Carousel';
 import CarouselHomepage from '@/components/CarouselHomepage';
 import ContactUsFooter from '@/components/ContactUsFooter';
 import MultiRenderer from '@/components/MultiRenderer';
+import ProductCard from '@/components/ProductCard';
+import ProductCarousel from '@/components/ProductCarousel';
 import TwoLiner from '@/components/TwoLiner';
 import DeleteIcon from '@mui/icons-material/Delete';
 
@@ -38,6 +42,11 @@ export default function Home() {
         />
         <hr className="border-t-1 border-gray-300" />
       </div>
+      <AnimatedTitle
+        title="Related Products"
+        subTitle="Add or suggest products"
+      />
+      <ProductCarousel />
       <ContactUsFooter />
       {/* <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
         <Image
