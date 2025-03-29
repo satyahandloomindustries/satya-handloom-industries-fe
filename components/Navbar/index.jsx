@@ -8,6 +8,10 @@ import ShiLogo from '@/components/ShiLogo';
 
 const navbarRoutes = [
   { label: 'Home', value: '/' },
+  {
+    label: 'Shop',
+    value: '/products',
+  },
   { label: 'Blogs', value: '/blogs' },
   { label: 'ContactUs', value: '/contactUs' },
 ];
