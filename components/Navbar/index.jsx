@@ -6,7 +6,7 @@ import React from 'react';
 import styles from '@/components/Navbar/index.module.css';
 import ShiLogo from '@/components/ShiLogo';
 
-const navbarRoutes = [
+export const navbarRoutes = [
   { label: 'Home', value: '/' },
   {
     label: 'Shop',
