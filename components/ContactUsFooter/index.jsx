@@ -8,7 +8,7 @@ import LabelValue from '../LabelValue';
 import Link from 'next/link';
 import SocialIconDisplay from '../SocialIconDisplay';
 
-const contactUs = [
+export const contactUs = [
   {
     Icon: HomeOutlinedIcon,
     label: '4710-4890 Breckinridge USA',

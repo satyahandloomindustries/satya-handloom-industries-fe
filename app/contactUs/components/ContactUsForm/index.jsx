@@ -2,7 +2,7 @@ import React from 'react';
 
 const ContactUsForm = () => {
   return (
-    <div className="flex flex-col items-start justify-center w-1/2 h-full p-6">
+    <div className="flex flex-col items-start justify-center h-full p-6">
       <h1 className="text-xl font-bold mb-4">Tell Us Your Project</h1>
       <form className="w-full max-w-lg">
         <div className="grid grid-cols-2 gap-8">
