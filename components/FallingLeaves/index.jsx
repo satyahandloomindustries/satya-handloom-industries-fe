@@ -3,11 +3,12 @@ import React, { useEffect, useRef } from 'react';
 import styles from './index.module.css';
 import { Dancing_Script } from 'next/font/google';
 import clsx from 'clsx';
+import Image from 'next/image';
 
 const dancing = Dancing_Script({
   subsets: ['latin'],
-  weight: ['400', '700'], // optional
-  display: 'swap', // recommended
+  weight: ['400', '700'],
+  display: 'swap',
 });
 const FallingLeaves = () => {
   const containerRef = useRef(null);
@@ -167,6 +168,13 @@ const FallingLeaves = () => {
       ref={containerRef}
     >
       Every thread tells a story — woven by hand, crafted by heart.
+      <Image
+        width={200}
+        height={220}
+        src="/images/purplePattern.png"
+        alt="purplePattern"
+        className="absolute top-0 left-0 object-cover opacity-50"
+      />
     </div>
   );
 };
