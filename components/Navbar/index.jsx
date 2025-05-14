@@ -19,7 +19,7 @@ export const navbarRoutes = [
 const Navbar = () => {
   const pathname = usePathname();
   return (
-    <div className="grid grid-cols-[100px_1fr] gap-30 py-5 px-6 sticky top-0 z-50 bg-white">
+    <div className="grid grid-cols-[100px_1fr] gap-30 py-5 px-6 sticky top-0 z-40 bg-white">
       <ShiLogo />
       <div
         className={`grid items-center gap-10`}
