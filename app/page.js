@@ -1,9 +1,8 @@
+'use client';
 import AnimatedTitle from '@/components/AnimatedTitle';
-import Carousel from '@/components/Carousel';
 import CarouselHomepage from '@/components/CarouselHomepage';
 import ContactUsFooter from '@/components/ContactUsFooter';
 import MultiRenderer from '@/components/MultiRenderer';
-import ProductCard from '@/components/ProductCard';
 import ProductCarousel from '@/components/ProductCarousel';
 import TwoLiner from '@/components/TwoLiner';
 import DeleteIcon from '@mui/icons-material/Delete';
