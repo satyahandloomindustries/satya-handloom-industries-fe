@@ -20,7 +20,7 @@ const PaginationFooter = () => {
   const start = Math.ceil(page / 4) * 4 - 3;
 
   return (
-    <div className="w-full p-5 border items-center justify-center flex gap-2 absolute bottom-0">
+    <div className="w-full p-5 border items-center justify-center flex gap-2 absolute bottom-0 mt-8">
       <Circle onClick={() => setPage(Math.max(1, page - 1))}>
         <FaChevronLeft size={18} />
       </Circle>
