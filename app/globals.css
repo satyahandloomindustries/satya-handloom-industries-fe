@@ -5,7 +5,7 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
-  --shi_brown:  #c29958;
+  --shi_brown: #c29958;
   --shi_prussian_blue: #e1eef4;
 }
 
@@ -20,4 +20,11 @@ body {
   color: var(--foreground);
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
+  height: 100%;
+}
+
+#__next,
+html,
+body {
+  height: 100%;
 }
