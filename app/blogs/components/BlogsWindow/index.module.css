@@ -16,9 +16,7 @@
   animation-delay: 0;
   top: 5px;
 }
-.wave2 {
-  color: #7f7365;
-}
+
 @keyframes animate {
   0% {
     background-position-x: 0;

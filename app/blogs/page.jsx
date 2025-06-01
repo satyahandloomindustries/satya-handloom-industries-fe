@@ -2,6 +2,7 @@ import React from 'react';
 import styles from './index.module.css';
 import clsx from 'clsx';
 import BlogsPanel from './components/BlogsPanel';
+import BlogsWindow from './components/BlogsWindow';
 
 const Box3D = () => {
   return (
@@ -13,9 +14,10 @@ const Box3D = () => {
 
 const Blogs = () => {
   return (
-    <div className="h-full">
-      <div className="w-full h-full bg-gray-100 relative backdrop-blur-md">
+    <div>
+      <div className="flex h-[500px]">
         <BlogsPanel />
+        <BlogsWindow />
       </div>
     </div>
   );

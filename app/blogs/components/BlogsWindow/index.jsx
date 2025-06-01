@@ -4,8 +4,11 @@ import clsx from 'clsx';
 
 const BlogsWindow = () => {
   return (
-    <div className="flex-1 h-screen bg-gray-100 relative">
-      <div className="pt-8 px-10">
+    <div className="flex-1 h-full bg-gray-100 relative">
+      <div
+        className="pt-8 px-10 overflow-y-scroll"
+        style={{ height: 'calc(100%  - 100px)' }}
+      >
         <h1 className="text-center text-2xl">BlogsWindow</h1>
         <div className="py-6">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto itaque
