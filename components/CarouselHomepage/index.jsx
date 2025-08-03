@@ -47,6 +47,7 @@ const CarouselHomepage = () => {
           src="/young-woman-using-macrame-technique.jpg"
           className="group-hover:scale-110 group-hover:opacity-90 transition-transform transform duration-1000"
           alt="assembling-advent4"
+          objectFit="cover"
           width={400}
           height={400}
         />
