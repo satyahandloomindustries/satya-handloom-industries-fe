@@ -12,7 +12,7 @@ const ToastContainer = () => {
   return toasts.map(({ message, id }, index) => (
     <div
       className={clsx(
-        'absolute right-10 z-50 w-80 border bg-white',
+        'fixed right-10 z-50 w-80 border bg-white',
         styles.animate
       )}
       style={{ top: `${30 + index * 50}px` }}
