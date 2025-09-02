@@ -29,12 +29,13 @@ const ToastContainer = () => {
         <div className="pl-4 pr-1 py-2 text-base">{message}</div>
         <div className="w-full h-1" style={{ backgroundColor: 'purple' }} />
       </div>
-      <FaTimes
-        size={12}
-        color="black"
-        className="absolute -top-1 -right-1 cursor-pointer"
+
+      <button
+        className="absolute -top-1 -right-1 bg-white rounded-full border flex items-center justify-center p-1 cursor-pointer"
         onClick={removeToast.bind(null, id)}
-      />
+      >
+        <FaTimes size={12} color="black" />
+      </button>
     </div>
   ));
 };

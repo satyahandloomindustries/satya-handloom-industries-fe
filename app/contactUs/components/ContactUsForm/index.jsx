@@ -20,7 +20,6 @@ const ContactUsForm = () => {
         addToast('Message sent successfully!', toastTypes.SUCCESS);
       },
       (error) => {
-        console.log('Email send error:', error.text);
         addToast('Failed to send message.', toastTypes.ERROR);
       }
     );
