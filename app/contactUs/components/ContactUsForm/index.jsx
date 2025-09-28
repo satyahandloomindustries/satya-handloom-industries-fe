@@ -3,10 +3,21 @@ import React, { useRef } from 'react';
 import emailjs from '@emailjs/browser';
 import useToast from '@/store/useToast';
 import { toastTypes } from '@/utls';
+import useFormValidation from '@/hooks/useFormValidation';
+import * as Yup from 'yup';
 
 const ContactUsForm = () => {
   const form = useRef();
   const { addToast } = useToast();
+  const { validation, error, noError, validateAt } = useFormValidation({
+    name: Yup.string().required('Name is required'),
+    email: Yup.string().email('Invalid email').required('Email is required'),
+    phone: Yup.string()
+      .required('Phone is required')
+      .matches(/^[0-9]{10}$/, 'Phone number must be exactly 10 digits'),
+    subject: Yup.string().required('Subject is required'),
+    message: Yup.string().required('Message is required'),
+  });
   const service_id = 'service_w89xl9f';
   const template_id = 'template_7154r0q';
   const public_key = 'Fx45D07KIG9rWyylp';
@@ -25,6 +36,12 @@ const ContactUsForm = () => {
     );
   };
 
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    validateAt(name, value);
+  };
+  console.log(error, noError);
+
   return (
     <div className="flex flex-col items-start justify-center h-full p-6">
       <h1 className="text-xl font-bold mb-4">Tell Us Your Project</h1>
@@ -36,6 +53,7 @@ const ContactUsForm = () => {
             id="name"
             placeholder="Name*"
             className="appearance-none w-full p-3 text-sm text-gray-700 bg-gray-100 leading-tight focus:outline-none focus:-outline"
+            onChange={handleChange}
           />
 
           <input
@@ -76,6 +94,7 @@ const ContactUsForm = () => {
         <button
           type="submit"
           className="bg-shi_brown text-white  py-3 px-6 font-thin text-sm focus:outline-none focus:-outline"
+          disabled={!noError}
         >
           Send Message
         </button>

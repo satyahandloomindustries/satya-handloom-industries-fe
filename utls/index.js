@@ -17,3 +17,12 @@ export function* range(start, end, step = 1) {
     }
   }
 }
+
+export const arrObjectMap = (arr, key1, key2) => {
+  const newObj = {};
+  arr.forEach((item) => {
+    newObj[item[key1]] = item[key2];
+  });
+
+  return newObj;
+};
