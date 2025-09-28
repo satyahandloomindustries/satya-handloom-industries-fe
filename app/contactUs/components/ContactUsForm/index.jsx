@@ -27,7 +27,7 @@ const ContactUsForm = () => {
 
     emailjs.sendForm(service_id, template_id, form.current, public_key).then(
       () => {
-        form.current.reset();
+        form.current?.reset();
         addToast('Message sent successfully!', toastTypes.SUCCESS);
       },
       (error) => {
