@@ -174,6 +174,8 @@ const FallingLeaves = () => {
         src="/images/purplePattern.png"
         alt="purplePattern"
         className="absolute top-0 left-0 object-cover opacity-50"
+        style={{ width: "200px", height: "auto" }}
+        priority
       />
     </div>
   );
