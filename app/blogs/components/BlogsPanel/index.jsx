@@ -22,7 +22,7 @@ const BlogsPanel = ({ blogs =[]}) => {
       <div className="text-center text-lg">Thread Tales</div>
       <Searchbar onSearchComplete={setFilteredBlogs}/>
 
-      {! currentBlog ? <p>No threads to show</p>:<ol className="list-decimal pl-6 h-full mt-6 space-y-2 overflow-y-scroll scrollbar-rounded scrollbar-thin scrollbar-thumb-gray-100 scrollbar-track-transparent">        {filteredBlogs.map((item, index) => (
+      {! currentBlog ? <p>No threads to show</p>:<ol className="list-decimal pl-6 h-full mt-6 space-y-2 overflow-y-auto scrollbar-rounded scrollbar-thin scrollbar-thumb-gray-100 scrollbar-track-transparent">        {filteredBlogs.map((item, index) => (
         <li
           className={`p-1 tracking-wide cursor-pointer rounded text-sm ${item.id === currentBlog?.id ? 'bg-black/10 backdrop-blur' : ''}`}
           key={item.id}
