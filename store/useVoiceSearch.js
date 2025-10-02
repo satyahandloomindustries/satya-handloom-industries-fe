@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import useToast from './useToast';
+import { removeWhiteSpaces } from '@/utls';
 
 
 const handleVoiceSearch = (set, get, showErrorToast = () => { }) => {
@@ -24,7 +25,6 @@ const handleVoiceSearch = (set, get, showErrorToast = () => { }) => {
 
   recognition.onresult = (event) => {
     const transcript = event.results[0][0].transcript;
-    console.log(transcript);
     
     const prevQuery = get().query
     if (event.results[0].isFinal) {

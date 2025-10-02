@@ -26,3 +26,8 @@ export const arrObjectMap = (arr, key1, key2) => {
 
   return newObj;
 };
+
+export const removeWhiteSpaces = (str = "")=>{
+  const normalized = str.trim().replace(/\s{2,}/g, " ");
+  return normalized
+}
