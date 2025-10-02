@@ -6,7 +6,6 @@ import ContactUsFooter from '@/components/ContactUsFooter';
 import FallingLeaves from '@/components/FallingLeaves';
 import styles from './index.module.css';
 import clsx from 'clsx';
-import ToastContainer from '@/components/ToastContainer';
 
 const ContactUs = () => {
   return (

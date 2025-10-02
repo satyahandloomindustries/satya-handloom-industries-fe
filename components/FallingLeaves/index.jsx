@@ -170,11 +170,10 @@ const FallingLeaves = () => {
       Every thread tells a story — woven by hand, crafted by heart.
       <Image
         width={200}
-        height={220}
+        height={200}
         src="/images/purplePattern.png"
         alt="purplePattern"
-        className="absolute top-0 left-0 object-cover opacity-50"
-        style={{ width: "200px", height: "auto" }}
+        className="absolute top-0 left-0 object-cover opacity-50 w-[200px] h-[200px]"
         priority
       />
     </div>

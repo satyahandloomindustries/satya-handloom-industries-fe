@@ -45,7 +45,7 @@ const ContactUsForm = () => {
   return (
     <div className="flex flex-col items-start justify-center h-full p-6">
       <h1 className="text-xl font-bold mb-4">Tell Us Your Project</h1>
-      <form className="w-full max-w-lg" ref={form} onSubmit={sendEmail}>
+      <form className="w-full max-w-lg" ref={form} onSubmit={sendEmail} autoComplete='off'>
         <div className="grid grid-cols-2 gap-8">
           <input
             type="text"
@@ -54,6 +54,8 @@ const ContactUsForm = () => {
             placeholder="Name*"
             className="appearance-none w-full p-3 text-sm text-gray-700 bg-gray-100 leading-tight focus:outline-none focus:-outline"
             onChange={handleChange}
+            autoComplete="off"
+            suppressHydrationWarning
           />
 
           <input
@@ -62,6 +64,8 @@ const ContactUsForm = () => {
             name="phone"
             placeholder="Phone*"
             className=" appearance-none w-full p-3 text-sm text-gray-700 bg-gray-100 leading-tight focus:outline-none focus:-outline"
+            autoComplete="off"
+            suppressHydrationWarning
           />
 
           <input
@@ -70,6 +74,8 @@ const ContactUsForm = () => {
             name="email"
             placeholder="Email*"
             className=" appearance-none w-full p-3 text-sm text-gray-700 bg-gray-100 leading-tight focus:outline-none focus:-outline"
+            autoComplete="off"
+            suppressHydrationWarning
           />
 
           <input
@@ -78,6 +84,8 @@ const ContactUsForm = () => {
             placeholder="Subject*"
             name="subject"
             className=" appearance-none w-full p-3 text-sm text-gray-700  bg-gray-100 leading-tight focus:outline-none focus:-outline"
+            autoComplete="off"
+            suppressHydrationWarning
           />
         </div>
 
@@ -92,6 +100,7 @@ const ContactUsForm = () => {
         </div>
 
         <button
+          suppressHydrationWarning
           type="submit"
           className="bg-shi_brown text-white  py-3 px-6 font-thin text-sm focus:outline-none focus:-outline"
           disabled={!noError}
