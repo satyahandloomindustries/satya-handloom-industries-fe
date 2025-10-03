@@ -31,3 +31,10 @@ export const removeWhiteSpaces = (str = "")=>{
   const normalized = str.trim().replace(/\s{2,}/g, " ");
   return normalized
 }
+
+export const matchesSearch  = (text, query)=> {
+  const tokens = removeWhiteSpaces(query).toLowerCase().trim().split(/\s+/);
+  const lowerText = text.toLowerCase();
+
+  return tokens.every(token => lowerText.includes(token));
+}

@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import useVoiceSearch from './useVoiceSearch';
-import { removeWhiteSpaces } from '@/utls';
+import { matchesSearch } from '@/utls';
 
 const useBlogs = create((set, get) => ({
     blogs: [],
@@ -10,7 +10,7 @@ const useBlogs = create((set, get) => ({
     setBlogs: (blogs) => set({ blogs  , filteredBlogs: blogs}),
     setFilteredBlogs: () => {
         const {query} = useVoiceSearch.getState()
-        const filteredBlogs = get().blogs.filter((blog) => blog.title.toLowerCase().includes(removeWhiteSpaces(query).toLowerCase()))
+        const filteredBlogs = get().blogs.filter((blog) => matchesSearch(blog.title , query))
         set({ filteredBlogs , currentBlog : filteredBlogs?.[0] ?? null})
     },
 }));
