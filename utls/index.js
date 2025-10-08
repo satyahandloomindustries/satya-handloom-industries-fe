@@ -27,6 +27,17 @@ export const arrObjectMap = (arr, key1, key2) => {
   return newObj;
 };
 
+export const convertFormValues = (formRef)=>{
+
+  const formData = new FormData(formRef);
+  const formObj = {};
+  for(let[k , v] of formData.entries()){
+    formObj[k] = v
+  }
+
+  return formObj
+}
+
 export const removeWhiteSpaces = (str = "")=>{
   const normalized = str.trim().replace(/\s{2,}/g, " ");
   return normalized
