@@ -38,3 +38,4 @@ export const matchesSearch  = (text, query)=> {
 
   return tokens.every(token => lowerText.includes(token));
 }
+
