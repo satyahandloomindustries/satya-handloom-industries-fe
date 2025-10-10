@@ -3,7 +3,7 @@ import { dancingScript } from "@/utls"
 import clsx from "clsx"
 const Login = () => {
 
-    return <div className="items-center justify-center flex-1 flex h-[calc(100%-80px)] opacity-80 bg-orange-800">
+    return <div className="items-center justify-center flex-1 flex h-[calc(100%-80px)] opacity-80 bg-orange-800 opacity-50">
         <div className="w-[60%] h-[80%] grid grid-cols-[1fr_1fr]">
 
             <div className="bg-shi_brown items-center justify-start flex flex-col"
