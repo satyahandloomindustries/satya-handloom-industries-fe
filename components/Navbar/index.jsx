@@ -14,6 +14,9 @@ export const navbarRoutes = [
   },
   { label: 'Blogs', value: '/blogs' },
   { label: 'ContactUs', value: '/contactUs' },
+  {
+    label: 'Login',value: '/login'
+  }
 ];
 
 const Navbar = () => {

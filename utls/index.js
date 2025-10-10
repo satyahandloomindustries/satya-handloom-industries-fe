@@ -1,3 +1,5 @@
+import { Dancing_Script } from "next/font/google";
+
 export const toastTypes = {
   SUCCESS: 'success',
   ERROR: 'error',
@@ -50,3 +52,9 @@ export const matchesSearch  = (text, query)=> {
   return tokens.every(token => lowerText.includes(token));
 }
 
+
+export const dancingScript = Dancing_Script({
+  subsets: ['latin'],
+  weight: ['400', '700'],
+  display: 'swap',
+})
