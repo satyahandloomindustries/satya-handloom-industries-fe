@@ -1,6 +1,7 @@
 
 import { dancingScript } from "@/utls"
 import clsx from "clsx"
+import Otp from "./components/Otp"
 const Login = () => {
 
 
@@ -56,6 +57,7 @@ const Login = () => {
                             className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
                         />
                     </div>
+                    <Otp/>
 
                     <button
                         type="submit"
@@ -67,6 +69,7 @@ const Login = () => {
             </div>
 
         </div>
+
 
     </div>
 }
