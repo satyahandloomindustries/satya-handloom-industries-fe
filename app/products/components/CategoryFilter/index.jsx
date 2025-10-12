@@ -7,7 +7,6 @@ import MultiRenderer from '@/components/MultiRenderer';
 
 const CategoryFilter = () => {
   const { categories } = useShopStore();
-  console.log(categories);
 
   return (
     <Filter title="Categories">

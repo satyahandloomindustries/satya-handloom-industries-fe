@@ -1,4 +1,5 @@
 "use client"
+import { verifyDigits } from "@/utls";
 import { useEffect, useRef, useState } from "react"
 
 const Otp = ({ numberOfBoxes = 4 }) => {
@@ -11,8 +12,6 @@ const Otp = ({ numberOfBoxes = 4 }) => {
         handleOtpFocus(0)
     } , [])
 
-    useEffect(()=>{
-    },[inputs])
 
     const handleOtpFocus = (i)=>{
         if(i >=0 && i <= numberOfBoxes - 1){
@@ -22,14 +21,15 @@ const Otp = ({ numberOfBoxes = 4 }) => {
         }
     }
     const handleChange = (event , index)=>{
-        
         const newInputs = [...inputs];
         const otpValue = event.target.value.slice(-1);
+        if(!verifyDigits(otpValue)) return
+
         newInputs[index] = otpValue;
         setInputs(newInputs)
 
         // Move to next input Box
-        if(otpValue){          
+        if(otpValue){                      
             handleOtpFocus(index+1)
         }
 
@@ -62,11 +62,12 @@ const Otp = ({ numberOfBoxes = 4 }) => {
 
     }
 
-    return <div className="flex items-center justify-center">
-        <div className="grid gap-x-4 grid-cols-[repeat(4,50px)] place-items-center">
+    return <div className="flex items-start justify-center flex-col">
+        <p className="text-sm mb-2 font-medium text-gray-700">Enter the verification code</p>
+        <div className="grid gap-x-4 grid-cols-[repeat(4,50px)] place-items-center mb-2">
             {inputs.map((i, index) =>
 
-                <input type="text" ref={(i)=> refs.current.push(i)} value={i} className="border border-gray-300  w-12 h-12 text-center" key={index} onChange={(event)=>handleChange(event ,  index)} onKeyDown={(event)=>handleKeyDown(event , index)}/>
+                <input name={index.toString()} type="text" ref={(i)=> refs.current.push(i)} value={i} className="border border-gray-300  w-12 h-12 text-center" key={index} onChange={(event)=>handleChange(event ,  index)} onKeyDown={(event)=>handleKeyDown(event , index)}/>
             )}
         </div>
     </div>

@@ -58,3 +58,7 @@ export const dancingScript = Dancing_Script({
   weight: ['400', '700'],
   display: 'swap',
 })
+
+export const verifyDigits = (value)=>{
+  return (/^\d*$/.test(value)) ; 
+}
