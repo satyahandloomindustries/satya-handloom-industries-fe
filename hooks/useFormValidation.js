@@ -18,13 +18,17 @@ const useFormValidation = (shape = {}) => {
   const validateAt = useCallback(
     (path, value) => {
 
-      schema
+      return schema
         .validateAt(path, { [path]: value }).then(()=>{
           const newError  = {...error};
           delete newError[path]
           setError(newError)
+          return {invalid: false}
         })
-        .catch((err) => setError({ ...error, [path]: err.message }));
+        .catch((err) => {
+          setError({ ...error, [path]: err.message })
+          return {invalid: true}
+        });
     },
     [shape]
   );
