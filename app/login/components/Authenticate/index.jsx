@@ -8,12 +8,14 @@ import * as Yup from "yup";
 import ErrorMessage from "@/app/contactUs/components/ErrorMessage";
 import { verifyDigits } from "@/utls";
 import useToast from "@/store/useToast";
+import useFormResetOnBlur from "@/hooks/useFormResetOnBlur";
+
 
 const Authenticate = () => {
 
     const { setInputs, inputs, otpValue } = useOtp();
     const { username, phone, setUsername, setPhone } = useUser()
-    const { validation, error, noError, validateAt } = useFormValidation({
+    const { validation, error, noError, validateAt , resetError} = useFormValidation({
         username: Yup.string().required('Username is required'),
         phone: Yup.string()
             .required('Phone is required')
@@ -21,6 +23,8 @@ const Authenticate = () => {
     });
 
     const {showErrorToast} = useToast()
+
+    const formRef = useFormResetOnBlur(resetError);
 
     const handleSendOtp = async (event) => {
         event.preventDefault()
@@ -53,7 +57,7 @@ const Authenticate = () => {
         handleValidateAt(event , setUsername)
     }
 
-    return <form className="bg-white p-6 rounded-lg shadow-md w-full max-w-sm">
+    return <form className="bg-white p-6 rounded-lg shadow-md w-full max-w-sm" ref={formRef}>
 
         <div className="mb-4">
             <label htmlFor="username" className="block text-sm font-medium text-gray-700">Username</label>

@@ -64,7 +64,7 @@ const Otp = ({ numberOfBoxes = 4  , inputs = new Array(4).fill("")  , setInputs=
         <div className="grid gap-x-4 grid-cols-[repeat(4,50px)] place-items-center mb-2">
             {inputs.map((i, index) =>
 
-                <input name={index.toString()} type="text" ref={(i)=> refs.current.push(i)} value={i} className="border border-gray-300  w-12 h-12 text-center" key={index} onChange={(event)=>handleChange(event ,  index)} onKeyDown={(event)=>handleKeyDown(event , index)}/>
+                <input name={index.toString()} autoComplete="off" type="text" ref={(i)=> refs.current.push(i)} value={i} className="border border-gray-300  w-12 h-12 text-center" key={index} onChange={(event)=>handleChange(event ,  index)} onKeyDown={(event)=>handleKeyDown(event , index)}/>
             )}
         </div>
     </div>
