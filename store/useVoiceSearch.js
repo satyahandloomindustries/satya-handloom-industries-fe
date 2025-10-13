@@ -1,6 +1,5 @@
 import { create } from 'zustand';
 import useToast from './useToast';
-import { removeWhiteSpaces } from '@/utls';
 
 
 const handleVoiceSearch = (set, get, showErrorToast = () => { }) => {

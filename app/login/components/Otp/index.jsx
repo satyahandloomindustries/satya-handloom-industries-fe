@@ -1,11 +1,8 @@
 "use client"
 import { verifyDigits } from "@/utls";
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useRef } from "react"
 
-const Otp = ({ numberOfBoxes = 4 }) => {
-
-    const [inputs, setInputs] = useState(new Array(numberOfBoxes).fill(""))
-
+const Otp = ({ numberOfBoxes = 4  , inputs = new Array(4).fill("")  , setInputs=()=>{}}) => {
     const refs = useRef([]);
 
     useEffect(()=>{

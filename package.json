@@ -17,7 +17,10 @@
     "@headlessui/react": "^2.2.4",
     "@mui/icons-material": "^6.4.8",
     "@mui/material": "^6.4.9",
+    "axios": "^1.12.2",
     "clsx": "^2.1.1",
+    "mongodb": "^6.20.0",
+    "mongoose": "^8.19.1",
     "nanoid": "^5.1.6",
     "next": "^15.2.4",
     "react": "^19.0.0",
@@ -26,6 +29,7 @@
     "swiper": "^11.2.6",
     "tailwind-scrollbar": "^3.0.4",
     "tailwind-scrollbar-hide": "^2.0.0",
+    "twilio": "^5.10.2",
     "yup": "^1.7.0",
     "zustand": "^5.0.3"
   },

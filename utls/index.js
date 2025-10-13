@@ -29,23 +29,23 @@ export const arrObjectMap = (arr, key1, key2) => {
   return newObj;
 };
 
-export const convertFormValues = (formRef)=>{
+export const convertFormValues = (formRef) => {
 
   const formData = new FormData(formRef);
   const formObj = {};
-  for(let[k , v] of formData.entries()){
+  for (let [k, v] of formData.entries()) {
     formObj[k] = v
   }
 
   return formObj
 }
 
-export const removeWhiteSpaces = (str = "")=>{
+export const removeWhiteSpaces = (str = "") => {
   const normalized = str.trim().replace(/\s{2,}/g, " ");
   return normalized
 }
 
-export const matchesSearch  = (text, query)=> {
+export const matchesSearch = (text, query) => {
   const tokens = removeWhiteSpaces(query).toLowerCase().trim().split(/\s+/);
   const lowerText = text.toLowerCase();
 
@@ -59,6 +59,6 @@ export const dancingScript = Dancing_Script({
   display: 'swap',
 })
 
-export const verifyDigits = (value)=>{
-  return (/^\d*$/.test(value)) ; 
+export const verifyDigits = (value) => {
+  return (/^\d*$/.test(value));
 }
