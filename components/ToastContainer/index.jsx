@@ -24,7 +24,7 @@ const ToastContainer = () => {
         <Image
           width={40}
           height={10}
-          className="h-full absolute top-0 left-0 object-cover opacity-20 rotate-180"
+          className="h-full absolute top-0 left-0 object-cover opacity-20 rotate-180 w-auto"
           src="/images/greyishPattern.jpeg"
           alt="whatever"
         />

@@ -8,6 +8,8 @@ const useFormValidation = (shape = {}) => {
   const validation = useCallback(
      (data = {}) => 
       schema.validate(data  , { abortEarly: false }).then(()=> ({invalid:false})).catch((err) => {
+        console.log(err);
+        
         const normalisedData = arrObjectMap(err.inner , 'path' , 'message')
         setError(normalisedData)
         return {normalisedData , invalid: true}

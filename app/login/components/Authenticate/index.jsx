@@ -24,7 +24,8 @@ const Authenticate = () => {
 
     const handleSendOtp = async (event) => {
         event.preventDefault()
-        const {invalid} = validation({username , phone}) 
+        const {invalid} = await validation({username , phone}) 
+        
         if(invalid){
             showErrorToast("Please fill the mandatory fields")
             return
@@ -35,7 +36,6 @@ const Authenticate = () => {
                 "Content-Type": "application/json"
             }
         })
-        console.log(response);
 
     }
 
