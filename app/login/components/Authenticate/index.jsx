@@ -9,57 +9,81 @@ import ErrorMessage from "@/app/contactUs/components/ErrorMessage";
 import { verifyDigits } from "@/utls";
 import useToast from "@/store/useToast";
 import useFormResetOnBlur from "@/hooks/useFormResetOnBlur";
+import { useState } from "react";
+import Loader from "@/components/Loader";
 
 
 const Authenticate = () => {
 
+    const [openOtp, setOtp] = useState(false);
+    const [loading , setLoading] = useState(false);
     const { setInputs, inputs, otpValue } = useOtp();
-    const { username, phone, setUsername, setPhone } = useUser()
-    const { validation, error, noError, validateAt , resetError} = useFormValidation({
+    const { username, phone, setUsername, setPhone, email, setEmail } = useUser()
+    const { validation, error, noError, validateAt, resetError } = useFormValidation({
         username: Yup.string().required('Username is required'),
         phone: Yup.string()
             .required('Phone is required')
             .matches(/^[0-9]{10}$/, '10 digit phone number missing'),
+        email: Yup.string().email('Invalid email').required('Email is required')
     });
 
-    const {showErrorToast} = useToast()
+    const { showErrorToast, showSuccessToast } = useToast()
 
     const formRef = useFormResetOnBlur(resetError);
 
     const handleSendOtp = async (event) => {
         event.preventDefault()
-        const {invalid} = await validation({username , phone}) 
-        
-        if(invalid){
+        const { invalid } = await validation({ username, phone, email })
+
+        if (invalid) {
             showErrorToast("Please fill the mandatory fields")
             return
         }
-        const response = await axios.post('/api/send-otp', { otpValue, username, phone }, {
-            headers: {
-                Authorization: "Bearer mytoken",
-                "Content-Type": "application/json"
-            }
-        })
+        try {
+            setLoading(true)
+            const response = await axios.post('/api/send-otp', { otpValue, username, phone, email }, {
+                headers: {
+                    Authorization: "Bearer mytoken",
+                    "Content-Type": "application/json"
+                }
+            })
+
+            showSuccessToast("Otp has been sent to your email successfully");
+            setOtp(true);
+            setLoading(false);
+        } catch (err) {
+
+            showErrorToast("Something went wrong! Please try again later")
+            setLoading(false)
+        }
 
     }
 
-    const handleValidateAt = async (event , onChange = ()=>{})=>{
-        const {name , value} = event.target;
-        await validateAt(name , value);
+    const handleValidateAt = async (event, onChange = () => { }) => {
+        const { name, value } = event.target;
+        await validateAt(name, value);
         onChange(value)
     }
     const handlePhoneChange = (event) => {
-        if(!verifyDigits(event.target.value)) return  
-        handleValidateAt(event , setPhone)
+        if (!verifyDigits(event.target.value)) return
+        handleValidateAt(event, setPhone)
     }
 
-    const handleUsernameChange = (event)=>{
-        handleValidateAt(event , setUsername)
+    const handleUsernameChange = (event) => {
+        handleValidateAt(event, setUsername)
     }
+
+    const handleEmailChange = (event) => {
+        handleValidateAt(event, setEmail)
+    }
+
+    const inputDisabled = openOtp || loading;
+
+    const buttonLabel = openOtp ? "Verify" : "Send verification code"
 
     return <form className="bg-white p-6 rounded-lg shadow-md w-full max-w-sm" ref={formRef}>
 
-        <div className="mb-4">
+        <div className="mb-1">
             <label htmlFor="username" className="block text-sm font-medium text-gray-700">Username</label>
             <input
                 onChange={handleUsernameChange}
@@ -68,11 +92,26 @@ const Authenticate = () => {
                 id="username"
                 name="username"
                 placeholder="Enter your username"
-                className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                className={`mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 ${inputDisabled ? "bg-gray-100 cursor-not-allowed text-gray-400":""}`}
+                disabled={inputDisabled}
             />
             <ErrorMessage message={error?.username} />
         </div>
-        <div className="mb-4">
+        <div className="mb-1">
+            <label htmlFor="username" className="block text-sm font-medium text-gray-700">Email</label>
+            <input
+                onChange={handleEmailChange}
+                type="email"
+                value={email}
+                id="email"
+                name="email"
+                placeholder="Enter your email"
+                className={`mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 ${inputDisabled ? "bg-gray-100 cursor-not-allowed text-gray-400":"bg-white"}`}
+                disabled={inputDisabled}
+            />
+            <ErrorMessage message={error?.email} />
+        </div>
+        <div className="mb-1">
             <label htmlFor="mobile" className="block text-sm font-medium text-gray-700">Contact info</label>
             <input
                 onChange={handlePhoneChange}
@@ -81,21 +120,22 @@ const Authenticate = () => {
                 name="phone"
                 value={phone}
                 placeholder="Enter your phone number"
-                className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                className={`mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 ${inputDisabled ? "bg-gray-100 cursor-not-allowed text-gray-400":""}`}
+                disabled={inputDisabled}
             />
             <ErrorMessage message={error?.phone} />
 
         </div>
 
-        <Otp inputs={inputs} setInputs={setInputs} />
+        <Otp inputs={inputs} setInputs={setInputs} visible={inputDisabled} />
 
         <button
             type="submit"
             onClick={handleSendOtp}
-            disabled={!noError}
-            className="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 transition"
+            disabled={!noError || loading}
+            className="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 transition flex items-center justify-center disabled:cursor-not-allowed"
         >
-            Login
+            <Loader loading={loading} text={buttonLabel}/>
         </button>
     </form>
 }

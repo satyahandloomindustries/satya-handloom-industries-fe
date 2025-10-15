@@ -5,11 +5,15 @@ const useUser = create((set, get) => ({
     phone:"",
     phoneWithCountryCode:"",
     isAuthenticated: false, 
+    email: "",
     setUsername : (username = "")=>{
         set({username})
     },
     setPhone: (phone = "" , countryCode = "+91")=>{
         set({phone , phoneWithCountryCode: countryCode.concat(phone)})
+    },
+    setEmail: (email = "")=>{
+        set({email})
     }
 }));
 

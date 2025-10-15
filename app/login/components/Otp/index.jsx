@@ -2,12 +2,12 @@
 import { verifyDigits } from "@/utls";
 import { useEffect, useRef } from "react"
 
-const Otp = ({ numberOfBoxes = 4  , inputs = new Array(4).fill("")  , setInputs=()=>{}}) => {
+const Otp = ({ numberOfBoxes = 4  , inputs = new Array(4).fill("")  , setInputs=()=>{} , visible = false}) => {
     const refs = useRef([]);
 
     useEffect(()=>{
         handleOtpFocus(0)
-    } , [])
+    } , [visible])
 
 
     const handleOtpFocus = (i)=>{
@@ -59,6 +59,7 @@ const Otp = ({ numberOfBoxes = 4  , inputs = new Array(4).fill("")  , setInputs=
 
     }
 
+    if(!visible) return null
     return <div className="flex items-start justify-center flex-col">
         <p className="text-sm mb-2 font-medium text-gray-700">Enter the verification code</p>
         <div className="grid gap-x-4 grid-cols-[repeat(4,50px)] place-items-center mb-2">

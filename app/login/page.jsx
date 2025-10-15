@@ -20,7 +20,7 @@ const Login = () => {
             </div>
             <div className="items-center justify-center flex bg-white flex-col">
                 <div className={clsx(dancingScript.className , "text-4xl")}>
-                    Login
+                    Login / Sign-up
                 </div>
 
                 <Authenticate/>
