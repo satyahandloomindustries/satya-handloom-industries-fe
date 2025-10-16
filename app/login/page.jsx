@@ -1,6 +1,5 @@
 
-import { dancingScript } from "@/utls"
-import clsx from "clsx"
+
 import Authenticate from "./components/Authenticate"
 const Login = () => {
 
@@ -19,9 +18,6 @@ const Login = () => {
                 </ul>
             </div>
             <div className="items-center justify-center flex bg-white flex-col">
-                <div className={clsx(dancingScript.className , "text-4xl")}>
-                    Login / Sign-up
-                </div>
 
                 <Authenticate/>
             </div>

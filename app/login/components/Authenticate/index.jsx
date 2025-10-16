@@ -11,12 +11,14 @@ import useToast from "@/store/useToast";
 import useFormResetOnBlur from "@/hooks/useFormResetOnBlur";
 import { useState } from "react";
 import Loader from "@/components/Loader";
-
+import { dancingScript } from "@/utls"
+import clsx from "clsx"
 
 const Authenticate = () => {
 
     const [openOtp, setOtp] = useState(false);
-    const [loading , setLoading] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [login, setLogin] = useState(false)
     const { setInputs, inputs, otpValue } = useOtp();
     const { username, phone, setUsername, setPhone, email, setEmail } = useUser()
     const { validation, error, noError, validateAt, resetError } = useFormValidation({
@@ -81,63 +83,75 @@ const Authenticate = () => {
 
     const buttonLabel = openOtp ? "Verify" : "Send verification code"
 
-    return <form className="bg-white p-6 rounded-lg shadow-md w-full max-w-sm" ref={formRef}>
-
-        <div className="mb-1">
-            <label htmlFor="username" className="block text-sm font-medium text-gray-700">Username</label>
-            <input
-                onChange={handleUsernameChange}
-                type="text"
-                value={username}
-                id="username"
-                name="username"
-                placeholder="Enter your username"
-                className={`mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 ${inputDisabled ? "bg-gray-100 cursor-not-allowed text-gray-400":""}`}
-                disabled={inputDisabled}
-            />
-            <ErrorMessage message={error?.username} />
+    return <>
+        <div className={clsx(dancingScript.className, "text-4xl")}>
+            <span className={`${login ? "text-shi_brown" : ""}`}>
+                <button onClick={() => setLogin(true)}>
+                    Login
+                </button>
+            </span> /
+            <span className={`${!login ? "text-shi_brown" : ""}`}>
+                <button onClick={() => setLogin(false)}>
+                    Sign-up</button>
+            </span>
         </div>
-        <div className="mb-1">
-            <label htmlFor="username" className="block text-sm font-medium text-gray-700">Email</label>
-            <input
-                onChange={handleEmailChange}
-                type="email"
-                value={email}
-                id="email"
-                name="email"
-                placeholder="Enter your email"
-                className={`mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 ${inputDisabled ? "bg-gray-100 cursor-not-allowed text-gray-400":"bg-white"}`}
-                disabled={inputDisabled}
-            />
-            <ErrorMessage message={error?.email} />
-        </div>
-        <div className="mb-1">
-            <label htmlFor="mobile" className="block text-sm font-medium text-gray-700">Contact info</label>
-            <input
-                onChange={handlePhoneChange}
-                id="phone"
-                type="tel"
-                name="phone"
-                value={phone}
-                placeholder="Enter your phone number"
-                className={`mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 ${inputDisabled ? "bg-gray-100 cursor-not-allowed text-gray-400":""}`}
-                disabled={inputDisabled}
-            />
-            <ErrorMessage message={error?.phone} />
+        <form className="bg-white p-6 rounded-lg shadow-md w-full max-w-sm" ref={formRef}>
+            {!login ? <div className="mb-1">
+                <label htmlFor="username" className="block text-sm font-medium text-gray-700">Username</label>
+                <input
+                    onChange={handleUsernameChange}
+                    type="text"
+                    value={username}
+                    id="username"
+                    name="username"
+                    placeholder="Enter your username"
+                    className={`mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 ${inputDisabled ? "bg-gray-100 cursor-not-allowed text-gray-400" : ""}`}
+                    disabled={inputDisabled}
+                />
+                <ErrorMessage message={error?.username} />
+            </div> : null}
+            <div className="mb-1">
+                <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email</label>
+                <input
+                    onChange={handleEmailChange}
+                    type="email"
+                    value={email}
+                    id="email"
+                    name="email"
+                    placeholder="Enter your email"
+                    className={`mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 ${inputDisabled ? "bg-gray-100 cursor-not-allowed text-gray-400" : "bg-white"}`}
+                    disabled={inputDisabled}
+                />
+                <ErrorMessage message={error?.email} />
+            </div>
+            {!login ? <div className="mb-1">
+                <label htmlFor="mobile" className="block text-sm font-medium text-gray-700">Contact info</label>
+                <input
+                    onChange={handlePhoneChange}
+                    id="phone"
+                    type="tel"
+                    name="phone"
+                    value={phone}
+                    placeholder="Enter your phone number"
+                    className={`mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 ${inputDisabled ? "bg-gray-100 cursor-not-allowed text-gray-400" : ""}`}
+                    disabled={inputDisabled}
+                />
+                <ErrorMessage message={error?.phone} />
 
-        </div>
+            </div> : null}
 
-        <Otp inputs={inputs} setInputs={setInputs} visible={inputDisabled} />
+            <Otp inputs={inputs} setInputs={setInputs} visible={inputDisabled} />
 
-        <button
-            type="submit"
-            onClick={handleSendOtp}
-            disabled={!noError || loading}
-            className="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 transition flex items-center justify-center disabled:cursor-not-allowed"
-        >
-            <Loader loading={loading} text={buttonLabel}/>
-        </button>
-    </form>
+            <button
+                type="submit"
+                onClick={handleSendOtp}
+                disabled={!noError || loading}
+                className="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 transition flex items-center justify-center disabled:cursor-not-allowed"
+            >
+                <Loader loading={loading} text={buttonLabel} />
+            </button>
+        </form>
+    </>
 }
 
 export default Authenticate
