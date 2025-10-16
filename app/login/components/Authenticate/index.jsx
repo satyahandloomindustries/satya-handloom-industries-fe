@@ -50,7 +50,6 @@ const Authenticate = () => {
                 }
             })
 
-            (response);
             
             setLoading(false);
         }

@@ -8,10 +8,8 @@ export const POST = db(async (req) => {
     try {
 
         const { otp, email , phone  , username } = await req.json();
-        (otp , email);
         
         await verifyOtp({ email, enteredOtp: otp })
-        ("verify")
         await createUser({email , phone , username })
         return NextResponse.json({ message: "Otp verified successfully" }, { status: 200 })
 

@@ -23,9 +23,7 @@ export const POST = db(async(req , res)=>{
         { status: 409 }
       )
     }
-    ("otp hit"  , email , res)
     const otp = await generateOtp(email);
-    (otp , "otp");
 
     await createAndUpdateTemporaryUser({email , otp})
     
