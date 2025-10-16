@@ -21,19 +21,19 @@ rl.question(
 
       const filePath = path.resolve(process.cwd(), sanitizedFileName);
 
-      console.log(filePath, __dirname);
+      (filePath, __dirname);
 
       fs.writeFile(filePath, '', (err) => {
         // creates an empty .js file
         if (err) {
           console.error('Error creating file:', err);
         } else {
-          console.log(`File '${sanitizedFileName}' created successfully!`);
+          (`File '${sanitizedFileName}' created successfully!`);
         }
         rl.close();
       });
     } else {
-      console.log('No filename entered. Exiting.');
+      ('No filename entered. Exiting.');
       rl.close();
     }
   }

@@ -1,3 +1,4 @@
+import TemporaryUser from "@/models/TemporaryUser";
 import nodemailer from "nodemailer";
 export const generateOtp = async (email) => {
 
@@ -27,3 +28,21 @@ export const generateOtp = async (email) => {
     }
 
 }
+
+export async function verifyOtp({ email, enteredOtp }) {
+    try {
+
+    const tempUser = await TemporaryUser.findOne({ email });
+    if (!tempUser) throw new Error("OTP expired or not found");
+    if (tempUser.otp !== enteredOtp) throw new Error("Invalid OTP");
+  
+    await TemporaryUser.deleteOne({ email });
+
+    return true;
+    }
+    catch(err){
+        ("verify here" , err.message)
+        throw new Error("Failed to verify the otp")
+    }
+  }
+  

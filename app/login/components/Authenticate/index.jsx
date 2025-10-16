@@ -13,13 +13,14 @@ import { useState } from "react";
 import Loader from "@/components/Loader";
 import { dancingScript } from "@/utls"
 import clsx from "clsx"
+import { AUTH_MODE } from "@/constants";
 
 const Authenticate = () => {
 
     const [openOtp, setOtp] = useState(false);
     const [loading, setLoading] = useState(false);
     const [login, setLogin] = useState(false)
-    const { setInputs, inputs, otpValue } = useOtp();
+    const { setInputs, inputs, otpValue  , isOtpFilled} = useOtp();
     const { username, phone, setUsername, setPhone, email, setEmail } = useUser()
     const { validation, error, noError, validateAt, resetError } = useFormValidation({
         username: Yup.string().required('Username is required'),
@@ -33,6 +34,33 @@ const Authenticate = () => {
 
     const formRef = useFormResetOnBlur(resetError);
 
+    const handleVerifyOtp = async(event)=>{
+        event.preventDefault()
+        const { invalid } = await validation({ username, phone, email })
+
+        if(!isOtpFilled || invalid) {
+            showErrorToast("Please fill the otp completely")
+        }
+        try {
+            setLoading(true)
+            const response = await axios.post('/api/verify-otp', { email , otp: otpValue , username , phone , email}, {
+                headers: {
+                    Authorization: "Bearer mytoken",
+                    "Content-Type": "application/json"
+                }
+            })
+
+            (response);
+            
+            setLoading(false);
+        }
+        catch(err){
+            
+            showErrorToast(err?.message ?? "Failed to verify the Otp");
+            setLoading(false)
+        }
+
+    }
     const handleSendOtp = async (event) => {
         event.preventDefault()
         const { invalid } = await validation({ username, phone, email })
@@ -43,7 +71,7 @@ const Authenticate = () => {
         }
         try {
             setLoading(true)
-            const response = await axios.post('/api/send-otp', { otpValue, username, phone, email }, {
+            const response = await axios.post('/api/send-otp', { otpValue, username, phone, email , mode: AUTH_MODE.signup}, {
                 headers: {
                     Authorization: "Bearer mytoken",
                     "Content-Type": "application/json"
@@ -52,10 +80,26 @@ const Authenticate = () => {
 
             showSuccessToast("Otp has been sent to your email successfully");
             setOtp(true);
-            setLoading(false);
         } catch (err) {
 
-            showErrorToast("Something went wrong! Please try again later")
+            if (err.response) {
+                // The request was made and server responded
+                const status = err.response.status;
+        
+                if (status === 404) {
+                  showErrorToast("⚠️ User not found. Please sign up to continue");
+                } 
+                else if (status === 409) {
+                  showErrorToast("⚠️ User already exists. Please login to continue");
+                } 
+                else {
+                  showErrorToast("❌ Something went wrong. Please try again.");
+                }
+              } else {
+                // Network error or request not sent
+                showErrorToast("⚠️ Network error. Please try again.");
+              }
+        }finally{
             setLoading(false)
         }
 
@@ -83,13 +127,15 @@ const Authenticate = () => {
 
     const buttonLabel = openOtp ? "Verify" : "Send verification code"
 
+    
+
     return <>
         <div className={clsx(dancingScript.className, "text-4xl")}>
             <span className={`${login ? "text-shi_brown" : ""}`}>
                 <button onClick={() => setLogin(true)}>
                     Login
                 </button>
-            </span> /
+            </span> /&nbsp;
             <span className={`${!login ? "text-shi_brown" : ""}`}>
                 <button onClick={() => setLogin(false)}>
                     Sign-up</button>
@@ -140,13 +186,13 @@ const Authenticate = () => {
 
             </div> : null}
 
-            <Otp inputs={inputs} setInputs={setInputs} visible={inputDisabled} />
+            <Otp inputs={inputs} setInputs={setInputs} visible={openOtp} />
 
             <button
                 type="submit"
-                onClick={handleSendOtp}
+                onClick={openOtp ? handleVerifyOtp :handleSendOtp}
                 disabled={!noError || loading}
-                className="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 transition flex items-center justify-center disabled:cursor-not-allowed"
+                className="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 transition flex items-center justify-center disabled:cursor-not-allowed disabled:bg-indigo-500"
             >
                 <Loader loading={loading} text={buttonLabel} />
             </button>
