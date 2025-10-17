@@ -24,12 +24,11 @@ const validationShape = {
 }
 const Authenticate = () => {
 
-    const [openOtp, setOtp] = useState(false);
     const [loading, setLoading] = useState(false);
     const [authMode, setAuthMode] = useState(AUTH_MODE.login)
     const isLoginMode = authMode === AUTH_MODE.login;
-    const { setInputs, inputs, otpValue  , isOtpFilled} = useOtp();
-    const { username, phone, setUsername, setPhone, email, setEmail , resetUser} = useUser()
+    const { setInputs, inputs, otpValue  , isOtpFilled , openOtp , setOtp} = useOtp();
+    const { username, phone, setUsername, setPhone, email, setEmail , resetUser } = useUser()
     const shape = useMemo(()=>{
         const {email} = validationShape;
         switch(authMode){
@@ -52,13 +51,13 @@ const Authenticate = () => {
         }
         try {
             setLoading(true)
-            const response = await axios.post('/api/verify-otp', { email , otp: otpValue , username , phone , email}, {
+            const response = await axios.post('/api/verify-otp', { email , otp: otpValue , username , phone , email , mode: authMode}, {
                 headers: {
                     Authorization: "Bearer mytoken",
                     "Content-Type": "application/json"
                 }
             })
-
+            showSuccessToast("Otp verified successfully")
             
             setLoading(false);
         }
@@ -137,6 +136,7 @@ const Authenticate = () => {
 
     
     const handleAuthMode = (mode = AUTH_MODE.login)=>{        
+        setOtp(false)
         resetUser()
         setAuthMode(mode)
     }
