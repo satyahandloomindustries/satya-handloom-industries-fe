@@ -14,7 +14,10 @@ const useUser = create((set, get) => ({
     },
     setEmail: (email = "")=>{
         set({email})
-    }
+    },
+    resetUser:()=>{
+        set({username: "" , phone:"" , phoneWithCountryCode: "" , isAuthenticated:false , email: "" })
+    } 
 }));
 
 export default useUser;

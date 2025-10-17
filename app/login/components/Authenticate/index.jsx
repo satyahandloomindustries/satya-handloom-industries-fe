@@ -9,26 +9,35 @@ import ErrorMessage from "@/app/contactUs/components/ErrorMessage";
 import { verifyDigits } from "@/utls";
 import useToast from "@/store/useToast";
 import useFormResetOnBlur from "@/hooks/useFormResetOnBlur";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import Loader from "@/components/Loader";
 import { dancingScript } from "@/utls"
 import clsx from "clsx"
 import { AUTH_MODE } from "@/constants";
 
+const validationShape = {
+    username: Yup.string().required('Username is required'),
+    phone: Yup.string()
+        .required('Phone is required')
+        .matches(/^[0-9]{10}$/, '10 digit phone number missing'),
+    email: Yup.string().email('Invalid email').required('Email is required')
+}
 const Authenticate = () => {
 
     const [openOtp, setOtp] = useState(false);
     const [loading, setLoading] = useState(false);
-    const [login, setLogin] = useState(false)
+    const [authMode, setAuthMode] = useState(AUTH_MODE.login)
+    const isLoginMode = authMode === AUTH_MODE.login;
     const { setInputs, inputs, otpValue  , isOtpFilled} = useOtp();
-    const { username, phone, setUsername, setPhone, email, setEmail } = useUser()
-    const { validation, error, noError, validateAt, resetError } = useFormValidation({
-        username: Yup.string().required('Username is required'),
-        phone: Yup.string()
-            .required('Phone is required')
-            .matches(/^[0-9]{10}$/, '10 digit phone number missing'),
-        email: Yup.string().email('Invalid email').required('Email is required')
-    });
+    const { username, phone, setUsername, setPhone, email, setEmail , resetUser} = useUser()
+    const shape = useMemo(()=>{
+        const {email} = validationShape;
+        switch(authMode){
+            case AUTH_MODE.login : return {email}
+            default: return validationShape
+        }
+    } , [authMode])
+    const { validation, error, noError, validateAt, resetError } = useFormValidation(shape);
 
     const { showErrorToast, showSuccessToast } = useToast()
 
@@ -70,7 +79,7 @@ const Authenticate = () => {
         }
         try {
             setLoading(true)
-            const response = await axios.post('/api/send-otp', { otpValue, username, phone, email , mode: AUTH_MODE.signup}, {
+            const response = await axios.post('/api/send-otp', { otpValue, username, phone, email , mode: authMode}, {
                 headers: {
                     Authorization: "Bearer mytoken",
                     "Content-Type": "application/json"
@@ -127,21 +136,24 @@ const Authenticate = () => {
     const buttonLabel = openOtp ? "Verify" : "Send verification code"
 
     
-
+    const handleAuthMode = (mode = AUTH_MODE.login)=>{        
+        resetUser()
+        setAuthMode(mode)
+    }
     return <>
         <div className={clsx(dancingScript.className, "text-4xl")}>
-            <span className={`${login ? "text-shi_brown" : ""}`}>
-                <button onClick={() => setLogin(true)}>
+            <span className={`${isLoginMode ? "text-shi_brown" : ""}`}>
+                <button onClick={()=>handleAuthMode(AUTH_MODE.login)}>
                     Login
                 </button>
             </span> /&nbsp;
-            <span className={`${!login ? "text-shi_brown" : ""}`}>
-                <button onClick={() => setLogin(false)}>
+            <span className={`${!isLoginMode ? "text-shi_brown" : ""}`}>
+                <button onClick={()=>handleAuthMode(AUTH_MODE.signup)}>
                     Sign-up</button>
             </span>
         </div>
-        <form className="bg-white p-6 rounded-lg shadow-md w-full max-w-sm" ref={formRef}>
-            {!login ? <div className="mb-1">
+        <form className="bg-white p-6 rounded-lg shadow-md w-full max-w-sm mt-4" ref={formRef}>
+            {!isLoginMode ? <div className="mb-1">
                 <label htmlFor="username" className="block text-sm font-medium text-gray-700">Username</label>
                 <input
                     onChange={handleUsernameChange}
@@ -169,7 +181,7 @@ const Authenticate = () => {
                 />
                 <ErrorMessage message={error?.email} />
             </div>
-            {!login ? <div className="mb-1">
+            {!isLoginMode ? <div className="mb-1">
                 <label htmlFor="mobile" className="block text-sm font-medium text-gray-700">Contact info</label>
                 <input
                     onChange={handlePhoneChange}
