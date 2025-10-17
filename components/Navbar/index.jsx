@@ -15,22 +15,36 @@ export const navbarRoutes = [
   { label: 'Blogs', value: '/blogs' },
   { label: 'ContactUs', value: '/contactUs' },
   {
-    label: 'Login',value: '/login'
-  }
+    label: 'Login',value: '/login' , hide: 'tokenPresent'
+  },
+  {
+    label: "Profile" , value: "/profile" , hide: 'tokenNotPresent'
+  },
+
 ];
 
-const Navbar = () => {
+const Navbar = ({token}) => {
   const pathname = usePathname();
+  const routes = navbarRoutes.filter((item)=> {
+    if(!item.hide) return true
+    
+    if(token && item.hide === 'tokenNotPresent') {
+        return true
+      }
+    if(!token && item.hide === 'tokenPresent' ){
+      return true
+    }
+  })
   return (
     <div className="grid grid-cols-[100px_1fr] gap-30 py-5 px-6 sticky top-0 z-40 bg-white">
       <ShiLogo />
       <div
         className={`grid items-center gap-10`}
         style={{
-          gridTemplateColumns: `repeat(${navbarRoutes.length}, min-content)`,
+          gridTemplateColumns: `repeat(${routes.length}, min-content)`,
         }}
       >
-        {navbarRoutes.map(({ label, value }) => (
+        {routes.map(({ label, value }) => (
           <Link
             href={value}
             key={label}

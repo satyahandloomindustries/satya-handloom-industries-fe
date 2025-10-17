@@ -8,6 +8,10 @@ export const verifyUser = async({email})=>{
     
 }
 
+export const getUser = async(email)=>{
+    return await User.findOne({email})
+}
+
 export const createUser = async({email , username , phone})=>{
     return await User.create({email , username , phone  })
 }

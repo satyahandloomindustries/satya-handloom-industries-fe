@@ -14,6 +14,7 @@ import Loader from "@/components/Loader";
 import { dancingScript } from "@/utls"
 import clsx from "clsx"
 import { AUTH_MODE } from "@/constants";
+import { useRouter } from "next/navigation";
 
 const validationShape = {
     username: Yup.string().required('Username is required'),
@@ -38,6 +39,8 @@ const Authenticate = () => {
     } , [authMode])
     const { validation, error, noError, validateAt, resetError } = useFormValidation(shape);
 
+    const router = useRouter();
+
     const { showErrorToast, showSuccessToast } = useToast()
 
     const formRef = useFormResetOnBlur(resetError);
@@ -58,7 +61,7 @@ const Authenticate = () => {
                 }
             })
             showSuccessToast("Otp verified successfully")
-            
+            setTimeout(()=>router?.replace('/') , 800)
             setLoading(false);
         }
         catch(err){
