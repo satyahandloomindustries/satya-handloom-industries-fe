@@ -15,15 +15,12 @@ export const POST = db(async (req) => {
             
             if(!user) return NextResponse.json({ message: "User does not exist" }, { status: 404 })
         }
-        console.log('here 1')
 
         await verifyOtp({ email, enteredOtp: otp })
         if(mode === AUTH_MODE.signup)
             user = await createUser({email , phone , username });
 
-        console.log('here')
         const token = await generateToken({ id: user._id, email: user.email });
-        console.log(token)
         const response =  NextResponse.json({ message: "Otp verified successfully"  , user}, { status: 200 });
         response.cookies.set(AUTH_TOKEN, token, {
             httpOnly: true,
