@@ -62,3 +62,15 @@ export const dancingScript = Dancing_Script({
 export const verifyDigits = (value) => {
   return (/^\d*$/.test(value));
 }
+
+
+export const evd = (handler)=> (event)=>{
+  event?.preventDefault();
+  handler(event)
+}
+
+export const pasteOtp = (event)=>{
+  const pastedData = event.clipboardData.getData("text").trim();
+  if (!verifyDigits(pastedData)) throw new Error("Invalid otp digits are passed");
+  return pastedData
+}

@@ -1,6 +1,5 @@
 
-import { dancingScript } from "@/utls"
-import clsx from "clsx"
+
 import Authenticate from "./components/Authenticate"
 const Login = () => {
 
@@ -18,10 +17,7 @@ const Login = () => {
                     <li className="mt-8 text-[#fff] text-md pl-4">Deliver affordable, high-value handloom products <br/> that meet today’s lifestyle and hospitality standards.</li>
                 </ul>
             </div>
-            <div className="items-center justify-center flex bg-white flex-col">
-                <div className={clsx(dancingScript.className , "text-4xl")}>
-                    Login
-                </div>
+            <div className="items-center justify-start flex bg-white flex-col pt-8">
 
                 <Authenticate/>
             </div>
