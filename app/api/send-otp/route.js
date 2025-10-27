@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 import { generateOtp } from "@/services/Otp_services";
 import { createAndUpdateTemporaryUser, verifyUser } from "@/services/UserServices";
 import { AUTH_MODE } from "@/constants";
-export const POST = db(async(req , res)=>{
+export const POST = db(async(req)=>{
 
     const {email , mode , ...data} = await req.json()
 

@@ -51,10 +51,11 @@ const Authenticate = () => {
 
         if(!isOtpFilled || invalid) {
             showErrorToast("Please fill the otp completely")
+            return
         }
         try {
             setLoading(true)
-            const response = await axios.post('/api/verify-otp', { email , otp: otpValue , username , phone , email , mode: authMode}, {
+            const response = await axios.post('/api/verify-otp', { email , otp: otpValue , username , phone  , mode: authMode}, {
                 headers: {
                     Authorization: "Bearer mytoken",
                     "Content-Type": "application/json"
