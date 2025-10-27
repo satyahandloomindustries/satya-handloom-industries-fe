@@ -6,6 +6,7 @@ import { AUTH_MODE } from "@/constants";
 export const POST = db(async(req)=>{
 
     const {email , mode , ...data} = await req.json()
+    
 
     const userExists = await verifyUser({email})
 
