@@ -4,13 +4,13 @@ const ProductSchema = new mongoose.Schema({
     name: String,
     description: String,
     productCode: String,
-    category: { type: mongoose.Schema.Types.ObjectId, ref: "Category" },
+    category: { type: mongoose.Schema.Types.ObjectId, ref: "Category" , required: true },
+    subCategory: { type: mongoose.Schema.Types.ObjectId, ref: "Category" , required: true},
     sizes: [String],
     images: [String],
-    // optional dynamic attributes
     attributes: {
       type: Map,
-      of: String, // or of Mixed
+      of: String,
       default: {},
     },
   });

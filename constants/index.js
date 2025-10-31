@@ -5,6 +5,8 @@ export const AUTH_MODE = {
 
 export const AUTH_TOKEN = "auth_token"
 
+export const BEARER_WITH_SPACE = "Bearer "
+
 export const LOCAL_KEYS = {
     PRODUCTION: "production",
     STAGE: "stage",
@@ -16,7 +18,6 @@ export const CLOUDINARY_IMAGES_BASE_FOLDER = (()=>{
 
     return currentEnv
 })()
-
 
 export const profile_categories = [
     { "label": "Profile Summary", "value": 1 },

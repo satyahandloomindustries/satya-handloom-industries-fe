@@ -6,4 +6,4 @@ const CategorySchema = new mongoose.Schema({
   description: { type: String},
 });
 
-export default mongoose.models.CategorySchema || mongoose.model("Category", CategorySchema);
+export default mongoose.models.Category || mongoose.model("Category", CategorySchema);

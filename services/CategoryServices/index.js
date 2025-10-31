@@ -1,4 +1,4 @@
-import Categories from "../../models/Categories/index.js"
+import Categories from "@/models/Categories"
 
 export const fetchMainCategories = async ()=>{
 
@@ -41,12 +41,12 @@ export const mainCategoryExists = async(parent)=>{
     }
 
 }
-export const fetchSubCategories = async (mainCategoryId)=>{
+export const fetchSubCategories = async (mainCategoryId , fields = '')=>{
 
     if(!mainCategoryId) throw new Error('Main category id not provided')
 
     try {
-        return await Categories.find({parent: mainCategoryId})
+        return await Categories.find({parent: mainCategoryId} , fields)
     }catch(err){
         throw new Error('Failed to fetch the main categories')
     }
@@ -73,3 +73,26 @@ export async function addCategory({name , parent  = null , description}) {
     }
   }
 
+
+async function* categoryGenerator(mainCategories , categories = {}) {
+    for (const { _id, name } of mainCategories) {
+      const subCategories = (await fetchSubCategories(_id, "name")) ?? ["No varieties"];
+      categories[name] = subCategories?.length ? subCategories : ['No varieties'] 
+      yield categories;
+    }
+  }
+
+export const getCategories = async()=>{
+    try {
+
+        const mainCategories = await fetchMainCategories();        
+        const categories = {};
+        for await (const _ of categoryGenerator(mainCategories, categories)) {}
+
+        return {categories  , mainCategories};
+    } 
+    catch(err){
+        throw new Error('Failed to fetch the categories')
+    }
+
+}
