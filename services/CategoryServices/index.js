@@ -76,8 +76,8 @@ export async function addCategory({name , parent  = null , description}) {
 
 async function* categoryGenerator(mainCategories , categories = {}) {
     for (const { _id, name } of mainCategories) {
-      const subCategories = (await fetchSubCategories(_id, "name")) ?? ["No varieties"];
-      categories[name] = subCategories?.length ? subCategories : ['No varieties'] 
+      const subCategories = (await fetchSubCategories(_id, "name"));
+      categories[name] = subCategories?.length ? subCategories : [] 
       yield categories;
     }
   }
@@ -95,4 +95,20 @@ export const getCategories = async()=>{
         throw new Error('Failed to fetch the categories')
     }
 
+}
+
+export const getSubcategorySizes = async()=>{
+
+    try{
+        const documents = await Categories.find({parent: {$exists: true , $ne: null }}).lean();
+        
+        const subCategorySizes = documents.map(({name , sizes , _id})=>{            
+            return {
+                name , sizes , subCategoryId: _id
+            }
+        })
+        return subCategorySizes;
+    }catch{
+        throw new Error('Failed to fetch the category document')
+    }
 }

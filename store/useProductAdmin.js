@@ -1,3 +1,4 @@
+import ApiService from '@/services/ApiService';
 import { create } from 'zustand';
 
 const useProductAdmin = create((set, get) => ({
@@ -7,17 +8,43 @@ const useProductAdmin = create((set, get) => ({
     selectedMainCategory: null,
     selectedSubCategory: null,
     mainCategoriesDropdown: [],
-    subCategories: [],
+    subCategoriesDropdown: [],
+    subCategories: {},
     sizes:[],
+    selectedSizes:null, 
     images:[],
     allCategories: {},
+    categorySizes: [],
     setAllCategories: (allCategories = {} , mainCategories =[])=>{
         const mainCategoriesDropdown = mainCategories.map(({_id , name})=>({label:name , value: _id}))
-        set({allCategories , mainCategoriesDropdown })
+        const subCategories = {}
+        mainCategories.map(({ name})=> {
+            const subCategoriesMorphedList = allCategories[name].map(({_id , name})=> ({label: name , value: _id }))
+            subCategories[name]  = subCategoriesMorphedList;
+    })
+        set({allCategories , mainCategoriesDropdown , subCategories })
     },
-    setSubCategoryDropdown : (subCategories = [])=>{
-        const subCategoryDropdown = subCategories.map(({_id , name})=> ({label: name , value: _id }))
-        set({subCategoryDropdown})
+    setSelectedMainCategory:(selectedMainCategory = null)=>{        
+        set({selectedMainCategory})
+    },
+    setSelectedSubCategory:(selectedSubCategory = null)=>{
+        set({selectedSubCategory})
+    },
+    customSet: (props)=>{
+        set({...props})
+    },
+    getSizes: (subCategory)=>{
+        const category = get().categorySizes.find(({name , subCategoryId})=> name === subCategory.label && subCategoryId === subCategory.value);
+        const sizes = category?.sizes?.map((item)=> ({label: item  , value: subCategory?.value}))
+        set({sizes: sizes ?? []})
+    },
+    getSubCategoriesSizes: async()=>{
+        try {
+            const {categorySizes = []} = await ApiService.get('api/sub-category-sizes');
+            set({categorySizes})
+        }
+        catch(err){
+        }
     }
 
 }));

@@ -1,56 +1,156 @@
 "use client"
+import ErrorMessage from "@/app/contactUs/components/ErrorMessage"
 import MultipleImageUpload from "@/app/profile/components/MultipleImageUpload"
 import MyDropdown, { DropdownLabelWrapper } from "@/components/Dropdown"
+import useFormValidation from "@/hooks/useFormValidation"
 import ApiService from "@/services/ApiService"
 import useProductAdmin from "@/store/useProductAdmin"
-import { useEffect } from "react"
+import { useEffect, useRef } from "react"
+import * as Yup from "yup"
 
-/*
-    M Category
-    S category
+const ProductAdmin = () => {
 
-    Name
-    Code
-    description
-    images
-    sizes -> []
+  const { name,
+    code,
+    description,
+    mainCategories,
+    subCategories,
+    sizes,
+    images,
+    setAllCategories,
+    mainCategoriesDropdown,
+    selectedMainCategory,
+    selectedSubCategory,
+    customSet,
+    setSelectedSubCategory,
+    subCategoriesDropdown,
+    getSubCategoriesSizes,
+    categorySizes,
+    getSizes,
+    selectedSizes,
+  } = useProductAdmin()
+
+  const form = useRef();
+
+  const { validation, error, noError, validateAt } = useFormValidation({
+    name: Yup.string().required('Name is required'),
+    code: Yup.string().email('Invalid code').required('Code is required'),
+    description: Yup.string()
+      .required('Description is required'),
+  });
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await ApiService.get('/api/categories');
+        await getSubCategoriesSizes()
 
 
-*/
-const ProductAdmin = ()=>{
+        setAllCategories(response?.categories, response?.mainCategories)
+      } catch (err) {
+        console.error("Error fetching categories:", err);
+      }
+    };
 
-    const {name,
-        code,
-        description,
-        mainCategories,
-        subCategories,
-        sizes,
-        images , setAllCategories , mainCategoriesDropdown} = useProductAdmin()
+    fetchCategories();
+  }, []);
 
-        useEffect(() => {
-            const fetchCategories = async () => {
-              try {
-                const response = await ApiService.get('/api/categories');
-                
-                setAllCategories(response?.categories , response?.mainCategories)
-              } catch (err) {
-                console.error("Error fetching categories:", err);
-              }
-            };
-          
-            fetchCategories();
-          }, []);
-          
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    validateAt(name, value);
+  };
 
-    return <div>
+  return <div>
 
-        <DropdownLabelWrapper>
-            <MyDropdown items={mainCategoriesDropdown}/>
-        </DropdownLabelWrapper>
+    <h1 className="text-4xl mb-8">Create a new product</h1>
 
-        <MultipleImageUpload/>
+    <div>
+      <form className="w-full max-w-lg mt-10" ref={form} onSubmit={() => { }} autoComplete='off'>
+        <div className="grid grid-cols-2 gap-6">
+          <MyDropdown items={mainCategoriesDropdown} selected={selectedMainCategory} setSelected={(mainCategory) => {
+            customSet(
+              {
+                selectedMainCategory: mainCategory,
+                subCategoriesDropdown: subCategories?.[mainCategory?.label] ?? [],
+                selectedSubCategory: null,
+                selectedSizes: null,
+                sizes: []
+              })
+
+          }} placeholder="Choose product category" />
+
+          <MyDropdown items={subCategoriesDropdown} selected={selectedSubCategory} setSelected={(subCategory) => {
+            getSizes(subCategory)
+            setSelectedSubCategory(subCategory)
+          }} placeholder="Choose product subcategory" />
+
+          <MyDropdown items={sizes}
+            selected={selectedSizes}
+            setSelected={(size) => customSet({ selectedSizes: size })}
+            placeholder="Choose product size" />
+
+            <br/>
+
+          <div>
+            <input
+              type="text"
+              name="name"
+              id="name"
+              placeholder="Product name*"
+              className="appearance-none w-full p-3 text-sm text-gray-700 bg-gray-100 leading-tight focus:outline-none focus:-outline"
+              onChange={handleChange}
+              autoComplete="off"
+              suppressHydrationWarning
+            />
+            <ErrorMessage message={error?.name} />
+          </div>
+          <div>
+            <input
+              type="text"
+              id="code"
+              name="code"
+              placeholder="Product code*"
+              className=" appearance-none w-full p-3 text-sm text-gray-700 bg-gray-100 leading-tight focus:outline-none focus:-outline"
+              autoComplete="off"
+              suppressHydrationWarning
+              onChange={handleChange}
+
+            />
+            <ErrorMessage message={error?.code} />
+          </div>
+
+        </div>
+
+        <div className="my-4">
+          <textarea
+            id="description"
+            name="Description"
+            placeholder="Product description*"
+            rows={6}
+            className="appearance-none w-full p-3 text-sm text-gray-700 bg-gray-100 leading-tight focus:outline-none focus:-outline"
+            onChange={handleChange}
+
+          />
+          <ErrorMessage message={error?.description} />
+        </div>
+
+        <MultipleImageUpload items={sizes} />
+
+
+        <button
+          suppressHydrationWarning
+          type="submit"
+          className="bg-shi_brown text-white  py-3 px-6 font-thin text-sm focus:outline-none focus:-outline"
+          disabled={!noError}
+        >
+          Create product
+        </button>
+      </form>
+
     </div>
-    
+
+  </div>
+
 }
 
 export default ProductAdmin

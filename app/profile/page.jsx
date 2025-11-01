@@ -11,7 +11,7 @@ const Profile = () => {
         <ShopHeader />
 
 
-        <main className="p-16 grid grid-cols-[0.25fr_1.75fr]">
+        <main className="p-16 grid grid-cols-[0.25fr_1.75fr] gap-10">
             <div>
                 <Filter title='Profile'>
                     <MultiRenderer
