@@ -16,7 +16,6 @@ export async function middleware(req) {
     // Redirect to login if no token or invalid
     return NextResponse.redirect(new URL("/login", req.url));
   }
-  console.log("middleware" , pathname);
   
 
   if (token && req.nextUrl.pathname === '/login') {

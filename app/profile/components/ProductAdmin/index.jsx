@@ -1,7 +1,7 @@
 "use client"
 import ErrorMessage from "@/app/contactUs/components/ErrorMessage"
 import MultipleImageUpload from "@/app/profile/components/MultipleImageUpload"
-import MyDropdown, { DropdownLabelWrapper } from "@/components/Dropdown"
+import MyDropdown from "@/components/Dropdown"
 import useFormValidation from "@/hooks/useFormValidation"
 import ApiService from "@/services/ApiService"
 import useProductAdmin from "@/store/useProductAdmin"
@@ -13,7 +13,6 @@ const ProductAdmin = () => {
   const { name,
     code,
     description,
-    mainCategories,
     subCategories,
     sizes,
     images,
@@ -25,7 +24,6 @@ const ProductAdmin = () => {
     setSelectedSubCategory,
     subCategoriesDropdown,
     getSubCategoriesSizes,
-    categorySizes,
     getSizes,
     selectedSizes,
   } = useProductAdmin()
@@ -34,7 +32,7 @@ const ProductAdmin = () => {
 
   const { validation, error, noError, validateAt } = useFormValidation({
     name: Yup.string().required('Name is required'),
-    code: Yup.string().email('Invalid code').required('Code is required'),
+    code: Yup.string().min(5, "Max length upto 5 characters").required('Code is required'),
     description: Yup.string()
       .required('Description is required'),
   });
@@ -56,8 +54,8 @@ const ProductAdmin = () => {
   }, []);
 
   const handleChange = (event) => {
-    const { name, value } = event.target;
-    validateAt(name, value);
+    const { name, value } = event.target;    
+    customSet({[name]: value})
   };
 
   return <div>
@@ -95,6 +93,7 @@ const ProductAdmin = () => {
             <input
               type="text"
               name="name"
+              value={name}
               id="name"
               placeholder="Product name*"
               className="appearance-none w-full p-3 text-sm text-gray-700 bg-gray-100 leading-tight focus:outline-none focus:-outline"
@@ -109,6 +108,7 @@ const ProductAdmin = () => {
               type="text"
               id="code"
               name="code"
+              value={code}
               placeholder="Product code*"
               className=" appearance-none w-full p-3 text-sm text-gray-700 bg-gray-100 leading-tight focus:outline-none focus:-outline"
               autoComplete="off"
@@ -124,8 +124,9 @@ const ProductAdmin = () => {
         <div className="my-4">
           <textarea
             id="description"
-            name="Description"
+            name="description"
             placeholder="Product description*"
+            value={description}
             rows={6}
             className="appearance-none w-full p-3 text-sm text-gray-700 bg-gray-100 leading-tight focus:outline-none focus:-outline"
             onChange={handleChange}
