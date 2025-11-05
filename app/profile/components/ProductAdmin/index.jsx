@@ -20,7 +20,6 @@ const ProductAdmin = () => {
     description,
     subCategories,
     sizes,
-    images,
     setAllCategories,
     mainCategoriesDropdown,
     selectedMainCategory,
@@ -29,6 +28,7 @@ const ProductAdmin = () => {
     setSelectedSubCategory,
     subCategoriesDropdown,
     getSubCategoriesSizes,
+    createProduct
   } = useProductAdmin()
 
   const form = useRef();
@@ -72,13 +72,17 @@ const ProductAdmin = () => {
     customSet({description: [...filteredDescription]})
   }
 
+  const handleSubmit = async(e)=>{
+    await createProduct(e)
+  }
 
+  
   return <div>
 
     <h1 className="text-4xl mb-8">Create a new product</h1>
 
     <div className="flex flex-row gap-6">
-      <form className="w-full max-w-lg" ref={form} onSubmit={() => { }} autoComplete='off'>
+      <form className="w-full max-w-lg" ref={form} onSubmit={handleSubmit} autoComplete='off'>
         <div className="grid grid-cols-2 gap-6">
           <MyDropdown items={mainCategoriesDropdown} selected={selectedMainCategory} setSelected={(mainCategory) => {
             customSet(
@@ -149,16 +153,20 @@ const ProductAdmin = () => {
         
         </div>
 
-          </AddComponentInput>
-        <MultipleImageUpload items={sizes} />
+        </AddComponentInput>
+
+        <div className="flex justify-between items-center">
+        <MultipleImageUpload items={sizes}/>
         <button
           suppressHydrationWarning
           type="submit"
-          className="bg-shi_brown text-white  py-3 px-6 font-thin text-sm focus:outline-none focus:-outline"
+          className="bg-shi_brown text-white  py-3 px-6 font-thin text-sm focus:outline-none focus:-outline ml-auto"
           disabled={!noError}
         >
           Create product
         </button>
+
+        </div>
       </form>
       <AddComponentInput placeholder="Add product description" mainClassName="w-full" onClick={handleDescription}>
         <MultiRenderer rendererSet={description} Component={DescriptionText} onClose= {handleClose} mainClassName="flex flex-col gap-2"/>

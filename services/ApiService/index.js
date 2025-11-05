@@ -1,15 +1,13 @@
-// services/ApiService.js
 import axios from "axios";
 
 class ApiService {
   static client = axios.create({
-    baseURL: "/", // default base URL
+    baseURL: "/",
     headers: { "Content-Type": "application/json" },
     timeout: 10000,
     withCredentials: true
   });
 
-  // Optionally add interceptors
   static setAuthToken(token) {
     ApiService.client.defaults.headers.Authorization = `Bearer ${token}`;
   }

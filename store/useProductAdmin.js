@@ -1,7 +1,10 @@
 import ApiService from '@/services/ApiService';
+import useToast from '@/store/useToast';
+import { evd } from '@/utls';
+import axios from 'axios';
 import { create } from 'zustand';
 
-const useProductAdmin = create((set, get) => ({
+const useProductAdmin = create((set , get) => ({
     name: '',
     code:'',
     description: [],
@@ -39,7 +42,31 @@ const useProductAdmin = create((set, get) => ({
         }
         catch(err){
         }
+    },
+    createProduct: evd(async()=>{
+        const formData = new FormData();
+        const { showErrorToast } = useToast.getState()
+        const imgs = get().images        
+        imgs.forEach(file => formData.append("images", file));
+        formData.append("category", get().selectedMainCategory?.label ?? null);        
+
+        try{
+            const response = await axios.post('/api/cloudinary-imgs-upload' , formData,  {
+                timeout: 10000,
+                withCredentials: true
+              })
+              if(response.status === 200)
+              {
+                set({images : [] , name: '' , code: '' , description: [],
+                selectedMainCategory: null , selectedSubCategory: null,
+                sizes: []
+              })
+            }
+        }catch(err){
+            showErrorToast(err.message)
+        }
     }
+)
 
 }));
 
