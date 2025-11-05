@@ -74,3 +74,9 @@ export const pasteOtp = (event)=>{
   if (!verifyDigits(pastedData)) throw new Error("Invalid otp digits are passed");
   return pastedData
 }
+
+export const filterClosure = (i)=>{
+  return function(arr){
+    return arr.filter((item)=> item!=i)
+  }
+}

@@ -1,10 +1,15 @@
 "use client"
 import ErrorMessage from "@/app/contactUs/components/ErrorMessage"
+import DescriptionText from "@/app/profile/components/DescriptionText"
 import MultipleImageUpload from "@/app/profile/components/MultipleImageUpload"
+import AddComponentInput from "@/components/AddComponentInput"
 import MyDropdown from "@/components/Dropdown"
+import MultiRenderer from "@/components/MultiRenderer"
+import Tag from "@/components/Tag"
 import useFormValidation from "@/hooks/useFormValidation"
 import ApiService from "@/services/ApiService"
 import useProductAdmin from "@/store/useProductAdmin"
+import { filterClosure } from "@/utls"
 import { useEffect, useRef } from "react"
 import * as Yup from "yup"
 
@@ -24,8 +29,6 @@ const ProductAdmin = () => {
     setSelectedSubCategory,
     subCategoriesDropdown,
     getSubCategoriesSizes,
-    getSizes,
-    selectedSizes,
   } = useProductAdmin()
 
   const form = useRef();
@@ -42,8 +45,6 @@ const ProductAdmin = () => {
       try {
         const response = await ApiService.get('/api/categories');
         await getSubCategoriesSizes()
-
-
         setAllCategories(response?.categories, response?.mainCategories)
       } catch (err) {
         console.error("Error fetching categories:", err);
@@ -53,17 +54,31 @@ const ProductAdmin = () => {
     fetchCategories();
   }, []);
 
+  
   const handleChange = (event) => {
-    const { name, value } = event.target;    
-    customSet({[name]: value})
+    const { name, value } = event.target;
+    customSet({ [name]: value })
   };
+
+  const handleDescription = (value) => {    
+    if(value?.length && !description.includes(value))
+    customSet({
+      description: [...description , value]
+    })
+  }
+
+  const handleClose = (value)=>{
+    const filteredDescription = filterClosure(value)(description);    
+    customSet({description: [...filteredDescription]})
+  }
+
 
   return <div>
 
     <h1 className="text-4xl mb-8">Create a new product</h1>
 
-    <div>
-      <form className="w-full max-w-lg mt-10" ref={form} onSubmit={() => { }} autoComplete='off'>
+    <div className="flex flex-row gap-6">
+      <form className="w-full max-w-lg" ref={form} onSubmit={() => { }} autoComplete='off'>
         <div className="grid grid-cols-2 gap-6">
           <MyDropdown items={mainCategoriesDropdown} selected={selectedMainCategory} setSelected={(mainCategory) => {
             customSet(
@@ -77,17 +92,10 @@ const ProductAdmin = () => {
 
           }} placeholder="Choose product category" />
 
-          <MyDropdown items={subCategoriesDropdown} selected={selectedSubCategory} setSelected={(subCategory) => {
-            getSizes(subCategory)
-            setSelectedSubCategory(subCategory)
-          }} placeholder="Choose product subcategory" />
-
-          <MyDropdown items={sizes}
-            selected={selectedSizes}
-            setSelected={(size) => customSet({ selectedSizes: size })}
-            placeholder="Choose product size" />
-
-            <br/>
+          <MyDropdown items={subCategoriesDropdown}
+          selected={selectedSubCategory}
+          setSelected={setSelectedSubCategory}
+          placeholder="Choose product subcategory" />
 
           <div>
             <input
@@ -121,23 +129,28 @@ const ProductAdmin = () => {
 
         </div>
 
-        <div className="my-4">
-          <textarea
-            id="description"
-            name="description"
-            placeholder="Product description*"
-            value={description}
-            rows={6}
-            className="appearance-none w-full p-3 text-sm text-gray-700 bg-gray-100 leading-tight focus:outline-none focus:-outline"
-            onChange={handleChange}
+        <AddComponentInput placeholder="Add product sizes" mainClassName="mb-6"  onClick={(value)=>{
+          if(value?.length && !sizes.includes(value)){
+            customSet({sizes: [...sizes , value]})
+          }
+        }}>
 
-          />
-          <ErrorMessage message={error?.description} />
+          <div className="flex flex-wrap gap-2 mb-4 pr-2">
+          {
+            sizes.map((size , index) => (
+              <Tag key={index} label={size} onClose={() => {
+                const filterSizes = filterClosure(size)(sizes)
+                customSet({sizes: filterSizes})
+              }}
+              mainClassname="relative flex flex-row items-center justify-between pr-1"
+              />
+            ))
+          }
+        
         </div>
 
+          </AddComponentInput>
         <MultipleImageUpload items={sizes} />
-
-
         <button
           suppressHydrationWarning
           type="submit"
@@ -147,7 +160,9 @@ const ProductAdmin = () => {
           Create product
         </button>
       </form>
-
+      <AddComponentInput placeholder="Add product description" mainClassName="w-full" onClick={handleDescription}>
+        <MultiRenderer rendererSet={description} Component={DescriptionText} onClose= {handleClose} mainClassName="flex flex-col gap-2"/>
+      </AddComponentInput>
     </div>
 
   </div>

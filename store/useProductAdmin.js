@@ -4,14 +4,13 @@ import { create } from 'zustand';
 const useProductAdmin = create((set, get) => ({
     name: '',
     code:'',
-    description: '',
+    description: [],
     selectedMainCategory: null,
     selectedSubCategory: null,
     mainCategoriesDropdown: [],
     subCategoriesDropdown: [],
     subCategories: {},
     sizes:[],
-    selectedSizes:null, 
     images:[],
     allCategories: {},
     categorySizes: [],
@@ -32,11 +31,6 @@ const useProductAdmin = create((set, get) => ({
     },
     customSet: (props)=>{
         set({...props})
-    },
-    getSizes: (subCategory)=>{
-        const category = get().categorySizes.find(({name , subCategoryId})=> name === subCategory.label && subCategoryId === subCategory.value);
-        const sizes = category?.sizes?.map((item)=> ({label: item  , value: subCategory?.value}))
-        set({sizes: sizes ?? []})
     },
     getSubCategoriesSizes: async()=>{
         try {
