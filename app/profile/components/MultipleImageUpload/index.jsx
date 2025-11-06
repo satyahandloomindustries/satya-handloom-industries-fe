@@ -14,7 +14,7 @@ const MultipleImageUpload = () => {
     return <>
         <label
             htmlFor="imageUpload"
-            className="px-4 py-3 border border-shi_brown text-shi_brown cursor-pointer"
+            className="px-3 py-3 border text-sm border-shi_brown text-shi_brown cursor-pointer"
         >
             Choose product images {images?.length ? <span>
                 <button>
