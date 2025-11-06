@@ -16,6 +16,9 @@ export default {
         shi_prussian_blue: 'var(--shi_prussian_blue)',
         shi_burlywood: '#deb887',
       },
+      borderColor: {
+        shi_brown:'var(--shi_brown)' ,
+      },
     },
   },
   plugins: [require('tailwind-scrollbar-hide'), require('tailwind-scrollbar')],

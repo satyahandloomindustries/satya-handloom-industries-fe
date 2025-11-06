@@ -1,5 +1,4 @@
 import React from 'react';
-import UnderlineStroke from '../UnderlineStroke';
 import Divider from '../Divider';
 
 const Filter = ({ title, children }) => {

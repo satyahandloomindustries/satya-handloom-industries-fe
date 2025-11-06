@@ -30,7 +30,7 @@ export const db = (handler) => async (req, res) => {
       return handler(req, res);
     } catch (err) {
       console.error(err);
-      return res.status(500).json({ error: "Internal Server Error" });
+      return res?.status(500)?.json({ error: "Internal Server Error" });
     }
   };
   

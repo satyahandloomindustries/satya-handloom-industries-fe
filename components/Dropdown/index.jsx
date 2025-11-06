@@ -1,33 +1,51 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useLayoutEffect, useRef, useState } from 'react';
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react';
 
-const people = [
-  { name: 'Wade Cooper' },
-  { name: 'Arlene Mccoy' },
-  { name: 'Devon Webb' },
-];
+function MyDropdown({ selected, setSelected, items = [], placeholder = "Click to expand"}) {
 
-function MyDropdown() {
-  const [selected, setSelected] = useState(people[0]);
+  const divRef = useRef();
+  const [width , setWidth] = useState(150);
+  const handleSelection = (item) => {
+    setSelected?.(item)
+  }
+
+  const handleReset = () => {
+
+    setSelected?.(null)
+  }
+
+  useLayoutEffect(() => {
+    const el = divRef.current;
+    if (!el) return;
+
+    const observer = new ResizeObserver(([entry]) => {
+      setWidth(entry.contentRect.width);
+    });
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  
+
+  const disabled = !items?.length
+
   return (
-    <Menu>
-      <MenuButton>My account</MenuButton>
-      <MenuItems anchor="bottom">
+    <Menu className={"bg-white w-full"} as='div' ref={divRef}>
+      <MenuButton style={{minWidth: `${width}px`}} disabled={disabled} className={`outline-none cursor-pointer text-white bg-shi_brown border border-gray-100 rounded-md px-3 py-2 text-sm shadow-sm disabled:bg-gray-300 disabled:text-gray-500 disabled:cursor-not-allowed`}>{disabled ? 'No varieties' : selected?.label ?? placeholder}</MenuButton>
+      <MenuItems style={{minWidth: `${width}px`}} anchor="bottom" className={`outline-none flex flex-col bg-white rounded shadow-lg mt-1 border border-gray-100 !max-h-60`}>
+        {items.map((item) => (
+          <MenuItem key={item.label}>
+            <button onClick={handleSelection.bind(null, item)} className="data-[focus]:bg-gray-100 outline-none py-2 border-b-2 border-gray-100 last:border-b-0 text-sm">
+              {item.label}
+            </button>
+          </MenuItem>
+        ))} 
         <MenuItem>
-          <a className="block data-focus:bg-blue-100" href="/settings">
-            Settings
-          </a>
-        </MenuItem>
-        <MenuItem>
-          <a className="block data-focus:bg-blue-100" href="/support">
-            Support
-          </a>
-        </MenuItem>
-        <MenuItem>
-          <a className="block data-focus:bg-blue-100" href="/license">
-            License
-          </a>
+          <button onClick={handleReset} className="data-[focus]:bg-gray-100 outline-none py-2 border-b-2 border-gray-100 last:border-b-0 text-red-500">
+            Reset
+          </button>
         </MenuItem>
       </MenuItems>
     </Menu>
@@ -35,3 +53,14 @@ function MyDropdown() {
 }
 
 export default MyDropdown;
+
+
+export const DropdownLabelWrapper = ({children , label='' , labelClassname=''})=>{
+
+  return <div>
+    <div className={labelClassname}>{label}</div>
+    {children}
+  </div>
+
+}
+

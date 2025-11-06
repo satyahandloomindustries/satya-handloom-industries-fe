@@ -8,8 +8,9 @@ export const POST = db(async(req)=>{
     const {email , mode , ...data} = await req.json()
     
     const userExists = await verifyUser({email})
-
+    
     if(mode == AUTH_MODE.login && !userExists){
+      
       return NextResponse.json(
         { message: "User does not exist, redirect to signup" },
         { status: 404 }
