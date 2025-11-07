@@ -18,7 +18,7 @@ const useProductAdmin = create((set, get) => ({
   allCategories: {},
   categorySizes: [],
   openPreview: true,
-  previewUrls:[] , 
+  previewUrls: [],
   setAllCategories: (allCategories = {}, mainCategories = []) => {
     const mainCategoriesDropdown = mainCategories.map(({ _id, name }) => ({
       label: name,
@@ -62,7 +62,7 @@ const useProductAdmin = create((set, get) => ({
         '/api/cloudinary-imgs-upload',
         formData,
         {
-          timeout: 10000,
+          timeout: 30000,
           withCredentials: true,
         }
       );

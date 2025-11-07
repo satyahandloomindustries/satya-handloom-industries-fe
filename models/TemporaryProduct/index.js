@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-const ProductSchema = new mongoose.Schema({
+const TemporaryProductSchema = new mongoose.Schema({
   name: String,
   description: String,
   productCode: String,
@@ -23,5 +23,5 @@ const ProductSchema = new mongoose.Schema({
   },
 });
 
-export default mongoose.models.ProductSchema ||
-  mongoose.model('Product', ProductSchema);
+export default mongoose.models.TemporaryProductSchema ||
+  mongoose.model('TemporaryProduct', TemporaryProductSchema);

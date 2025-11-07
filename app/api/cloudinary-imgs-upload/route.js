@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import cloudinary from '@/services/CloudinaryServices';
+import cloudinary, { multipleImagesCheck } from '@/services/CloudinaryServices';
 import { CLOUDINARY_IMAGES_BASE_FOLDER } from '@/constants';
 
 export async function POST(request) {
@@ -21,7 +21,7 @@ export async function POST(request) {
         { folder, phash: true },
         (error, result) => {
           if (error) reject(error);
-          else resolve(result.secure_url);
+          else resolve({ secureUrl: result.secure_url, phash: result.phash });
         }
       );
       stream.end(buffer);
@@ -30,8 +30,16 @@ export async function POST(request) {
 
   try {
     const uploadedUrls = await Promise.all(uploadPromises);
+
+    console.log('111111', uploadedUrls);
+
+    const files = multipleImagesCheck(uploadedUrls);
+    console.log(files, '888888');
+
     return NextResponse.json({ urls: uploadedUrls });
   } catch (error) {
+    console.log(error);
+
     return NextResponse.json(
       { error: 'Upload failed', details: error },
       { status: 500 }

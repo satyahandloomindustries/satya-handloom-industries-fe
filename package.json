@@ -22,7 +22,6 @@
     "cloudinary": "^2.8.0",
     "clsx": "^2.1.1",
     "hamming-distance": "^1.0.0",
-    "image-hash": "^6.0.1",
     "jose": "^6.1.0",
     "mongodb": "^6.20.0",
     "mongoose": "^8.19.1",

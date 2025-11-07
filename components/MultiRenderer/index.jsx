@@ -4,9 +4,9 @@ const MultiRenderer = ({
   mainClassName = '',
   rendererSet = [],
   Component,
-  spreadProps=true, 
+  spreadProps = true,
   ...rest
-}) => {  
+}) => {
   return (
     <div className={mainClassName}>
       {rendererSet.map((item, index) =>
