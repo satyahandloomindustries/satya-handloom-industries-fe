@@ -1,6 +1,7 @@
 'use client';
 import ErrorMessage from '@/app/contactUs/components/ErrorMessage';
 import DescriptionText from '@/app/profile/components/DescriptionText';
+import ImagePreview from '@/app/profile/components/ImagePreview';
 import MultipleImageUpload from '@/app/profile/components/MultipleImageUpload';
 import AddComponentInput from '@/components/AddComponentInput';
 import MyDropdown from '@/components/Dropdown';
@@ -187,9 +188,12 @@ const ProductAdmin = () => {
             Component={DescriptionText}
             onClose={handleClose}
             mainClassName="flex flex-col gap-2"
+            spreadProps={false}
           />
         </AddComponentInput>
       </div>
+
+      <ImagePreview />
     </div>
   );
 };

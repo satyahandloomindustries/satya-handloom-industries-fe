@@ -4,12 +4,13 @@ const MultiRenderer = ({
   mainClassName = '',
   rendererSet = [],
   Component,
+  spreadProps=true, 
   ...rest
-}) => {
+}) => {  
   return (
     <div className={mainClassName}>
       {rendererSet.map((item, index) =>
-        typeof rendererSet[0] === 'object' ? (
+        spreadProps ? (
           <Component {...item} {...rest} key={index} />
         ) : (
           <Component item={item} key={index} {...rest} />

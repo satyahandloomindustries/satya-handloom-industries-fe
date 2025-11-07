@@ -1,5 +1,4 @@
 'use client';
-
 import useProductAdmin from '@/store/useProductAdmin';
 
 const MultipleImageUpload = () => {
@@ -7,7 +6,9 @@ const MultipleImageUpload = () => {
 
   const handleChange = (e) => {
     const filesArray = Array.from(e.target.files);
-    customSet({ images: [...images, ...filesArray] });
+    const finalArray = [...images, ...filesArray];
+    const previewUrls = finalArray.map((img) => URL.createObjectURL(img))
+    customSet({ images: finalArray  , previewUrls});
   };
 
   return (
@@ -19,7 +20,10 @@ const MultipleImageUpload = () => {
         Choose product images{' '}
         {images?.length ? (
           <span>
-            <button>({images?.length})</button>
+            <button className='hover:text-blue-800' type="button" onClick={(e)=> {              
+              e.stopPropagation()
+              customSet({openPreview: true})
+            }}>({images?.length})</button>
           </span>
         ) : null}
       </label>
