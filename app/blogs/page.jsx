@@ -13,7 +13,7 @@ const Box3D = () => {
   );
 };
 
-const Blogs = async() => {
+const Blogs = async () => {
   const blogs = await getBlogs();
   return (
     <div>
@@ -22,13 +22,10 @@ const Blogs = async() => {
         <BlogsWindow />
       </div>
     </div>
-
-   
   );
 };
 
 export default Blogs;
-
 
 async function getBlogs() {
   // const res = await fetch("https://api.example.com/blogs");

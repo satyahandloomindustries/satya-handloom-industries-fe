@@ -22,13 +22,13 @@ export const metadata = {
 
 export default async function RootLayout({ children }) {
   const cookie = await cookies();
-  const token = cookie.get(AUTH_TOKEN)?.value
+  const token = cookie.get(AUTH_TOKEN)?.value;
   return (
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased scroll-smooth`}
       >
-        <Navbar token={token}/>
+        <Navbar token={token} />
         {children}
         <ToastContainer />
       </body>

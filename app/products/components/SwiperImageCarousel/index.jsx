@@ -11,7 +11,7 @@ const images = [
   '/traditional-macrame-composition-indoors_317x449.jpg',
   '/Reviving_the_Beauty_of_Traditional_Practices_317x449.jpeg',
   '/young-woman-using-macrame-technique.jpg',
-  '/Reviving_the_Beauty_of_Traditional_Practices_317x449.jpeg'
+  '/Reviving_the_Beauty_of_Traditional_Practices_317x449.jpeg',
 ];
 
 export default function SwiperImageCarousel() {

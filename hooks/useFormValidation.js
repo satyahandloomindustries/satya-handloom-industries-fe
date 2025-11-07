@@ -6,29 +6,30 @@ const useFormValidation = (shape = {}) => {
   const [error, setError] = useState({});
   const schema = Yup.object().shape(shape);
   const validation = useCallback(
-     (data = {}) => 
-      schema.validate(data  , { abortEarly: false }).then(()=> ({invalid:false})).catch((err) => {
-        
-        const normalisedData = arrObjectMap(err.inner , 'path' , 'message')
-        setError(normalisedData)
-        return {normalisedData , invalid: true}
-      }
-      ),
+    (data = {}) =>
+      schema
+        .validate(data, { abortEarly: false })
+        .then(() => ({ invalid: false }))
+        .catch((err) => {
+          const normalisedData = arrObjectMap(err.inner, 'path', 'message');
+          setError(normalisedData);
+          return { normalisedData, invalid: true };
+        }),
     [shape]
   );
   const validateAt = useCallback(
     (path, value) => {
-
       return schema
-        .validateAt(path, { [path]: value }).then(()=>{
-          const newError  = {...error};
-          delete newError[path]
-          setError(newError)
-          return {invalid: false}
+        .validateAt(path, { [path]: value })
+        .then(() => {
+          const newError = { ...error };
+          delete newError[path];
+          setError(newError);
+          return { invalid: false };
         })
         .catch((err) => {
-          setError({ ...error, [path]: err.message })
-          return {invalid: true}
+          setError({ ...error, [path]: err.message });
+          return { invalid: true };
         });
     },
     [shape]

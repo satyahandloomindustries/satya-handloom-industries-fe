@@ -15,26 +15,29 @@ export const navbarRoutes = [
   { label: 'Blogs', value: '/blogs' },
   { label: 'ContactUs', value: '/contactUs' },
   {
-    label: 'Login',value: '/login' , hide: 'tokenPresent'
+    label: 'Login',
+    value: '/login',
+    hide: 'tokenPresent',
   },
   {
-    label: "Profile" , value: "/profile" , hide: 'tokenNotPresent'
+    label: 'Profile',
+    value: '/profile',
+    hide: 'tokenNotPresent',
   },
-
 ];
 
-const Navbar = ({token}) => {
+const Navbar = ({ token }) => {
   const pathname = usePathname();
-  const routes = navbarRoutes.filter((item)=> {
-    if(!item.hide) return true
-    
-    if(token && item.hide === 'tokenNotPresent') {
-        return true
-      }
-    if(!token && item.hide === 'tokenPresent' ){
-      return true
+  const routes = navbarRoutes.filter((item) => {
+    if (!item.hide) return true;
+
+    if (token && item.hide === 'tokenNotPresent') {
+      return true;
     }
-  })
+    if (!token && item.hide === 'tokenPresent') {
+      return true;
+    }
+  });
   return (
     <div className="grid grid-cols-[100px_1fr] gap-30 py-5 px-6 sticky top-0 z-40 bg-white">
       <ShiLogo />

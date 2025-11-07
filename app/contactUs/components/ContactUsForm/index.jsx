@@ -26,13 +26,12 @@ const ContactUsForm = () => {
   const sendEmail = async (e) => {
     e.preventDefault();
 
-    const formData = convertFormValues(form.current)
+    const formData = convertFormValues(form.current);
     const { invalid } = await validation(formData);
 
-
     if (invalid) {
-      showErrorToast("Please fill the required fields properly")
-      return
+      showErrorToast('Please fill the required fields properly');
+      return;
     }
 
     emailjs.sendForm(service_id, template_id, form.current, public_key).then(
@@ -54,7 +53,12 @@ const ContactUsForm = () => {
   return (
     <div className="flex flex-col items-start justify-center h-full p-6">
       <h1 className="text-xl font-bold mb-4">Tell Us Your Project</h1>
-      <form className="w-full max-w-lg" ref={form} onSubmit={sendEmail} autoComplete='off'>
+      <form
+        className="w-full max-w-lg"
+        ref={form}
+        onSubmit={sendEmail}
+        autoComplete="off"
+      >
         <div className="grid grid-cols-2 gap-6">
           <div>
             <input
@@ -70,7 +74,6 @@ const ContactUsForm = () => {
             <ErrorMessage message={error?.name} />
           </div>
           <div>
-
             <input
               type="phone"
               id="phone"
@@ -80,7 +83,6 @@ const ContactUsForm = () => {
               autoComplete="off"
               suppressHydrationWarning
               onChange={handleChange}
-
             />
             <ErrorMessage message={error?.phone} />
           </div>
@@ -94,7 +96,6 @@ const ContactUsForm = () => {
               autoComplete="off"
               suppressHydrationWarning
               onChange={handleChange}
-
             />
             <ErrorMessage message={error?.email} />
           </div>
@@ -108,10 +109,9 @@ const ContactUsForm = () => {
               autoComplete="off"
               suppressHydrationWarning
               onChange={handleChange}
-
             />
-            <ErrorMessage message={error?.subject} />          </div>
-
+            <ErrorMessage message={error?.subject} />{' '}
+          </div>
         </div>
 
         <div className="my-4">
@@ -122,7 +122,6 @@ const ContactUsForm = () => {
             rows={6}
             className=" appearance-none w-full p-3 text-sm text-gray-700 bg-gray-100 leading-tight focus:outline-none focus:-outline"
             onChange={handleChange}
-
           />
           <ErrorMessage message={error?.message} />
         </div>
