@@ -28,7 +28,6 @@ const ProductAdmin = () => {
     customSet,
     setSelectedSubCategory,
     subCategoriesDropdown,
-    getSubCategoriesSizes,
     createProduct,
   } = useProductAdmin();
 
@@ -41,20 +40,6 @@ const ProductAdmin = () => {
       .required('Code is required'),
     description: Yup.string().required('Description is required'),
   });
-
-  useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const response = await ApiService.get('/api/categories');
-        await getSubCategoriesSizes();
-        setAllCategories(response?.categories, response?.mainCategories);
-      } catch (err) {
-        console.error('Error fetching categories:', err);
-      }
-    };
-
-    fetchCategories();
-  }, []);
 
   const handleChange = (event) => {
     const { name, value } = event.target;

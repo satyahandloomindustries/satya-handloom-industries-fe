@@ -17,7 +17,7 @@ const useProductAdmin = create((set, get) => ({
   images: [],
   allCategories: {},
   categorySizes: [],
-  openPreview: true,
+  openPreview: false,
   previewUrls: [],
   setAllCategories: (allCategories = {}, mainCategories = []) => {
     const mainCategoriesDropdown = mainCategories.map(({ _id, name }) => ({
