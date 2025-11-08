@@ -8,6 +8,7 @@ import MyDropdown from '@/components/Dropdown';
 import MultiRenderer from '@/components/MultiRenderer';
 import Tag from '@/components/Tag';
 import useFormValidation from '@/hooks/useFormValidation';
+import ApiService from '@/services/ApiService';
 import useProductAdmin from '@/store/useProductAdmin';
 import { evd, filterClosure } from '@/utls';
 import { useEffect, useRef } from 'react';
@@ -27,39 +28,53 @@ const ProductAdmin = () => {
     setSelectedSubCategory,
     subCategoriesDropdown,
     createProduct,
+    createTemporaryProduct,
   } = useProductAdmin();
 
   const form = useRef();
 
-  const { validation, error, noError  ,validateAt} = useFormValidation({
+  const { validation, error, noError, validateAt } = useFormValidation({
     name: Yup.string().required('Name is required'),
     code: Yup.string()
       .min(2, 'Max length upto 2 characters')
       .required('Code is required'),
     description: Yup.array()
-      .of(Yup.string().required("Each item must be a string"))
-      .min(1, "At least one item is required"),
+      .of(Yup.string().required('Each item must be a string'))
+      .min(1, 'At least one item is required'),
     category: Yup.string().required('Category is required'),
     subCategory: Yup.string().required('Subcategory is required'),
     sizes: Yup.array()
-      .of(Yup.string().required("Each item must be a string"))
-      .min(1, "At least one item is required"),
+      .of(Yup.string().required('Each item must be a string'))
+      .min(1, 'At least one item is required'),
   });
 
-  
+  useEffect(() => {
+    const fetchTemporaryProduct = async () => {
+      try {
+        const {code , description , name , sizes , category , subCategory , categoryId ,subCategoryId} = await ApiService.get('api/temporary-product');
+        
+        customSet({code , description , name , sizes , selectedMainCategory : {label: category , value: categoryId}, selectedSubCategory: {label:subCategory ,value:subCategoryId }})
+      } catch (err) {}
+    };
+    fetchTemporaryProduct();
+  }, []);
 
-  const handleChange = async(event) => {
+  useEffect(()=>{
+    customSet({subCategoriesDropdown:subCategories?.[selectedMainCategory?.label] ?? []})
+  } , [subCategories])
+
+  const handleChange = async (event) => {
     const { name, value } = event.target;
-    await validateAt(name , value)
+    await validateAt(name, value);
     customSet({ [name]: value });
   };
 
-  const handleDescription = async(value) => {
+  const handleDescription = async (value) => {
     if (value?.length && !description.includes(value))
-      await validateAt("description" , [...description , value])
-      customSet({
-        description: [...description, value],
-      });
+      await validateAt('description', [...description, value]);
+    customSet({
+      description: [...description, value],
+    });
   };
 
   const handleClose = (value) => {
@@ -68,16 +83,25 @@ const ProductAdmin = () => {
   };
 
   const handleSubmit = evd(async (e) => {
+    const { invalid } = await validation({
+      name,
+      code,
+      description,
+      category: selectedMainCategory?.label,
+      subCategory: selectedSubCategory?.label,
+      sizes,
+    });
 
-    const { invalid, normalisedData } = await validation({
-      name, code, description, category: selectedMainCategory?.label, subCategory: selectedSubCategory?.label,
-      sizes
-    })
-
-    if (invalid) {
-      console.log(error, normalisedData)
+    if (!invalid) {
+      await createTemporaryProduct({
+        name,
+        code,
+        description,
+        category: selectedMainCategory?.value,
+        subCategory: selectedSubCategory?.value,
+        sizes,
+      });
     }
-
   });
 
   return (
@@ -96,9 +120,8 @@ const ProductAdmin = () => {
               <MyDropdown
                 items={mainCategoriesDropdown}
                 selected={selectedMainCategory}
-                setSelected={async(mainCategory) => {
-
-                  await validateAt("category" , mainCategory?.label)
+                setSelected={async (mainCategory) => {
+                  await validateAt('category', mainCategory?.label);
                   customSet({
                     selectedMainCategory: mainCategory,
                     subCategoriesDropdown:
@@ -114,15 +137,14 @@ const ProductAdmin = () => {
               <MyDropdown
                 items={subCategoriesDropdown}
                 selected={selectedSubCategory}
-                setSelected={async(subCategory)=>{
-                  await validateAt("subCategory" , subCategory?.label)
-                  setSelectedSubCategory(subCategory)
+                setSelected={async (subCategory) => {
+                  await validateAt('subCategory', subCategory?.label);
+                  setSelectedSubCategory(subCategory);
                 }}
                 placeholder="Choose product subcategory"
               />
 
               <ErrorMessage message={error?.subCategory} />
-
             </div>
 
             <div>
@@ -157,9 +179,9 @@ const ProductAdmin = () => {
 
           <AddComponentInput
             placeholder="Add product sizes"
-            onClick={async(value) => {
+            onClick={async (value) => {
               if (value?.length && !sizes.includes(value)) {
-                await validateAt("sizes" ,[...sizes, value] )
+                await validateAt('sizes', [...sizes, value]);
                 customSet({ sizes: [...sizes, value] });
               }
             }}
@@ -197,7 +219,7 @@ const ProductAdmin = () => {
           mainClassName="w-full"
           onClick={handleDescription}
         >
-        <ErrorMessage message={error?.description} />
+          <ErrorMessage message={error?.description} />
 
           <MultiRenderer
             rendererSet={description}

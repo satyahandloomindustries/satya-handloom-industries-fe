@@ -2,31 +2,25 @@ import mongoose from 'mongoose';
 
 const TemporaryProductSchema = new mongoose.Schema({
   name: String,
-  description: String,
-  productCode: String,
+  description: [String],
+  code: String,
   category: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Category',
     required: true,
   },
+  subCategory: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Category',
+    required: true,
+  },
   sizes: [String],
-  images: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Image',
-    },
-  ],
   createdAt: {
     type: Date,
     default: Date.now,
-    expires: 300, 
-  },
-  attributes: {
-    type: Map,
-    of: String,
-    default: {},
+    expires: 3000,
   },
 });
 
-export default mongoose.models.TemporaryProductSchema ||
+export default mongoose.models.TemporaryProduct ||
   mongoose.model('TemporaryProduct', TemporaryProductSchema);

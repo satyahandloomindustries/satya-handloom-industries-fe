@@ -1,6 +1,5 @@
 import ApiService from '@/services/ApiService';
 import useToast from '@/store/useToast';
-import { evd } from '@/utls';
 import axios from 'axios';
 import { create } from 'zustand';
 
@@ -50,7 +49,17 @@ const useProductAdmin = create((set, get) => ({
       set({ categorySizes });
     } catch (err) {}
   },
-  createProduct: evd(async () => {
+  createTemporaryProduct: async (data) => {
+    const { showErrorToast, showSuccessToast } = useToast.getState();
+    try {
+      const temporary = await ApiService.post('/api/temporary-product', data);
+      showSuccessToast(temporary.message);
+      return temporary;
+    } catch (err) {
+      showErrorToast(err.message);
+    }
+  },
+  createProduct: async () => {
     const formData = new FormData();
     const { showErrorToast } = useToast.getState();
     const imgs = get().images;
@@ -80,7 +89,7 @@ const useProductAdmin = create((set, get) => ({
     } catch (err) {
       showErrorToast(err.message);
     }
-  }),
+  },
 }));
 
 export default useProductAdmin;

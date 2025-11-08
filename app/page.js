@@ -30,7 +30,6 @@ const twoLiner = [
   },
 ];
 export default function Home() {
-
   return (
     <div>
       <CarouselHomepage />

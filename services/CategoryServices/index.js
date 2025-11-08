@@ -20,11 +20,12 @@ export const getMainCategoryByName = async (name) => {
 
 export const findMainCategory = async (parent) => {
   try {
-    return await Categories.findById({ parent });
+    return await Categories.findById( parent );
   } catch (err) {
     throw new Error('Failed to fetch the category');
   }
 };
+
 
 export const mainCategoryExists = async (parent) => {
   if (!parent) return false;

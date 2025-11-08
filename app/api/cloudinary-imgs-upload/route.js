@@ -31,10 +31,8 @@ export async function POST(request) {
   try {
     const uploadedUrls = await Promise.all(uploadPromises);
 
-    console.log('111111', uploadedUrls);
 
     const files = multipleImagesCheck(uploadedUrls);
-    console.log(files, '888888');
 
     return NextResponse.json({ urls: uploadedUrls });
   } catch (error) {
