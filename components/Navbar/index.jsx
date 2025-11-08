@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation';
 import React from 'react';
 import styles from '@/components/Navbar/index.module.css';
 import ShiLogo from '@/components/ShiLogo';
+import useInitApp from '@/hooks/useInitApp';
 
 export const navbarRoutes = [
   { label: 'Home', value: '/' },
@@ -27,6 +28,7 @@ export const navbarRoutes = [
 ];
 
 const Navbar = ({ token }) => {
+  useInitApp();
   const pathname = usePathname();
   const routes = navbarRoutes.filter((item) => {
     if (!item.hide) return true;

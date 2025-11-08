@@ -16,6 +16,11 @@ const TemporaryProductSchema = new mongoose.Schema({
       ref: 'Image',
     },
   ],
+  createdAt: {
+    type: Date,
+    default: Date.now,
+    expires: 300, 
+  },
   attributes: {
     type: Map,
     of: String,

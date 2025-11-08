@@ -21,7 +21,7 @@ const useFormValidation = (shape = {}) => {
     (path, value) => {
       return schema
         .validateAt(path, { [path]: value })
-        .then(() => {
+        .then(() => {          
           const newError = { ...error };
           delete newError[path];
           setError(newError);

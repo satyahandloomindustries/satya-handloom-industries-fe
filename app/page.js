@@ -5,7 +5,6 @@ import ContactUsFooter from '@/components/ContactUsFooter';
 import MultiRenderer from '@/components/MultiRenderer';
 import ProductCarousel from '@/components/ProductCarousel';
 import TwoLiner from '@/components/TwoLiner';
-import useInitApp from '@/hooks/useInitApp';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 const twoLiner = [
@@ -32,7 +31,6 @@ const twoLiner = [
 ];
 export default function Home() {
 
-  useInitApp();
   return (
     <div>
       <CarouselHomepage />

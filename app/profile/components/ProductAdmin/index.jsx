@@ -8,9 +8,8 @@ import MyDropdown from '@/components/Dropdown';
 import MultiRenderer from '@/components/MultiRenderer';
 import Tag from '@/components/Tag';
 import useFormValidation from '@/hooks/useFormValidation';
-import ApiService from '@/services/ApiService';
 import useProductAdmin from '@/store/useProductAdmin';
-import { filterClosure } from '@/utls';
+import { evd, filterClosure } from '@/utls';
 import { useEffect, useRef } from 'react';
 import * as Yup from 'yup';
 
@@ -21,7 +20,6 @@ const ProductAdmin = () => {
     description,
     subCategories,
     sizes,
-    setAllCategories,
     mainCategoriesDropdown,
     selectedMainCategory,
     selectedSubCategory,
@@ -33,21 +31,32 @@ const ProductAdmin = () => {
 
   const form = useRef();
 
-  const { validation, error, noError, validateAt } = useFormValidation({
+  const { validation, error, noError  ,validateAt} = useFormValidation({
     name: Yup.string().required('Name is required'),
     code: Yup.string()
-      .min(5, 'Max length upto 5 characters')
+      .min(2, 'Max length upto 2 characters')
       .required('Code is required'),
-    description: Yup.string().required('Description is required'),
+    description: Yup.array()
+      .of(Yup.string().required("Each item must be a string"))
+      .min(1, "At least one item is required"),
+    category: Yup.string().required('Category is required'),
+    subCategory: Yup.string().required('Subcategory is required'),
+    sizes: Yup.array()
+      .of(Yup.string().required("Each item must be a string"))
+      .min(1, "At least one item is required"),
   });
 
-  const handleChange = (event) => {
+  
+
+  const handleChange = async(event) => {
     const { name, value } = event.target;
+    await validateAt(name , value)
     customSet({ [name]: value });
   };
 
-  const handleDescription = (value) => {
+  const handleDescription = async(value) => {
     if (value?.length && !description.includes(value))
+      await validateAt("description" , [...description , value])
       customSet({
         description: [...description, value],
       });
@@ -58,9 +67,18 @@ const ProductAdmin = () => {
     customSet({ description: [...filteredDescription] });
   };
 
-  const handleSubmit = async (e) => {
-    await createProduct(e);
-  };
+  const handleSubmit = evd(async (e) => {
+
+    const { invalid, normalisedData } = await validation({
+      name, code, description, category: selectedMainCategory?.label, subCategory: selectedSubCategory?.label,
+      sizes
+    })
+
+    if (invalid) {
+      console.log(error, normalisedData)
+    }
+
+  });
 
   return (
     <div>
@@ -73,29 +91,39 @@ const ProductAdmin = () => {
           onSubmit={handleSubmit}
           autoComplete="off"
         >
-          <div className="grid grid-cols-2 gap-6">
-            <MyDropdown
-              items={mainCategoriesDropdown}
-              selected={selectedMainCategory}
-              setSelected={(mainCategory) => {
-                customSet({
-                  selectedMainCategory: mainCategory,
-                  subCategoriesDropdown:
-                    subCategories?.[mainCategory?.label] ?? [],
-                  selectedSubCategory: null,
-                  selectedSizes: null,
-                  sizes: [],
-                });
-              }}
-              placeholder="Choose product category"
-            />
+          <div className="grid grid-cols-2 gap-x-6 gap-y-2 mb-2">
+            <div>
+              <MyDropdown
+                items={mainCategoriesDropdown}
+                selected={selectedMainCategory}
+                setSelected={async(mainCategory) => {
 
-            <MyDropdown
-              items={subCategoriesDropdown}
-              selected={selectedSubCategory}
-              setSelected={setSelectedSubCategory}
-              placeholder="Choose product subcategory"
-            />
+                  await validateAt("category" , mainCategory?.label)
+                  customSet({
+                    selectedMainCategory: mainCategory,
+                    subCategoriesDropdown:
+                      subCategories?.[mainCategory?.label] ?? [],
+                    selectedSubCategory: null,
+                  });
+                }}
+                placeholder="Choose product category"
+              />
+              <ErrorMessage message={error?.category} />
+            </div>
+            <div>
+              <MyDropdown
+                items={subCategoriesDropdown}
+                selected={selectedSubCategory}
+                setSelected={async(subCategory)=>{
+                  await validateAt("subCategory" , subCategory?.label)
+                  setSelectedSubCategory(subCategory)
+                }}
+                placeholder="Choose product subcategory"
+              />
+
+              <ErrorMessage message={error?.subCategory} />
+
+            </div>
 
             <div>
               <input
@@ -129,13 +157,14 @@ const ProductAdmin = () => {
 
           <AddComponentInput
             placeholder="Add product sizes"
-            mainClassName="mb-6"
-            onClick={(value) => {
+            onClick={async(value) => {
               if (value?.length && !sizes.includes(value)) {
+                await validateAt("sizes" ,[...sizes, value] )
                 customSet({ sizes: [...sizes, value] });
               }
             }}
           >
+            <ErrorMessage message={error?.sizes} />
             <div className="flex flex-wrap gap-2 mb-4 pr-2">
               {sizes.map((size, index) => (
                 <Tag
@@ -168,6 +197,8 @@ const ProductAdmin = () => {
           mainClassName="w-full"
           onClick={handleDescription}
         >
+        <ErrorMessage message={error?.description} />
+
           <MultiRenderer
             rendererSet={description}
             Component={DescriptionText}

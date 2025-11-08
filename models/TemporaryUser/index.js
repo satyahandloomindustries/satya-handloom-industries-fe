@@ -15,7 +15,7 @@ const TemporaryUserSchema = new mongoose.Schema({
   createdAt: {
     type: Date,
     default: Date.now,
-    expires: 300, // document auto-deletes after 5 minutes
+    expires: 300, 
   },
 });
 
