@@ -15,14 +15,15 @@ const ModalWrapper = ({
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
     >
+    
       <Box
-        className={`${mainClassname} absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] bg-white shadow-2xl outline-none rounded min-w-[60%] min-h-[70%] p-2 overflow-h-scroll flex flex-row-reverse justify-between relative`}
+        className={`top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] bg-white shadow-2xl outline-none rounded min-w-[60%] min-h-[70%] p-2 overflow-h-scroll flex flex-row-reverse justify-between relative ${mainClassname} `}
       >
         {children}
 
         <IoCloseCircleOutline
           onClick={handleClose}
-          className="absolute -right-0 -top-0 text-2xl cursor-pointer"
+          className="fixed -right-0 -top-0 text-2xl cursor-pointer"
         />
       </Box>
     </Modal>

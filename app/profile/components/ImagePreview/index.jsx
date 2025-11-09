@@ -2,11 +2,26 @@
 import ModalWrapper from '@/components/Modal';
 import MultiRenderer from '@/components/MultiRenderer';
 import useProductAdmin from '@/store/useProductAdmin';
+import { filterClosure } from '@/utls';
+import { TiDelete } from 'react-icons/ti';
+
 
 const Preview = ({ item }) => {
+  const {images , customSet} = useProductAdmin()
+  const onClose = ()=>{
+    const filteredImgs = filterClosure(item)(images);
+    customSet({images: filteredImgs})
+  }
+  
   return (
-    <div>
-      <img src={URL.createObjectURL(item)} className="object-cover h-full" />
+    <div className='relative hover:border-4'>
+      <img src={URL.createObjectURL(item)} className="object-cover w-200 h-full" />
+      <button className='absolute top-0 left-0'>
+       <TiDelete
+          className="ml-2 cursor-pointer"
+          onClick={onClose}
+        />
+      </button>
     </div>
   );
 };
@@ -20,11 +35,11 @@ const ImagePreview = () => {
       handleClose={() => {
         customSet({ openPreview: false });
       }}
-      mainClassname="overflow-y-auto"
+      mainClassname="overflow-scroll h-[80%] pt-6"
     >
       {images?.length ? (
         <MultiRenderer
-          mainClassName="grid grid-cols-4 grid-rows-3 gap-4"
+          mainClassName="grid grid-cols-3 grid-rows-auto gap-4"
           Component={Preview}
           spreadProps={false}
           rendererSet={images}

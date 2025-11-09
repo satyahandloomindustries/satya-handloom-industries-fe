@@ -5,10 +5,12 @@ import ImagePreview from '@/app/profile/components/ImagePreview';
 import MultipleImageUpload from '@/app/profile/components/MultipleImageUpload';
 import AddComponentInput from '@/components/AddComponentInput';
 import MyDropdown from '@/components/Dropdown';
+import Loader from '@/components/Loader';
 import MultiRenderer from '@/components/MultiRenderer';
 import Tag from '@/components/Tag';
 import useFormValidation from '@/hooks/useFormValidation';
 import ApiService from '@/services/ApiService';
+import useLoading from '@/store/useLoading';
 import useProductAdmin from '@/store/useProductAdmin';
 import { evd, filterClosure } from '@/utls';
 import { useEffect, useRef } from 'react';
@@ -30,6 +32,7 @@ const ProductAdmin = () => {
     createProduct,
     createTemporaryProduct,
   } = useProductAdmin();
+  const { loading, setLoading } = useLoading()
 
   const form = useRef();
 
@@ -51,17 +54,20 @@ const ProductAdmin = () => {
   useEffect(() => {
     const fetchTemporaryProduct = async () => {
       try {
-        const {code , description , name , sizes , category , subCategory , categoryId ,subCategoryId} = await ApiService.get('api/temporary-product');
-        
-        customSet({code , description , name , sizes , selectedMainCategory : {label: category , value: categoryId}, selectedSubCategory: {label:subCategory ,value:subCategoryId }})
-      } catch (err) {}
+        const { code, description, name, sizes, category, subCategory, categoryId, subCategoryId, ...rest } = await ApiService.get('api/temporary-product');
+        console.log(rest);
+
+        customSet({ code, description, name, sizes, selectedMainCategory: { label: category, value: categoryId }, selectedSubCategory: { label: subCategory, value: subCategoryId } })
+      } catch (err) {
+
+      }
     };
     fetchTemporaryProduct();
   }, []);
 
-  useEffect(()=>{
-    customSet({subCategoriesDropdown:subCategories?.[selectedMainCategory?.label] ?? []})
-  } , [subCategories])
+  useEffect(() => {
+    customSet({ subCategoriesDropdown: subCategories?.[selectedMainCategory?.label] ?? [] })
+  }, [subCategories])
 
   const handleChange = async (event) => {
     const { name, value } = event.target;
@@ -92,7 +98,8 @@ const ProductAdmin = () => {
       sizes,
     });
 
-    if (!invalid) {
+    if (!invalid && !loading) {
+      setLoading(true)
       await createTemporaryProduct({
         name,
         code,
@@ -101,8 +108,12 @@ const ProductAdmin = () => {
         subCategory: selectedSubCategory?.value,
         sizes,
       });
+
+      setLoading(false);
     }
   });
+
+  const buttonLabel = 'Create product'
 
   return (
     <div>
@@ -207,10 +218,10 @@ const ProductAdmin = () => {
             <button
               suppressHydrationWarning
               type="submit"
-              className="bg-shi_brown text-white  py-3 px-6 font-thin text-sm focus:outline-none focus:-outline ml-auto"
-              disabled={!noError}
+              className="bg-shi_brown text-white w py-3 px-6 font-thin text-sm focus:outline-none focus:-outline ml-auto"
+              disabled={!noError || loading}
             >
-              Create product
+              <Loader loading={loading} text={buttonLabel} />
             </button>
           </div>
         </form>
