@@ -12,6 +12,7 @@ import useFormValidation from '@/hooks/useFormValidation';
 import ApiService from '@/services/ApiService';
 import useLoading from '@/store/useLoading';
 import useProductAdmin from '@/store/useProductAdmin';
+import useToast from '@/store/useToast';
 import { evd, filterClosure } from '@/utls';
 import { useEffect, useRef } from 'react';
 import * as Yup from 'yup';
@@ -31,8 +32,11 @@ const ProductAdmin = () => {
     subCategoriesDropdown,
     createProduct,
     createTemporaryProduct,
+    uploadImagesToCloudinary,
+    images
   } = useProductAdmin();
-  const { loading, setLoading } = useLoading()
+  const { loading, setLoading } = useLoading();
+  const { showErrorToast } = useToast();
 
   const form = useRef();
 
@@ -54,20 +58,54 @@ const ProductAdmin = () => {
   useEffect(() => {
     const fetchTemporaryProduct = async () => {
       try {
-        const { code, description, name, sizes, category, subCategory, categoryId, subCategoryId, ...rest } = await ApiService.get('api/temporary-product');
-        console.log(rest);
-
-        customSet({ code, description, name, sizes, selectedMainCategory: { label: category, value: categoryId }, selectedSubCategory: { label: subCategory, value: subCategoryId } })
+        const {
+          code,
+          description,
+          name,
+          sizes,
+          category,
+          subCategory,
+          categoryId,
+          subCategoryId,
+          ...rest
+        } = await ApiService.get('api/temporary-product');
+        
+        
+        customSet({
+          code,
+          description,
+          name,
+          sizes,
+          selectedMainCategory: { label: category, value: categoryId },
+          selectedSubCategory: { label: subCategory, value: subCategoryId },
+        });
       } catch (err) {
-
+        console.log(err)
+        err.status != 404
+          ? showErrorToast(err.response.message ?? err.message)
+          : null;
       }
     };
+
+    const fetchTemporaryImages = async()=>{
+      try{
+        const {images = []} = await ApiService.get('api/temporary-images');
+        customSet({images})
+      }
+      catch(err){
+        console.log(err)
+      }
+    }
+
     fetchTemporaryProduct();
+    fetchTemporaryImages();
   }, []);
 
   useEffect(() => {
-    customSet({ subCategoriesDropdown: subCategories?.[selectedMainCategory?.label] ?? [] })
-  }, [subCategories])
+    customSet({
+      subCategoriesDropdown: subCategories?.[selectedMainCategory?.label] ?? [],
+    });
+  }, [subCategories]);
 
   const handleChange = async (event) => {
     const { name, value } = event.target;
@@ -99,7 +137,7 @@ const ProductAdmin = () => {
     });
 
     if (!invalid && !loading) {
-      setLoading(true)
+      setLoading(true);
       await createTemporaryProduct({
         name,
         code,
@@ -113,7 +151,7 @@ const ProductAdmin = () => {
     }
   });
 
-  const buttonLabel = 'Create product'
+  const buttonLabel = 'Create product';
 
   return (
     <div>
@@ -215,14 +253,35 @@ const ProductAdmin = () => {
 
           <div className="flex justify-between items-center">
             <MultipleImageUpload items={sizes} />
-            <button
+          </div>
+
+          <div className='flex justify-between items-center mt-6'>
+          <button
               suppressHydrationWarning
               type="submit"
-              className="bg-shi_brown text-white w py-3 px-6 font-thin text-sm focus:outline-none focus:-outline ml-auto"
+              className="bg-shi_brown text-white w py-3 px-6 font-thin text-sm focus:outline-none focus:-outline disabled:bg-gray-300 disabled:text-gray-400"
               disabled={!noError || loading}
+            >
+              <Loader loading={loading} text="Create prototype" />
+            </button>
+            <button
+              suppressHydrationWarning
+              type="button"
+              className="bg-shi_brown text-white w py-3 px-6 font-thin text-sm focus:outline-none focus:-outline disabled:bg-gray-300 disabled:text-gray-400"
+              disabled={!images.length || loading || !selectedMainCategory}
+              onClick={uploadImagesToCloudinary}
+            >
+              <Loader loading={loading} text="Upload images" />
+            </button>
+            <button
+              suppressHydrationWarning
+              type="button"
+              className="bg-shi_brown text-white w py-3 px-6 font-thin text-sm focus:outline-none focus:-outline disabled:bg-gray-300 disabled:text-gray-400"
+              disabled={!images.length || !noError || loading}
             >
               <Loader loading={loading} text={buttonLabel} />
             </button>
+
           </div>
         </form>
         <AddComponentInput

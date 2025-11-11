@@ -59,7 +59,7 @@ const useProductAdmin = create((set, get) => ({
       showErrorToast(err.message);
     }
   },
-  createProduct: async () => {
+  uploadImagesToCloudinary: async () => {
     const formData = new FormData();
     const { showErrorToast } = useToast.getState();
     const imgs = get().images;
@@ -75,6 +75,7 @@ const useProductAdmin = create((set, get) => ({
           withCredentials: true,
         }
       );
+
       if (response.status === 200) {
         set({
           images: [],
@@ -86,8 +87,10 @@ const useProductAdmin = create((set, get) => ({
           sizes: [],
         });
       }
+      return response;
     } catch (err) {
       showErrorToast(err.message);
+      return err.response;
     }
   },
 }));

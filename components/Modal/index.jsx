@@ -15,7 +15,6 @@ const ModalWrapper = ({
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
     >
-    
       <Box
         className={`top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] bg-white shadow-2xl outline-none rounded min-w-[60%] min-h-[70%] p-2 overflow-h-scroll flex flex-row-reverse justify-between relative ${mainClassname} `}
       >

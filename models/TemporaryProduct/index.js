@@ -15,6 +15,13 @@ const TemporaryProductSchema = new mongoose.Schema({
     required: true,
   },
   sizes: [String],
+  images: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'TemporaryImages',
+      default: [],
+    },
+  ],
   createdAt: {
     type: Date,
     default: Date.now,
