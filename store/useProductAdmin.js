@@ -49,13 +49,23 @@ const useProductAdmin = create((set, get) => ({
       set({ categorySizes });
     } catch (err) {}
   },
-  createTemporaryProduct: async (data) => {
+  createTemporaryProduct: async () => {
     const { showErrorToast, showSuccessToast } = useToast.getState();
+    const {name , code , description , selectedMainCategory , selectedSubCategory , sizes} = get()
+    const data = {
+      name,
+      code,
+      description,
+      sizes,
+      category: selectedMainCategory?.value,
+      subCategory: selectedSubCategory?.value
+    }
     try {
       const temporary = await ApiService.post('/api/temporary-product', data);
       showSuccessToast(temporary.message);
+      set({productPrototype : true})
       return temporary;
-    } catch (err) {
+    } catch (err) {      
       showErrorToast(err.message);
     }
   },
@@ -78,13 +88,7 @@ const useProductAdmin = create((set, get) => ({
 
       if (response.status === 200) {
         set({
-          images: [],
-          name: '',
-          code: '',
-          description: [],
-          selectedMainCategory: null,
-          selectedSubCategory: null,
-          sizes: [],
+          productImages: true,
         });
       }
       return response;

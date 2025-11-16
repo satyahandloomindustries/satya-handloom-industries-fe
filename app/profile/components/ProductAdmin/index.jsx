@@ -33,6 +33,8 @@ const ProductAdmin = () => {
     createProduct,
     createTemporaryProduct,
     uploadImagesToCloudinary,
+    productPrototype,
+    productImages,
     images
   } = useProductAdmin();
   const { loading, setLoading } = useLoading();
@@ -78,9 +80,9 @@ const ProductAdmin = () => {
           sizes,
           selectedMainCategory: { label: category, value: categoryId },
           selectedSubCategory: { label: subCategory, value: subCategoryId },
+          productPrototype: true
         });
       } catch (err) {
-        console.log(err)
         err.status != 404
           ? showErrorToast(err.response.message ?? err.message)
           : null;
@@ -90,10 +92,9 @@ const ProductAdmin = () => {
     const fetchTemporaryImages = async()=>{
       try{
         const {images = []} = await ApiService.get('api/temporary-images');
-        customSet({images})
+        customSet({images , productImages : !!images?.length})
       }
       catch(err){
-        console.log(err)
       }
     }
 
@@ -122,11 +123,12 @@ const ProductAdmin = () => {
   };
 
   const handleClose = (value) => {
+    if(productPrototype) return 
     const filteredDescription = filterClosure(value)(description);
     customSet({ description: [...filteredDescription] });
   };
 
-  const handleSubmit = evd(async (e) => {
+  const handleSubmit = async () => {
     const { invalid } = await validation({
       name,
       code,
@@ -138,21 +140,47 @@ const ProductAdmin = () => {
 
     if (!invalid && !loading) {
       setLoading(true);
-      await createTemporaryProduct({
-        name,
-        code,
-        description,
-        category: selectedMainCategory?.value,
-        subCategory: selectedSubCategory?.value,
-        sizes,
-      });
-
+      await createTemporaryProduct();
       setLoading(false);
     }
-  });
+  }
 
-  const buttonLabel = 'Create product';
+  const handleUploadImages = async ()=>{
+    setLoading(true);
+    await uploadImagesToCloudinary();
+    setLoading(false);
+  }
 
+  const { buttonLabel, disabled, btnClick } = (() => {
+    const hasPrototype = Boolean(productPrototype);
+    const hasImages = productImages;
+    
+    const isBothReady = hasPrototype && hasImages;
+  
+    if (isBothReady) {
+      return {
+        buttonLabel: "Create Product",
+        disabled: loading,
+        btnClick: createProduct,
+      };
+    }
+  
+    if (hasPrototype) {
+      return {
+        buttonLabel: "Upload Images",
+        disabled: loading || !images?.length,
+        btnClick: handleUploadImages,
+      };
+    }
+  
+    return {
+      buttonLabel: "Create Prototype",
+      disabled: loading || !noError,
+      btnClick: handleSubmit
+    };
+  })();
+
+    
   return (
     <div>
       <h1 className="text-4xl mb-8">Create a new product</h1>
@@ -161,7 +189,6 @@ const ProductAdmin = () => {
         <form
           className="w-full max-w-lg"
           ref={form}
-          onSubmit={handleSubmit}
           autoComplete="off"
         >
           <div className="grid grid-cols-2 gap-x-6 gap-y-2 mb-2">
@@ -179,6 +206,7 @@ const ProductAdmin = () => {
                   });
                 }}
                 placeholder="Choose product category"
+                dropdownDisabled={productPrototype}
               />
               <ErrorMessage message={error?.category} />
             </div>
@@ -191,6 +219,7 @@ const ProductAdmin = () => {
                   setSelectedSubCategory(subCategory);
                 }}
                 placeholder="Choose product subcategory"
+                dropdownDisabled={productPrototype}
               />
 
               <ErrorMessage message={error?.subCategory} />
@@ -207,6 +236,7 @@ const ProductAdmin = () => {
                 onChange={handleChange}
                 autoComplete="off"
                 suppressHydrationWarning
+                disabled={productPrototype}
               />
               <ErrorMessage message={error?.name} />
             </div>
@@ -221,6 +251,7 @@ const ProductAdmin = () => {
                 autoComplete="off"
                 suppressHydrationWarning
                 onChange={handleChange}
+                disabled={productPrototype}
               />
               <ErrorMessage message={error?.code} />
             </div>
@@ -234,14 +265,16 @@ const ProductAdmin = () => {
                 customSet({ sizes: [...sizes, value] });
               }
             }}
+            disabled={productPrototype}
           >
             <ErrorMessage message={error?.sizes} />
             <div className="flex flex-wrap gap-2 mb-4 pr-2">
-              {sizes.map((size, index) => (
+              {sizes?.map((size, index) => (
                 <Tag
                   key={index}
                   label={size}
                   onClose={() => {
+                    if(productPrototype) return 
                     const filterSizes = filterClosure(size)(sizes);
                     customSet({ sizes: filterSizes });
                   }}
@@ -253,41 +286,23 @@ const ProductAdmin = () => {
 
           <div className="flex justify-between items-center">
             <MultipleImageUpload items={sizes} />
-          </div>
-
-          <div className='flex justify-between items-center mt-6'>
-          <button
-              suppressHydrationWarning
-              type="submit"
-              className="bg-shi_brown text-white w py-3 px-6 font-thin text-sm focus:outline-none focus:-outline disabled:bg-gray-300 disabled:text-gray-400"
-              disabled={!noError || loading}
-            >
-              <Loader loading={loading} text="Create prototype" />
-            </button>
             <button
               suppressHydrationWarning
               type="button"
+              onClick={btnClick}
               className="bg-shi_brown text-white w py-3 px-6 font-thin text-sm focus:outline-none focus:-outline disabled:bg-gray-300 disabled:text-gray-400"
-              disabled={!images.length || loading || !selectedMainCategory}
-              onClick={uploadImagesToCloudinary}
-            >
-              <Loader loading={loading} text="Upload images" />
-            </button>
-            <button
-              suppressHydrationWarning
-              type="button"
-              className="bg-shi_brown text-white w py-3 px-6 font-thin text-sm focus:outline-none focus:-outline disabled:bg-gray-300 disabled:text-gray-400"
-              disabled={!images.length || !noError || loading}
+              disabled={disabled || loading}
             >
               <Loader loading={loading} text={buttonLabel} />
             </button>
-
           </div>
+
         </form>
         <AddComponentInput
           placeholder="Add product description"
           mainClassName="w-full"
           onClick={handleDescription}
+          disabled={productPrototype}
         >
           <ErrorMessage message={error?.description} />
 

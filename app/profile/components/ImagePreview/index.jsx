@@ -9,11 +9,11 @@ import { filterClosure } from '@/utls';
 import { TiDelete } from 'react-icons/ti';
 
 const Preview = ({ item }) => {
-  const { images, customSet } = useProductAdmin();
+  const { images, customSet , productImages } = useProductAdmin();
   const src = item?.url ? item.url : URL.createObjectURL(item)
   const onClose = () => {
     const filteredImgs = filterClosure(item)(images);
-    customSet({ images: filteredImgs });
+    customSet({ images: filteredImgs , openPreview : !!filteredImgs?.length});
   };  
 
   return (
@@ -22,15 +22,15 @@ const Preview = ({ item }) => {
         src={src}
         className="object-cover w-200 h-full"
       />
-      <button className="absolute top-0 left-0">
+      {!productImages ? <button className="absolute top-0 left-0">
         <TiDelete className="ml-2 cursor-pointer" onClick={onClose} />
-      </button>
+      </button> : null}
     </div>
   );
 };
 
 const ImagePreview = () => {
-  const { openPreview, customSet, images, uploadImagesToCloudinary } =
+  const { openPreview, customSet, images, uploadImagesToCloudinary , productImages } =
     useProductAdmin();
   const { showSuccessToast } = useToast();
   const { loading, setLoading } = useLoading();
@@ -66,7 +66,8 @@ const ImagePreview = () => {
 
       <button
         onClick={handleUpload}
-        className="w-fit bg-shi_brown text-white text-sm px-4 py-3 mt-4 min-w-[250px]"
+        className={`w-fit text-white text-sm px-4 py-3 mt-4 min-w-[250px] ${!productImages ? 'bg-shi_brown' : 'bg-gray-300 cursor-not-allowed text-bg-gray-400'}`}
+        disabled={!images?.length || !!productImages}
       >
         <Loader loading={loading} text="Upload images" />
       </button>
