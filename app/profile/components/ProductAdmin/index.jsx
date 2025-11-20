@@ -35,7 +35,8 @@ const ProductAdmin = () => {
     uploadImagesToCloudinary,
     productPrototype,
     productImages,
-    images
+    images,
+    createFinalProduct
   } = useProductAdmin();
   const { loading, setLoading } = useLoading();
   const { showErrorToast } = useToast();
@@ -71,8 +72,7 @@ const ProductAdmin = () => {
           subCategoryId,
           ...rest
         } = await ApiService.get('api/temporary-product');
-        
-        
+
         customSet({
           code,
           description,
@@ -80,23 +80,21 @@ const ProductAdmin = () => {
           sizes,
           selectedMainCategory: { label: category, value: categoryId },
           selectedSubCategory: { label: subCategory, value: subCategoryId },
-          productPrototype: true
+          productPrototype: true,
         });
       } catch (err) {
         err.status != 404
-          ? showErrorToast(err.response.message ?? err.message)
+          ? showErrorToast(err?.response?.message ?? err.message)
           : null;
       }
     };
 
-    const fetchTemporaryImages = async()=>{
-      try{
-        const {images = []} = await ApiService.get('api/temporary-images');
-        customSet({images , productImages : !!images?.length})
-      }
-      catch(err){
-      }
-    }
+    const fetchTemporaryImages = async () => {
+      try {
+        const { images = [] } = await ApiService.get('api/temporary-images');
+        customSet({ images, productImages: !!images?.length });
+      } catch (err) {}
+    };
 
     fetchTemporaryProduct();
     fetchTemporaryImages();
@@ -123,7 +121,7 @@ const ProductAdmin = () => {
   };
 
   const handleClose = (value) => {
-    if(productPrototype) return 
+    if (productPrototype) return;
     const filteredDescription = filterClosure(value)(description);
     customSet({ description: [...filteredDescription] });
   };
@@ -143,54 +141,55 @@ const ProductAdmin = () => {
       await createTemporaryProduct();
       setLoading(false);
     }
-  }
+  };
 
-  const handleUploadImages = async ()=>{
+  const handleUploadImages = async () => {
     setLoading(true);
     await uploadImagesToCloudinary();
+    setLoading(false);
+  };
+
+  const handleCreateProduct  = async ()=>{
+    setLoading(true);
+    await createFinalProduct();
     setLoading(false);
   }
 
   const { buttonLabel, disabled, btnClick } = (() => {
     const hasPrototype = Boolean(productPrototype);
     const hasImages = productImages;
-    
+
     const isBothReady = hasPrototype && hasImages;
-  
+
     if (isBothReady) {
       return {
-        buttonLabel: "Create Product",
+        buttonLabel: 'Create Product',
         disabled: loading,
-        btnClick: createProduct,
+        btnClick: handleCreateProduct,
       };
     }
-  
+
     if (hasPrototype) {
       return {
-        buttonLabel: "Upload Images",
+        buttonLabel: 'Upload Images',
         disabled: loading || !images?.length,
         btnClick: handleUploadImages,
       };
     }
-  
+
     return {
-      buttonLabel: "Create Prototype",
+      buttonLabel: 'Create Prototype',
       disabled: loading || !noError,
-      btnClick: handleSubmit
+      btnClick: handleSubmit,
     };
   })();
 
-    
   return (
     <div>
       <h1 className="text-4xl mb-8">Create a new product</h1>
 
       <div className="flex flex-row gap-6">
-        <form
-          className="w-full max-w-lg"
-          ref={form}
-          autoComplete="off"
-        >
+        <form className="w-full max-w-lg" ref={form} autoComplete="off">
           <div className="grid grid-cols-2 gap-x-6 gap-y-2 mb-2">
             <div>
               <MyDropdown
@@ -229,7 +228,7 @@ const ProductAdmin = () => {
               <input
                 type="text"
                 name="name"
-                value={name}
+                value={name ?? ''}
                 id="name"
                 placeholder="Product name*"
                 className="appearance-none w-full p-3 text-sm text-gray-700 bg-gray-100 leading-tight focus:outline-none focus:-outline"
@@ -274,7 +273,7 @@ const ProductAdmin = () => {
                   key={index}
                   label={size}
                   onClose={() => {
-                    if(productPrototype) return 
+                    if (productPrototype) return;
                     const filterSizes = filterClosure(size)(sizes);
                     customSet({ sizes: filterSizes });
                   }}
@@ -296,7 +295,6 @@ const ProductAdmin = () => {
               <Loader loading={loading} text={buttonLabel} />
             </button>
           </div>
-
         </form>
         <AddComponentInput
           placeholder="Add product description"

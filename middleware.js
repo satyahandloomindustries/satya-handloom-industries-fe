@@ -26,5 +26,5 @@ export async function middleware(req) {
 }
 
 export const config = {
-  matcher: ['/api/:path*'], // protected routes
+  matcher: ['/api/:path*', '/profile'], // protected routes
 };

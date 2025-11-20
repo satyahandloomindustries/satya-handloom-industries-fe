@@ -54,3 +54,14 @@ export const fetchAllTemporaryImages = async () => {
     throw new Error('Failed to fetch temporary images');
   }
 };
+
+
+export const createProductImages = async()=>{
+  try{
+    const temporaryImages = await TemporaryImages.find({}).lean();
+    const productImages = await ProductImages.insertMany(temporaryImages);
+    return productImages
+  } catch(err){
+    throw new Error('Failed to create productImages')
+  }
+}

@@ -2,9 +2,14 @@ import mongoose from 'mongoose';
 
 const ProductSchema = new mongoose.Schema({
   name: String,
-  description: String,
-  productCode: String,
+  description: [String],
+  code: String,
   category: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Category',
+    required: true,
+  },
+  subCategory: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Category',
     required: true,
@@ -23,5 +28,5 @@ const ProductSchema = new mongoose.Schema({
   },
 });
 
-export default mongoose.models.ProductSchema ||
+export default mongoose.models.Product ||
   mongoose.model('Product', ProductSchema);

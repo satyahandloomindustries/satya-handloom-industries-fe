@@ -7,7 +7,7 @@ function MyDropdown({
   setSelected,
   items = [],
   placeholder = 'Click to expand',
-  dropdownDisabled = false
+  dropdownDisabled = false,
 }) {
   const divRef = useRef();
   const [width, setWidth] = useState(150);
@@ -40,7 +40,9 @@ function MyDropdown({
         disabled={disabled}
         className={`outline-none cursor-pointer text-white bg-shi_brown border border-gray-100 rounded-md px-3 py-2 text-sm shadow-sm disabled:bg-gray-300 disabled:text-gray-500 disabled:cursor-not-allowed`}
       >
-        {items?.length ===0 ? 'No varieties' : (selected?.label ?? placeholder)}
+        {items?.length === 0
+          ? 'No varieties'
+          : (selected?.label ?? placeholder)}
       </MenuButton>
       <MenuItems
         style={{ minWidth: `${width}px` }}

@@ -16,8 +16,7 @@ const TemporaryImageSchema = new mongoose.Schema(
       default: Date.now,
       expires: 3000,
     },
-  },
-  { timestamps: true }
+  }
 );
 
 export default mongoose.models.TemporaryImages ||

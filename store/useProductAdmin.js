@@ -17,7 +17,6 @@ const useProductAdmin = create((set, get) => ({
   allCategories: {},
   categorySizes: [],
   openPreview: false,
-  previewUrls: [],
   setAllCategories: (allCategories = {}, mainCategories = []) => {
     const mainCategoriesDropdown = mainCategories.map(({ _id, name }) => ({
       label: name,
@@ -49,29 +48,57 @@ const useProductAdmin = create((set, get) => ({
       set({ categorySizes });
     } catch (err) {}
   },
+  createFinalProduct: async () => {
+    const { showErrorToast, showSuccessToast } = useToast.getState();
+    try {
+      const temporary = await ApiService.post('/api/create-product');
+      showSuccessToast(temporary?.message);
+      set({
+        name: '',
+        code: '',
+        description: [],
+        selectedMainCategory: null,
+        selectedSubCategory: null,
+        productImages: false,
+        productPrototype: false,
+      });
+      return temporary;
+    } catch (err) {
+      console.log(err);
+      
+      showErrorToast(err.message);
+    }
+  },
   createTemporaryProduct: async () => {
     const { showErrorToast, showSuccessToast } = useToast.getState();
-    const {name , code , description , selectedMainCategory , selectedSubCategory , sizes} = get()
+    const {
+      name,
+      code,
+      description,
+      selectedMainCategory,
+      selectedSubCategory,
+      sizes,
+    } = get();
     const data = {
       name,
       code,
       description,
       sizes,
       category: selectedMainCategory?.value,
-      subCategory: selectedSubCategory?.value
-    }
+      subCategory: selectedSubCategory?.value,
+    };
     try {
       const temporary = await ApiService.post('/api/temporary-product', data);
       showSuccessToast(temporary.message);
-      set({productPrototype : true})
+      set({ productPrototype: true });
       return temporary;
-    } catch (err) {      
+    } catch (err) {
       showErrorToast(err.message);
     }
   },
   uploadImagesToCloudinary: async () => {
     const formData = new FormData();
-    const { showErrorToast } = useToast.getState();
+    const { showErrorToast, showSuccessToast } = useToast.getState();
     const imgs = get().images;
     imgs.forEach((file) => formData.append('images', file));
     formData.append('category', get().selectedMainCategory?.label ?? null);
@@ -91,6 +118,7 @@ const useProductAdmin = create((set, get) => ({
           productImages: true,
         });
       }
+      showSuccessToast('Images uploaded to cloudinary successfully');
       return response;
     } catch (err) {
       showErrorToast(err.message);

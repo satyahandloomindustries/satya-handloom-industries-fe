@@ -7,11 +7,11 @@ const AddComponentInput = ({
   mainClassName,
   onClick = () => {},
   children = null,
-  disabled=false
+  disabled = false,
 }) => {
   const ref = useRef(null);
   const handleClick = evd(() => {
-    if(disabled) return
+    if (disabled) return;
     onClick(ref?.current?.value?.trim());
     ref.current.value = '';
   });

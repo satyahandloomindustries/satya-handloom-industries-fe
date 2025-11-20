@@ -2,7 +2,7 @@
 import useProductAdmin from '@/store/useProductAdmin';
 
 const MultipleImageUpload = () => {
-  const { customSet, images ,  productImages} = useProductAdmin();
+  const { customSet, images, productImages } = useProductAdmin();
 
   const handleChange = async (e) => {
     const filesArray = Array.from(e.target.files);
@@ -10,12 +10,11 @@ const MultipleImageUpload = () => {
     customSet({ images: finalArray });
   };
 
-  
   return (
     <>
       <label
         htmlFor="imageUpload"
-        className={`px-3 py-3 border text-sm ${!!productImages ? "border-gray-400 text-gray-400 bg-gray-200 cursor-not-allowed":"border-shi_brown text-shi_brown cursor-pointer"}`}
+        className={`px-3 py-3 border text-sm ${!!productImages ? 'border-gray-400 text-gray-400 bg-gray-200 cursor-not-allowed' : 'border-shi_brown text-shi_brown cursor-pointer'}`}
       >
         Choose product images&nbsp;
         {images?.length ? (

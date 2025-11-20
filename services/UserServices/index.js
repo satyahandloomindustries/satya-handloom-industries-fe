@@ -2,8 +2,12 @@ import TemporaryUser from '@/models/TemporaryUser';
 import User from '@/models/User';
 
 export const verifyUser = async ({ email }) => {
-  const doesUserExist = await User.findOne({ email });
-  return !!doesUserExist;
+  try {
+    const doesUserExist = await User.findOne({ email });
+    return !!doesUserExist;
+  } catch (err) {
+    throw new Error(err?.message);
+  }
 };
 
 export const getUser = async (email) => {

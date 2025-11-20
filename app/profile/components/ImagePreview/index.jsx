@@ -9,29 +9,33 @@ import { filterClosure } from '@/utls';
 import { TiDelete } from 'react-icons/ti';
 
 const Preview = ({ item }) => {
-  const { images, customSet , productImages } = useProductAdmin();
-  const src = item?.url ? item.url : URL.createObjectURL(item)
+  const { images, customSet, productImages } = useProductAdmin();
+  const src = item?.url ? item.url : URL.createObjectURL(item);
   const onClose = () => {
     const filteredImgs = filterClosure(item)(images);
-    customSet({ images: filteredImgs , openPreview : !!filteredImgs?.length});
-  };  
+    customSet({ images: filteredImgs, openPreview: !!filteredImgs?.length });
+  };
 
   return (
     <div className="relative hover:border-4">
-      <img
-        src={src}
-        className="object-cover w-200 h-full"
-      />
-      {!productImages ? <button className="absolute top-0 left-0">
-        <TiDelete className="ml-2 cursor-pointer" onClick={onClose} />
-      </button> : null}
+      <img src={src} className="object-cover w-200 h-full" />
+      {!productImages ? (
+        <button className="absolute top-0 left-0">
+          <TiDelete className="ml-2 cursor-pointer" onClick={onClose} />
+        </button>
+      ) : null}
     </div>
   );
 };
 
 const ImagePreview = () => {
-  const { openPreview, customSet, images, uploadImagesToCloudinary , productImages } =
-    useProductAdmin();
+  const {
+    openPreview,
+    customSet,
+    images,
+    uploadImagesToCloudinary,
+    productImages,
+  } = useProductAdmin();
   const { showSuccessToast } = useToast();
   const { loading, setLoading } = useLoading();
   const handleUpload = async () => {
