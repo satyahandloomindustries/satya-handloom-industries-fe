@@ -36,7 +36,7 @@ const ProductAdmin = () => {
     productPrototype,
     productImages,
     images,
-    createFinalProduct
+    createFinalProduct,
   } = useProductAdmin();
   const { loading, setLoading } = useLoading();
   const { showErrorToast } = useToast();
@@ -149,11 +149,11 @@ const ProductAdmin = () => {
     setLoading(false);
   };
 
-  const handleCreateProduct  = async ()=>{
+  const handleCreateProduct = async () => {
     setLoading(true);
     await createFinalProduct();
     setLoading(false);
-  }
+  };
 
   const { buttonLabel, disabled, btnClick } = (() => {
     const hasPrototype = Boolean(productPrototype);

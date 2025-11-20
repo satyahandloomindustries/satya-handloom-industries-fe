@@ -65,7 +65,7 @@ const useProductAdmin = create((set, get) => ({
       return temporary;
     } catch (err) {
       console.log(err);
-      
+
       showErrorToast(err.message);
     }
   },

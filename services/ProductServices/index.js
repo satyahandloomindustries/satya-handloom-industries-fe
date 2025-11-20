@@ -25,17 +25,16 @@ export const createProduct = async () => {
     if (doesProductCodeExists)
       throw new Error('Product with similar code Exists');
 
-
     const productImages = await createProductImages();
-    const images = productImages.map((item)=> item?._id);
-    const {_id, __v, ...data}  = {...temporaryProduct , images};
+    const images = productImages.map((item) => item?._id);
+    const { _id, __v, ...data } = { ...temporaryProduct, images };
     const newProduct = await Products.create(data);
     await TemporaryProduct.deleteOne({});
     await TemporaryImages.deleteMany({});
     return newProduct;
   } catch (err) {
     console.log(err);
-    
+
     throw new Error('Failed to create new product');
   }
 };

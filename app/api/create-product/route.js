@@ -6,13 +6,13 @@ import { NextResponse } from 'next/server';
 export const POST = db(async (req) => {
   try {
     await requiredAuth(req);
-    await createProduct()
+    await createProduct();
     return NextResponse.json({
       status: 200,
       message: 'Fetched successfully',
     });
   } catch (err) {
-    console.log(err)
+    console.log(err);
     return NextResponse.json({
       status: 404,
       message: err?.message,
