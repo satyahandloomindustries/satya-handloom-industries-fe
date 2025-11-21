@@ -7,7 +7,7 @@ import { FaTimes } from 'react-icons/fa';
 import useToast from '@/store/useToast';
 
 const ToastContainer = () => {
-  const { toasts, removeToast , pauseToast , resumeToast} = useToast();
+  const { toasts, removeToast, pauseToast, resumeToast } = useToast();
 
   return toasts.map(({ message, id }, index) => (
     <div
@@ -17,8 +17,8 @@ const ToastContainer = () => {
       )}
       style={{ top: `${30 + index * 50}px` }}
       key={id}
-      onMouseEnter={pauseToast.bind(null , index)}
-      onMouseLeave={resumeToast.bind(null , index)}
+      onMouseEnter={pauseToast.bind(null, index)}
+      onMouseLeave={resumeToast.bind(null, index)}
     >
       <div>
         <Image

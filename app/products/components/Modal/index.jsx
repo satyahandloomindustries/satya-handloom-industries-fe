@@ -1,16 +1,14 @@
-
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import SwiperImageCarousel from '../SwiperImageCarousel';
-import { GoHeart, GoHeartFill } from "react-icons/go";
+import { GoHeart, GoHeartFill } from 'react-icons/go';
 import PlaceOrderButton from '../PlaceOrderButton';
 import WhatsAppBtn from '../WhatsAppBtn';
-import { IoCloseCircleOutline } from "react-icons/io5";
-
-
+import { IoCloseCircleOutline } from 'react-icons/io5';
+import ModalWrapper from '@/components/Modal';
 
 const style = {
   position: 'absolute',
@@ -20,7 +18,7 @@ const style = {
   width: 400,
   bgcolor: 'background.paper',
   boxShadow: 24,
-  outline: 'none'
+  outline: 'none',
 };
 
 export default function ProductModal() {
@@ -30,62 +28,63 @@ export default function ProductModal() {
   const handleClose = () => setOpen(false);
 
   const handleWishList = () => {
-
-    setAddedToWishList((prev) => !prev)
-  }
+    setAddedToWishList((prev) => !prev);
+  };
 
   return (
     <div>
       <Button onClick={handleOpen}>Open modal</Button>
-      <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box sx={style} className="rounded min-w-[60%] min-h-[70%] p-2 overflow-h-scroll flex flex-row-reverse justify-between relative">
 
-          <div className='mr-4'>
+      <ModalWrapper open={open} handleClose={handleClose}>
+        <div className="mr-4">
+          <Typography
+            id="modal-modal-title"
+            variant="h6"
+            component="h2"
+            className="!mt-8"
+            sx={{ fontSize: 24, textAlign: 'center' }}
+          >
+            Text in a modal
+          </Typography>
+          <Typography id="modal-modal-description" sx={{ mt: 1, fontSize: 16 }}>
+            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+          </Typography>
 
-            <Typography id="modal-modal-title" variant="h6" component="h2" className='!mt-8' sx={{ fontSize: 24, textAlign: 'center' }}>
-              Text in a modal
-            </Typography>
-            <Typography id="modal-modal-description" sx={{ mt: 1, fontSize: 16 }}>
-              Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-            </Typography>
-
-          <div className='mt-5'>
-
+          <div className="mt-5">
             <div>
-              <span>
-                Size:&nbsp;
-              </span>S</div>
+              <span>Size:&nbsp;</span>S
+            </div>
 
-            <div className='mt-2'>
-              <span>Product code:
-              </span>&nbsp;
-              BED_787
+            <div className="mt-2">
+              <span>Product code:</span>&nbsp; BED_787
             </div>
           </div>
 
-            <div className='absolute bottom-[20%]'>
-              <div className='flex'>
-
-                <PlaceOrderButton />
-                <WhatsAppBtn />
+          <div className="absolute bottom-[20%]">
+            <div className="flex">
+              <PlaceOrderButton />
+              <WhatsAppBtn />
+            </div>
+            <button
+              onClick={handleWishList}
+              className={`flex items-center justify-center outline-none px-3 py-2 mt-2 ${addedToWishList ? 'bg-red-500' : 'bg-blue-500'} rounded`}
+            >
+              <div>
+                {addedToWishList ? (
+                  <GoHeartFill className="text-white" />
+                ) : (
+                  <GoHeart className="text-white" />
+                )}
               </div>
-              <button onClick={handleWishList} className={`flex items-center justify-center outline-none px-3 py-2 mt-2 ${addedToWishList ? 'bg-red-500' : 'bg-blue-500'} rounded`}>
-                <div>{addedToWishList ? <GoHeartFill className='text-white' /> : <GoHeart className='text-white' />}</div>
-                <div className='text-white text-sm ml-2 tracking-wider'>{!addedToWishList ? "Add to wishlist" : "Remove from wishlist"}</div>
-              </button>
-
-            </div>
+              <div className="text-white text-sm ml-2 tracking-wider">
+                {!addedToWishList ? 'Add to wishlist' : 'Remove from wishlist'}
+              </div>
+            </button>
           </div>
+        </div>
 
-          <SwiperImageCarousel />
-          <IoCloseCircleOutline onClick={handleClose} className='absolute -right-0 -top-0 text-2xl cursor-pointer' />
-        </Box>
-      </Modal>
+        <SwiperImageCarousel />
+      </ModalWrapper>
     </div>
   );
 }

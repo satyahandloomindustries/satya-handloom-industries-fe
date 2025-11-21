@@ -1,23 +1,22 @@
-import { useEffect , useRef} from "react";
-const useFormResetOnBlur = (resetError= ()=>{})=>{
+import { useEffect, useRef } from 'react';
+const useFormResetOnBlur = (resetError = () => {}) => {
+  const ref = useRef();
 
-    const ref = useRef();
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (ref.current && !ref.current.contains(event.target)) {
+        resetError();
+      }
+    };
 
-    useEffect(()=>{
-        const handleClickOutside = (event) => {
-            if (ref.current && !ref.current.contains(event.target)) {
-              resetError(); 
-            }
-          };
-      
-          document.addEventListener("mousedown", handleClickOutside);
-      
-          return () => {
-            document.removeEventListener("mousedown", handleClickOutside);
-          };
-    },[])
+    document.addEventListener('mousedown', handleClickOutside);
 
-    return ref
-}
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
 
-export default useFormResetOnBlur
+  return ref;
+};
+
+export default useFormResetOnBlur;

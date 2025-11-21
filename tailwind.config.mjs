@@ -17,7 +17,7 @@ export default {
         shi_burlywood: '#deb887',
       },
       borderColor: {
-        shi_brown:'var(--shi_brown)' ,
+        shi_brown: 'var(--shi_brown)',
       },
     },
   },

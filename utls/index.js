@@ -1,4 +1,4 @@
-import { Dancing_Script } from "next/font/google";
+import { Dancing_Script } from 'next/font/google';
 
 export const toastTypes = {
   SUCCESS: 'success',
@@ -30,53 +30,51 @@ export const arrObjectMap = (arr, key1, key2) => {
 };
 
 export const convertFormValues = (formRef) => {
-
   const formData = new FormData(formRef);
   const formObj = {};
   for (let [k, v] of formData.entries()) {
-    formObj[k] = v
+    formObj[k] = v;
   }
 
-  return formObj
-}
+  return formObj;
+};
 
-export const removeWhiteSpaces = (str = "") => {
-  const normalized = str.trim().replace(/\s{2,}/g, " ");
-  return normalized
-}
+export const removeWhiteSpaces = (str = '') => {
+  const normalized = str.trim().replace(/\s{2,}/g, ' ');
+  return normalized;
+};
 
 export const matchesSearch = (text, query) => {
   const tokens = removeWhiteSpaces(query).toLowerCase().trim().split(/\s+/);
   const lowerText = text.toLowerCase();
 
-  return tokens.every(token => lowerText.includes(token));
-}
-
+  return tokens.every((token) => lowerText.includes(token));
+};
 
 export const dancingScript = Dancing_Script({
   subsets: ['latin'],
   weight: ['400', '700'],
   display: 'swap',
-})
+});
 
 export const verifyDigits = (value) => {
-  return (/^\d*$/.test(value));
-}
+  return /^\d*$/.test(value);
+};
 
-
-export const evd = (handler)=> (event)=>{
+export const evd = (handler) => (event) => {
   event?.preventDefault();
-  handler(event)
-}
+  handler(event);
+};
 
-export const pasteOtp = (event)=>{
-  const pastedData = event.clipboardData.getData("text").trim();
-  if (!verifyDigits(pastedData)) throw new Error("Invalid otp digits are passed");
-  return pastedData
-}
+export const pasteOtp = (event) => {
+  const pastedData = event.clipboardData.getData('text').trim();
+  if (!verifyDigits(pastedData))
+    throw new Error('Invalid otp digits are passed');
+  return pastedData;
+};
 
-export const filterClosure = (i)=>{
-  return function(arr){
-    return arr.filter((item)=> item!=i)
-  }
-}
+export const filterClosure = (i) => {
+  return function (arr) {
+    return arr.filter((item) => item != i);
+  };
+};

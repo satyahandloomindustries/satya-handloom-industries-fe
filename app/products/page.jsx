@@ -14,7 +14,7 @@ const Shop = () => {
         <CategoryFilter />
         <div className="relative">
           <Showing />
-         <ProductListing/>
+          <ProductListing />
           <PaginationFooter />
         </div>
       </div>

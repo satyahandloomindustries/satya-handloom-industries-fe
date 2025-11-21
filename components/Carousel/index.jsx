@@ -6,7 +6,7 @@ import 'swiper/css/navigation';
 import { Autoplay } from 'swiper/modules';
 import clsx from 'clsx';
 
-export default function Carousel({ children , className='' }) {
+export default function Carousel({ children, className = '' }) {
   return (
     <div className="pl-8">
       <Swiper
@@ -14,7 +14,7 @@ export default function Carousel({ children , className='' }) {
         spaceBetween={0}
         slidesPerView={4}
         autoplay={{ delay: 3000 }}
-        className={clsx("w-full" , className)}
+        className={clsx('w-full', className)}
       >
         {children}
       </Swiper>

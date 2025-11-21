@@ -1,10 +1,8 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
 const MONGODB_URI = process.env.MONGODB_URI;
 
-
-
-if (!MONGODB_URI) throw new Error("Please define MONGODB_URI in .env.local");
+if (!MONGODB_URI) throw new Error('Please define MONGODB_URI in .env.local');
 
 let cached = global.mongoose;
 
@@ -23,14 +21,12 @@ async function connectToDB() {
 
 export default connectToDB;
 
-
 export const db = (handler) => async (req, res) => {
-    try {
-      await connectToDB();
-      return handler(req, res);
-    } catch (err) {
-      console.error(err);
-      return res?.status(500)?.json({ error: "Internal Server Error" });
-    }
-  };
-  
+  try {
+    await connectToDB();
+    return handler(req, res);
+  } catch (err) {
+    console.error(err);
+    return res?.status(500)?.json({ error: 'Internal Server Error' });
+  }
+};

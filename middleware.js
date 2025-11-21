@@ -1,22 +1,26 @@
 // middleware.js
-import { NextResponse } from "next/server";
-import { AUTH_TOKEN } from "./constants";
-import { verifyToken } from "./services/JWTServices";
+import { NextResponse } from 'next/server';
+import { AUTH_TOKEN } from './constants';
+import { verifyToken } from './services/JWTServices';
 
-const excludeRoutes = ["/api/send-otp" , "/api/verify-otp"]
+const excludeRoutes = [
+  '/api/send-otp',
+  '/api/verify-otp',
+  '/api/categories',
+  '/api/aggregate-categories',
+];
 
 export async function middleware(req) {
   const cookie = await req.cookies;
-  const token = cookie.get(AUTH_TOKEN)?.value
+  const token = cookie.get(AUTH_TOKEN)?.value;
   const { pathname } = req.nextUrl;
 
-  if(excludeRoutes.includes(pathname)) return NextResponse.next()
+  if (excludeRoutes.includes(pathname)) return NextResponse.next();
 
-  if (!token || !await verifyToken(token)) {
+  if (!token || !(await verifyToken(token))) {
     // Redirect to login if no token or invalid
-    return NextResponse.redirect(new URL("/login", req.url));
+    return NextResponse.redirect(new URL('/login', req.url));
   }
-  
 
   if (token && req.nextUrl.pathname === '/login') {
     return NextResponse.redirect(new URL('/', req.url));
@@ -27,5 +31,5 @@ export async function middleware(req) {
 }
 
 export const config = {
-  matcher: ["/api/:path*"], // protected routes
+  matcher: ['/api/:path*', '/profile'], // protected routes
 };

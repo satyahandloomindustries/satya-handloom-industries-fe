@@ -1,11 +1,11 @@
-import axios from "axios";
+import axios from 'axios';
 
 class ApiService {
   static client = axios.create({
-    baseURL: "/",
-    headers: { "Content-Type": "application/json" },
+    baseURL: '/',
+    headers: { 'Content-Type': 'application/json' },
     timeout: 10000,
-    withCredentials: true
+    withCredentials: true,
   });
 
   static setAuthToken(token) {
@@ -13,19 +13,19 @@ class ApiService {
   }
 
   static async get(url, params = {}) {
-    return ApiService.client.get(url, { params }).then(res => res.data);
+    return ApiService.client.get(url, { params }).then((res) => res.data);
   }
 
   static async post(url, data = {}) {
-    return ApiService.client.post(url, data).then(res => res.data);
+    return ApiService.client.post(url, data).then((res) => res.data);
   }
 
   static async put(url, data = {}) {
-    return ApiService.client.put(url, data).then(res => res.data);
+    return ApiService.client.put(url, data).then((res) => res.data);
   }
 
   static async delete(url) {
-    return ApiService.client.delete(url).then(res => res.data);
+    return ApiService.client.delete(url).then((res) => res.data);
   }
 }
 
