@@ -9,7 +9,7 @@ const Showing = () => {
     useShop();
   const { allCategories } = useProductAdmin();
 
-  const subCategoriesDropdown = allCategories?.[selectedMainCategory]?.map(
+  const subCategoriesDropdown = allCategories?.[selectedMainCategory?.label]?.map(
     ({ _id, name }) => ({
       label: name,
       value: _id,

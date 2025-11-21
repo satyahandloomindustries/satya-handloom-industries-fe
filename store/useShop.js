@@ -3,9 +3,12 @@ import { create } from 'zustand';
 const useShop = create((set) => ({
   aggregateCategories: [],
   setAggregateCategories: (categories = []) => {
+
+    const {name:label , _id:value} = categories?.[0];
+    const data = label && value ? {label , value } : null;
     set({
       aggregateCategories: categories,
-      selectedMainCategory: categories?.[0]?.name ?? null,
+      selectedMainCategory: data,
     });
   },
   customShopSet: (data) => {

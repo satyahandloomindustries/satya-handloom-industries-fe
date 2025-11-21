@@ -48,3 +48,17 @@ export const fetchTemporaryProductAndImages = async () => {
     throw new Error(err?.message);
   }
 };
+
+export const getProducts = async ({ category, subCategory }) => {
+  try {
+    if (subCategory) {
+      const products = await Products.find({ category, subCategory });
+      return products;
+    }
+
+    const products = await Products.find({ category });
+    return products;
+  } catch (err) {
+    throw new Error(err?.message);
+  }
+};

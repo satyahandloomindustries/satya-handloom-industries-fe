@@ -16,24 +16,24 @@ const CategoryFilter = () => {
 
   useEffect(() => {
     ApiService.get('/api/aggregate-categories')
-      .then(({ categories }) => {
+      .then(({ categories }) => {        
         setAggregateCategories(categories);
       })
       .catch((err) => console.log(err));
   }, []);
 
-  const handleCategorySelect = (name) => {
-    customShopSet({ selectedMainCategory: name });
+  const handleCategorySelect = (label  , value) => {
+    customShopSet({ selectedMainCategory: {label , value} });
   };
 
   return (
     <Filter title="Categories">
       <MultiRenderer
-        Component={({ name, count }) => (
+        Component={({ name, count , _id }) => (
           <TextGray
             text={`${name} (${count})`}
-            className={`mt-3 cursor-pointer ${selectedMainCategory === name ? 'text-shi_brown' : 'text-gray-600'}`}
-            onClick={handleCategorySelect.bind(null, name)}
+            className={`mt-3 cursor-pointer ${selectedMainCategory?.label === name ? 'text-shi_brown' : 'text-gray-600'}`}
+            onClick={handleCategorySelect.bind(null, name , _id)}
           />
         )}
         rendererSet={aggregateCategories}
