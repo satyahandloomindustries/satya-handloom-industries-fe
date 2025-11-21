@@ -1,18 +1,35 @@
 'use client';
 import MyDropdown from '@/components/Dropdown';
-import React, { useState } from 'react';
+import useProductAdmin from '@/store/useProductAdmin';
+import useShop from '@/store/useShop';
+import React from 'react';
 
 const Showing = () => {
-  const [selected, setSelected] = useState();
+  const { selectedSubCategory, customShopSet, selectedMainCategory } =
+    useShop();
+  const { allCategories } = useProductAdmin();
+
+  const subCategoriesDropdown = allCategories?.[selectedMainCategory]?.map(
+    ({ _id, name }) => ({
+      label: name,
+      value: _id,
+    })
+  );
+
   return (
     <div className="flex justify-between items-center p-4 pt-0">
       <div className="text-gray-700 ">Showing 1-16 Of 21 results</div>
 
-      <div className="flex items-center gap-2">
-        <div className="font-semibold tracking-wide text-sm text-shi_brown">
+      <div className="grid grid-cols-[1.25fr_0.75fr] gap-2">
+        <div className="font-semibold tracking-wide text-sm text-shi_brown ml-auto self-center">
           Sub-categories:
         </div>
-        <MyDropdown selected={selected} setSelected={setSelected} />
+        <MyDropdown
+          selected={selectedSubCategory}
+          setSelected={(item) => customShopSet({ selectedSubCategory: item })}
+          items={subCategoriesDropdown}
+          placeholder="Select"
+        />
       </div>
     </div>
   );

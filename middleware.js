@@ -3,7 +3,12 @@ import { NextResponse } from 'next/server';
 import { AUTH_TOKEN } from './constants';
 import { verifyToken } from './services/JWTServices';
 
-const excludeRoutes = ['/api/send-otp', '/api/verify-otp'];
+const excludeRoutes = [
+  '/api/send-otp',
+  '/api/verify-otp',
+  '/api/categories',
+  '/api/aggregate-categories',
+];
 
 export async function middleware(req) {
   const cookie = await req.cookies;

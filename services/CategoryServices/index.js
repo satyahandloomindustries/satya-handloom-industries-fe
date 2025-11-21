@@ -103,3 +103,37 @@ export const getSubcategorySizes = async () => {
     throw new Error('Failed to fetch the category document');
   }
 };
+
+export const aggregateCategories = async () => {
+  try {
+    const result = await Categories.aggregate([
+      {
+        $match: {
+          parent: null,
+        },
+      },
+      {
+        $lookup: {
+          from: 'products',
+          localField: '_id',
+          foreignField: 'category',
+          as: 'products',
+        },
+      },
+      {
+        $addFields: {
+          count: { $size: '$products' },
+        },
+      },
+      {
+        $project: {
+          products: 0,
+        },
+      },
+    ]);
+
+    return result;
+  } catch (err) {
+    throw new Error('Failed to fetch the categories');
+  }
+};
