@@ -2,9 +2,9 @@ import ShopHeader from '@/components/ShopHeader';
 import React from 'react';
 import CategoryFilter from './components/CategoryFilter';
 import ContactUsFooter from '@/components/ContactUsFooter';
-import PaginationFooter from '@/components/PaginationFooter';
 import Showing from './components/Showing';
 import ProductListing from './components/ProductListing';
+import PaginationShop from '@/app/products/components/PaginationShop';
 
 const Shop = () => {
   return (
@@ -15,7 +15,7 @@ const Shop = () => {
         <div className="relative">
           <Showing />
           <ProductListing />
-          <PaginationFooter />
+          <PaginationShop />
         </div>
       </div>
       <ContactUsFooter />

@@ -14,17 +14,15 @@ const Circle = ({ active, children, onClick = () => {} }) => {
   );
 };
 
-const PaginationFooter = () => {
-  const [page, setPage] = React.useState(1);
-
+const PaginationFooter = ({page = 1 , totalPages = 1 , setPage = ()=> {}}) => {
   const start = Math.ceil(page / 4) * 4 - 3;
-
+  const end = Math.min(start + 3, totalPages);
   return (
     <div className="w-full p-5 border items-center justify-center flex gap-2 absolute bottom-0 mt-8">
       <Circle onClick={() => setPage(Math.max(1, page - 1))}>
         <FaChevronLeft size={18} />
       </Circle>
-      {[...range(start, start + 4)].map((item) => {
+      {[...range(start, end + 1)].map((item) => {
         return (
           <Circle
             key={item}
@@ -35,7 +33,10 @@ const PaginationFooter = () => {
           </Circle>
         );
       })}
-      <Circle onClick={() => setPage(page + 1)}>
+      <Circle onClick={() => {
+        if(totalPages > page)
+          setPage(page + 1)}}
+          >
         <FaChevronRight size={18} />
       </Circle>
     </div>
