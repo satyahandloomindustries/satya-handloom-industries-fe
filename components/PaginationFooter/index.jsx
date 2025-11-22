@@ -15,6 +15,7 @@ const Circle = ({ active, children, onClick = () => {} }) => {
 };
 
 const PaginationFooter = ({page = 1 , totalPages = 1 , setPage = ()=> {}}) => {
+  
   const start = Math.ceil(page / 4) * 4 - 3;
   const end = Math.min(start + 3, totalPages);
   return (
