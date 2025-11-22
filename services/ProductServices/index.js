@@ -49,15 +49,30 @@ export const fetchTemporaryProductAndImages = async () => {
   }
 };
 
-export const getProducts = async ({ category, subCategory }) => {
+export const getProducts = async ({
+  category,
+  subCategory,
+  page = 1,
+  limit = 10,
+}) => {
+  const skip = (page - 1) * limit;
+  const query = subCategory ? { category, subCategory } : { category };
   try {
-    if (subCategory) {
-      const products = await Products.find({ category, subCategory });
-      return products;
-    }
+    const products = await Products.find({ ...query })
+      .populate('images')
+      .populate('category')
+      .populate('subCategory')
+      .skip(skip)
+      .limit(limit)
+      .sort({ createdAt: -1 });
+    const total = await Products.countDocuments({ ...query });
 
-    const products = await Products.find({ category });
-    return products;
+    return {
+      page,
+      totalPages: Math.ceil(total / limit),
+      total,
+      products,
+    };
   } catch (err) {
     throw new Error(err?.message);
   }

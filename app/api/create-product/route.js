@@ -30,7 +30,8 @@ export const POST = db(async (req) => {
 
 export const GET = db(async (req) => {
   try {
-    const { category, subCategory } = await req.json();
+    const { searchParams } = new URL(req.url);
+    const { category, page, subCategory } = Object.fromEntries(searchParams);
 
     if (!category) {
       return NextResponse.json(
@@ -44,12 +45,12 @@ export const GET = db(async (req) => {
     }
     const products = await getProducts({ category, subCategory });
 
-    console.log(products);
-    
     return NextResponse.json(
       {
-        message: 'Products fetched successfully',
-        products,
+        message: products?.total
+          ? 'Products fetched successfully'
+          : 'No products present',
+        ...products,
       },
       {
         status: 200,

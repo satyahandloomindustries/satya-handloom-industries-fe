@@ -78,3 +78,18 @@ export const filterClosure = (i) => {
     return arr.filter((item) => item != i);
   };
 };
+
+export const createQueryParams = (data = {}) => {
+  const arr = Object.entries(data);
+  const query = arr.reduce((acc, [key, value]) => {
+    if (!value) return acc;
+    acc += `${key}=${value}&`;
+
+    return acc;
+  }, '');
+
+  if (query.length) {
+    return query.slice(0, -1);
+  }
+  return query;
+};

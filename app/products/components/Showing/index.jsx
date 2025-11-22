@@ -9,12 +9,12 @@ const Showing = () => {
     useShop();
   const { allCategories } = useProductAdmin();
 
-  const subCategoriesDropdown = allCategories?.[selectedMainCategory?.label]?.map(
-    ({ _id, name }) => ({
-      label: name,
-      value: _id,
-    })
-  );
+  const subCategoriesDropdown = allCategories?.[
+    selectedMainCategory?.label
+  ]?.map(({ _id, name }) => ({
+    label: name,
+    value: _id,
+  }));
 
   return (
     <div className="flex justify-between items-center p-4 pt-0">
