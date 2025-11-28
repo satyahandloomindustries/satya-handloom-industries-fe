@@ -19,6 +19,10 @@ const PaginationFooter = ({page = 1 , totalPages = 1 , setPage = ()=> {}}) => {
   const end = Math.min(start + 3, totalPages);
   return (
     <div className="w-full p-5 border items-center justify-center flex gap-2 absolute bottom-0 mt-8">
+      <a href="https://wa.me/919876543210?text=Check%20this%20out:%20https%3A%2F%2Fexample.com%2Fproduct/123" target="_blank">
+  Share Product on WhatsApp
+</a>
+
       <Circle onClick={() => setPage(Math.max(1, page - 1))}>
         <FaChevronLeft size={18} />
       </Circle>
@@ -44,3 +48,4 @@ const PaginationFooter = ({page = 1 , totalPages = 1 , setPage = ()=> {}}) => {
 };
 
 export default PaginationFooter;
+
