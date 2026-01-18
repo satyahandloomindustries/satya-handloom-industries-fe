@@ -11,15 +11,15 @@ import SocialIconDisplay from '../SocialIconDisplay';
 export const contactUs = [
   {
     Icon: HomeOutlinedIcon,
-    label: '4710-4890 Breckinridge USA',
+    label: 'Khandak Bazar, Meerut (U.P)',
   },
   {
     Icon: MailOutlinedIcon,
-    label: 'demo@yourdomain.com',
+    label: 'satyahandloomfabrics1@gmail.com',
   },
   {
     Icon: PhoneOutlinedIcon,
-    label: '(012) 800 456 789-987',
+    label: '(+91) 7017271699',
   },
 ];
 
@@ -36,7 +36,7 @@ const information = [
 const ContactUsFooter = () => {
   return (
     <footer className="bg-gray-100 py-20 px-20 mt-10">
-      <div className="grid grid-cols-[1.5fr_repeat(3,max-content)] gap-x-4">
+      <div className="grid grid-cols-[repeat(4,1fr)] gap-x-4">
         <div className="mt-2">
           <ShiLogo />
           <p className="text-gray-600 text-sm ml-1 mt-2">

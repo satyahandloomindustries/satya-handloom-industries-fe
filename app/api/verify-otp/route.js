@@ -37,6 +37,7 @@ export const POST = db(async (req) => {
     });
     return response;
   } catch (err) {
+    console.log(err);
     return NextResponse.json({ message: err.message }, { status: 400 });
   }
 });

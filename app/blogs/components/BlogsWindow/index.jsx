@@ -15,7 +15,13 @@ const BlogsWindow = () => {
         style={{ height: 'calc(100%  - 100px)' }}
       >
         <h1 className="text-center text-2xl">{currentBlog.title}</h1>
-        <div className="py-6">{currentBlog.description}</div>
+        {currentBlog.description.map((item) => {
+          return (
+            <p key={item} className="my-3">
+              {item}
+            </p>
+          );
+        })}
       </div>
       <div className="bg-gray-200 w-full h-[100px] absolute bottom-0">
         <div className="relative w-full h-full">
