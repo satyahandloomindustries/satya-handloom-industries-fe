@@ -6,7 +6,7 @@ import useBlogs from '@/store/useBlogs';
 
 const BlogsWindow = () => {
   const { currentBlog = {} } = useBlogs();
-  
+
   if (!currentBlog) return <p>Oops! No thread to read</p>;
   return (
     <div className="flex-1 h-full bg-gray-100 relative">
@@ -15,8 +15,12 @@ const BlogsWindow = () => {
         style={{ height: 'calc(100%  - 100px)' }}
       >
         <h1 className="text-center text-2xl">{currentBlog.title}</h1>
-        {currentBlog.description.map((item)=>{
-          return <p className='py-6'>{item}</p>
+        {currentBlog.description.map((item) => {
+          return (
+            <p key={item} className="my-3">
+              {item}
+            </p>
+          );
         })}
       </div>
       <div className="bg-gray-200 w-full h-[100px] absolute bottom-0">

@@ -35,7 +35,7 @@ export async function verifyOtp({ email, enteredOtp }) {
 
     return true;
   } catch (err) {
-    console.log(err)
+    console.log(err);
     throw new Error('Failed to verify the otp');
   }
 }
