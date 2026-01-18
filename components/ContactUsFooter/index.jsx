@@ -19,7 +19,7 @@ export const contactUs = [
   },
   {
     Icon: PhoneOutlinedIcon,
-    label: '(012) 800 456 789-987',
+    label: '(+91) 7017271699',
   },
 ];
 
