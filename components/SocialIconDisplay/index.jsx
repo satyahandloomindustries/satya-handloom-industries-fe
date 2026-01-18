@@ -9,7 +9,7 @@ const SocialIconDisplay = ({ title = '' }) => {
     <div>
       <div className="text-base font-bold">{title}</div>
       <div
-        className="grid grid-cols-3 mt-6 gap-x-4"
+        className="flex items-center gap-x-4 justify-start mt-6"
         style={{ gridTemplateColumns: `repeat(${socialIcon.length}, 1fr)` }}
       >
         {socialIcon.map((Item, index) => (
