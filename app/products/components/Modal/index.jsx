@@ -92,12 +92,13 @@ export default function ProductModal({ ref }) {
           />
 
           <div className="mt-5">
-            <div>
-              <span>Size:&nbsp;</span>
+            <div className="flex items-center justify-center space-x-2">
+              <div>Size:</div>
               <MyDropdown
                 items={sizesOptions}
                 selected={selectedSize}
                 setSelected={setSelectedSize}
+                showReset={false}
               />
             </div>
 

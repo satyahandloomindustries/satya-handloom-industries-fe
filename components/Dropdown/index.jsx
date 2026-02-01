@@ -8,6 +8,7 @@ function MyDropdown({
   items = [],
   placeholder = 'Click to expand',
   dropdownDisabled = false,
+  showReset= true
 }) {
   const divRef = useRef();
   const [width, setWidth] = useState(150);
@@ -47,7 +48,7 @@ function MyDropdown({
       <MenuItems
         style={{ minWidth: `${width}px` }}
         anchor="bottom"
-        className={`outline-none flex flex-col bg-white rounded shadow-lg mt-1 border border-gray-100 !max-h-60`}
+        className={`outline-none flex flex-col bg-white rounded shadow-lg mt-1 border border-gray-100 !max-h-60 z-[99999]`}
       >
         {items.map((item) => (
           <MenuItem key={item.label}>
@@ -59,14 +60,14 @@ function MyDropdown({
             </button>
           </MenuItem>
         ))}
-        <MenuItem>
+        {showReset ? <MenuItem>
           <button
             onClick={handleReset}
             className="data-[focus]:bg-gray-100 outline-none py-2 border-b-2 border-gray-100 last:border-b-0 text-red-500"
           >
             Reset
           </button>
-        </MenuItem>
+        </MenuItem> : null}
       </MenuItems>
     </Menu>
   );
