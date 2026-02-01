@@ -45,6 +45,7 @@ export const fetchTemporaryProductAndImages = async () => {
     const temporaryImages = await TemporaryImages.find({});
     return { temporaryProduct, temporaryImages };
   } catch (err) {
+    console.log(err);
     throw new Error(err?.message);
   }
 };

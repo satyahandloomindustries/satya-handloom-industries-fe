@@ -23,13 +23,16 @@ async function connectToDB() {
     return cached.conn;
   } catch (err) {
     console.error(err);
+    console.log('Failed to connect to database');
     throw new Error('Failed to connect to database');
   }
 }
 
 export default connectToDB;
 
-export const db = async (handler) => {
-  await connectToDB();
-  return await handler();
+export const db = (handler) => {
+  return async (...args) => {
+    await connectToDB();
+    return handler(...args);
+  };
 };

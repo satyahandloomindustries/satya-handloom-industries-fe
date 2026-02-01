@@ -2,9 +2,12 @@ import Image from 'next/image';
 import React from 'react';
 import Tag from '../Tag';
 
-const ProductCard = ({ name, source }) => {
+const ProductCard = ({ name, source, onClick = () => {} }) => {
   return (
-    <div className="relative justify-center  w-fit flex flex-col items-center">
+    <div
+      className="relative justify-center  w-fit flex flex-col items-center"
+      onClick={onClick}
+    >
       <Image
         src={source}
         className="h-[263px] w-[263px] object-cover "

@@ -2,13 +2,15 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import Modal from '@mui/material/Modal';
 import SwiperImageCarousel from '../SwiperImageCarousel';
 import { GoHeart, GoHeartFill } from 'react-icons/go';
 import PlaceOrderButton from '../PlaceOrderButton';
 import WhatsAppBtn from '../WhatsAppBtn';
 import { IoCloseCircleOutline } from 'react-icons/io5';
 import ModalWrapper from '@/components/Modal';
+import useShop from '@/store/useShop';
+import MultiRenderer from '@/components/MultiRenderer';
+import MyDropdown from '@/components/Dropdown';
 
 const style = {
   position: 'absolute',
@@ -21,9 +23,43 @@ const style = {
   outline: 'none',
 };
 
-export default function ProductModal() {
-  const [open, setOpen] = React.useState(true);
+const DescriptionText = ({ item }) => {
+  return (
+    <Typography id="modal-modal-description" sx={{ mt: 1, fontSize: 16 }}>
+      {item}
+    </Typography>
+  );
+};
+
+export default function ProductModal({ ref }) {
+  const [open, setOpen] = React.useState(false);
   const [addedToWishList, setAddedToWishList] = React.useState(false);
+  const [selectedSize, setSelectedSize] = React.useState(null);
+  const { selectedProduct } = useShop();
+
+  const {
+    name,
+    images = [],
+    code,
+    description = [],
+    sizes = [],
+  } = selectedProduct || {};
+
+  const sizesOptions = React.useMemo(
+    () => sizes.map((i) => ({ label: i, value: i })),
+    [sizes]
+  );
+
+  const urlImages = React.useMemo(() => images.map(({ url }) => url), [images]);
+
+  console.log(sizesOptions);
+
+  React.useEffect(() => {
+    if (sizes.length) {
+      setSelectedSize(sizesOptions[0]);
+    }
+  }, [sizesOptions]);
+
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
@@ -31,36 +67,46 @@ export default function ProductModal() {
     setAddedToWishList((prev) => !prev);
   };
 
+  React.useImperativeHandle(ref, () => ({
+    handleOpen,
+    handleClose,
+  }));
+
   return (
     <div>
-      <Button onClick={handleOpen}>Open modal</Button>
-
       <ModalWrapper open={open} handleClose={handleClose}>
-        <div className="mr-4">
+        <div className="mr-4 relative">
           <Typography
             id="modal-modal-title"
             variant="h6"
             component="h2"
             className="!mt-8"
-            sx={{ fontSize: 24, textAlign: 'center' }}
+            sx={{ fontSize: 24, textAlign: 'left' }}
           >
-            Text in a modal
+            {name}
           </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 1, fontSize: 16 }}>
-            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-          </Typography>
+          <MultiRenderer
+            rendererSet={description}
+            Component={DescriptionText}
+            spreadProps={false}
+          />
 
           <div className="mt-5">
             <div>
-              <span>Size:&nbsp;</span>S
+              <span>Size:&nbsp;</span>
+              <MyDropdown
+                items={sizesOptions}
+                selected={selectedSize}
+                setSelected={setSelectedSize}
+              />
             </div>
 
             <div className="mt-2">
-              <span>Product code:</span>&nbsp; BED_787
+              <span>Product code:</span>&nbsp; {code}
             </div>
           </div>
 
-          <div className="absolute bottom-[20%]">
+          <div className="mt-4">
             <div className="flex">
               <PlaceOrderButton />
               <WhatsAppBtn />
@@ -83,7 +129,7 @@ export default function ProductModal() {
           </div>
         </div>
 
-        <SwiperImageCarousel />
+        <SwiperImageCarousel images={urlImages} />
       </ModalWrapper>
     </div>
   );

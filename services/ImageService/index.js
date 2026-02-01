@@ -58,9 +58,12 @@ export const fetchAllTemporaryImages = async () => {
 export const createProductImages = async () => {
   try {
     const temporaryImages = await TemporaryImages.find({}).lean();
-    const productImages = await ProductImages.insertMany(temporaryImages);
+    const sanitizedImages = temporaryImages.map(({ _id, ...rest }) => rest);
+
+    const productImages = await ProductImages.insertMany(sanitizedImages);
     return productImages;
   } catch (err) {
+    console.log(err);
     throw new Error('Failed to create productImages');
   }
 };

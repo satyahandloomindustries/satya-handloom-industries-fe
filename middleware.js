@@ -8,6 +8,7 @@ const excludeRoutes = [
   '/api/verify-otp',
   '/api/categories',
   '/api/aggregate-categories',
+  '/api/create-product',
 ];
 
 export async function middleware(req) {
@@ -16,9 +17,16 @@ export async function middleware(req) {
   const { pathname } = req.nextUrl;
 
   if (excludeRoutes.includes(pathname)) return NextResponse.next();
+  const isApiRoute = pathname.startsWith('/api');
 
   if (!token || !(await verifyToken(token))) {
     // Redirect to login if no token or invalid
+    if (isApiRoute) {
+      return NextResponse.json(
+        { message: 'Unauthorized user' },
+        { status: 401 }
+      );
+    }
     return NextResponse.redirect(new URL('/login', req.url));
   }
 

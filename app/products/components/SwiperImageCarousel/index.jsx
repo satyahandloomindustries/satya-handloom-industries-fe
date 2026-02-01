@@ -14,7 +14,7 @@ const images = [
   '/Reviving_the_Beauty_of_Traditional_Practices_317x449.jpeg',
 ];
 
-export default function SwiperImageCarousel() {
+export default function SwiperImageCarousel({ images = [] }) {
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
   const [activeIndex, setActiveIndex] = useState(0); // Track main Swiper active slide
 
