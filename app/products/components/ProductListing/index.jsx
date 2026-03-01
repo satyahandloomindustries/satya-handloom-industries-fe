@@ -41,7 +41,7 @@ const ProductListing = () => {
         customShopSet({ products, totalPages, total, page });
       })
       .catch((err) => showErrorToast(err?.response?.message ?? err?.message));
-  }, [selectedMainCategory]);
+  }, [selectedMainCategory , selectedSubCategory , page]);
   return (
     <div className="pb-24 grid grid-cols-3 gap-x-8 gap-y-4">
       {products.map(({ name, images, code, ...rest }) => (

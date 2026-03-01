@@ -25,7 +25,12 @@ const style = {
 
 const DescriptionText = ({ item }) => {
   return (
-    <Typography id="modal-modal-description" sx={{ mt: 1, fontSize: 16 }}>
+    <Typography id="modal-modal-description" sx={{ mt: 1, fontSize: 16  }}    className="
+    [counter-increment:item]
+    before:content-[counter(item)'.']
+    before:mr-2
+    before:font-bold
+  ">
       {item}
     </Typography>
   );
@@ -75,7 +80,7 @@ export default function ProductModal({ ref }) {
   return (
     <div>
       <ModalWrapper open={open} handleClose={handleClose}>
-        <div className="mr-4 relative">
+        <div className="mr-16 relative">
           <Typography
             id="modal-modal-title"
             variant="h6"
@@ -89,6 +94,7 @@ export default function ProductModal({ ref }) {
             rendererSet={description}
             Component={DescriptionText}
             spreadProps={false}
+            mainClassName="[counter-reset:item]"
           />
 
           <div className="mt-5">

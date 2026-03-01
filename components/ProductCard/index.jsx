@@ -1,11 +1,11 @@
 import Image from 'next/image';
 import React from 'react';
-import Tag from '../Tag';
+// import Tag from '../Tag';
 
 const ProductCard = ({ name, source, onClick = () => {} }) => {
   return (
     <div
-      className="relative justify-center  w-fit flex flex-col items-center"
+      className="relative justify-center  w-fit flex flex-col items-center cursor-pointer"
       onClick={onClick}
     >
       <Image
@@ -16,7 +16,7 @@ const ProductCard = ({ name, source, onClick = () => {} }) => {
         alt="product-image"
       />
       <p className="text-base mt-8">{name}</p>
-      <Tag label="Sale" />
+      {/* <Tag label="Sale" /> */}
     </div>
   );
 };
