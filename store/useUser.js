@@ -1,3 +1,4 @@
+import ApiService from '@/services/ApiService';
 import { create } from 'zustand';
 
 const useUser = create((set, get) => ({
@@ -23,6 +24,22 @@ const useUser = create((set, get) => ({
       isAuthenticated: false,
       email: '',
     });
+  },
+  fetchUser: async () => {
+    try {
+        const { user } = await ApiService.get('/api/user');
+
+        const {email , username , phone} = user;        
+
+        get().setPhone(phone);
+        set({
+          username,
+          email,
+          isAuthenticated: !!user
+        })
+    } catch (err) {
+      console.log(err.message);
+    }
   },
 }));
 

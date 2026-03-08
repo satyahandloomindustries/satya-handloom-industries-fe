@@ -18,7 +18,7 @@ export default function SwiperImageCarousel({ images = [] }) {
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
   const [activeIndex, setActiveIndex] = useState(0); // Track main Swiper active slide
 
-  console.log(images , "images");
+  console.log(images, 'images');
 
   return (
     <div className="w-[400px] mr-auto overflow-hidden">
@@ -66,7 +66,7 @@ export default function SwiperImageCarousel({ images = [] }) {
               alt={`thumb-${idx}`}
               width={40}
               height={40}
-              style={{ objectFit: 'cover' , width: '100%' , height: '100%' }}
+              style={{ objectFit: 'cover', width: '100%', height: '100%' }}
             />
           </SwiperSlide>
         ))}

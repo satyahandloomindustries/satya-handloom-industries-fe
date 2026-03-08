@@ -8,7 +8,7 @@ function MyDropdown({
   items = [],
   placeholder = 'Click to expand',
   dropdownDisabled = false,
-  showReset= true
+  showReset = true,
 }) {
   const divRef = useRef();
   const [width, setWidth] = useState(150);
@@ -60,14 +60,16 @@ function MyDropdown({
             </button>
           </MenuItem>
         ))}
-        {showReset ? <MenuItem>
-          <button
-            onClick={handleReset}
-            className="data-[focus]:bg-gray-100 outline-none py-2 border-b-2 border-gray-100 last:border-b-0 text-red-500"
-          >
-            Reset
-          </button>
-        </MenuItem> : null}
+        {showReset ? (
+          <MenuItem>
+            <button
+              onClick={handleReset}
+              className="data-[focus]:bg-gray-100 outline-none py-2 border-b-2 border-gray-100 last:border-b-0 text-red-500"
+            >
+              Reset
+            </button>
+          </MenuItem>
+        ) : null}
       </MenuItems>
     </Menu>
   );

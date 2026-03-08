@@ -4,6 +4,7 @@ import ShopHeader from '@/components/ShopHeader';
 import TextGray from '@/components/TextGray';
 import { profile_categories } from '@/constants';
 import ProductAdmin from '@/app/profile/components/ProductAdmin';
+import ProfileSummary from '@/app/profile/components/ProfileSummary';
 
 const Profile = () => {
   return (
@@ -20,7 +21,9 @@ const Profile = () => {
             />
           </Filter>
         </div>
-        <ProductAdmin />
+        {/* <ProductAdmin /> */}
+
+        <ProfileSummary />
       </main>
     </div>
   );

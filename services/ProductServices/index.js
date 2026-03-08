@@ -70,7 +70,7 @@ export const getProducts = async ({
 
     return {
       page,
-      totalPages: Math.ceil((total / limit) || 1),
+      totalPages: Math.ceil(total / limit || 1),
       total,
       products,
     };

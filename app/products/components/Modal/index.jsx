@@ -25,12 +25,16 @@ const style = {
 
 const DescriptionText = ({ item }) => {
   return (
-    <Typography id="modal-modal-description" sx={{ mt: 1, fontSize: 16  }}    className="
+    <Typography
+      id="modal-modal-description"
+      sx={{ mt: 1, fontSize: 16 }}
+      className="
     [counter-increment:item]
     before:content-[counter(item)'.']
     before:mr-2
     before:font-bold
-  ">
+  "
+    >
       {item}
     </Typography>
   );
