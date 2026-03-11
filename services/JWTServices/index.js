@@ -18,4 +18,3 @@ export const verifyToken = async (token) => {
     return null;
   }
 };
-

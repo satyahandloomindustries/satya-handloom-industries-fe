@@ -8,5 +8,5 @@ export const UserProfileProvider = ({ children }) => {
     fetchUser();
   }, []);
 
-  return children
+  return children;
 };

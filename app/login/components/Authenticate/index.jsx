@@ -29,8 +29,16 @@ const Authenticate = () => {
   const isLoginMode = authMode === AUTH_MODE.login;
   const { setInputs, inputs, otpValue, isOtpFilled, openOtp, setOtp } =
     useOtp();
-  const { username, phone, setUsername, setPhone, email, setEmail, resetUser } =
-    useUser();
+  const {
+    username,
+    phone,
+    setUsername,
+    setPhone,
+    email,
+    setEmail,
+    resetUser,
+    fetchUser,
+  } = useUser();
   const shape = useMemo(() => {
     const { email } = validationShape;
     switch (authMode) {
@@ -70,7 +78,11 @@ const Authenticate = () => {
         }
       );
       showSuccessToast('Otp verified successfully');
-      setTimeout(() => router?.replace('/'), 800);
+      fetchUser();
+      setTimeout(() => {
+        router.replace('/');
+        router.refresh();
+      }, 800);
       setLoading(false);
     } catch (err) {
       showErrorToast(err?.message ?? 'Failed to verify the Otp');
