@@ -35,7 +35,7 @@ const information = [
 ];
 const ContactUsFooter = () => {
   return (
-    <footer className="bg-gray-100 py-20 px-20 mt-10">
+    <footer className="bg-gray-100 py-10 px-10 mt-10">
       <div className="grid grid-cols-[repeat(4,1fr)] gap-x-4">
         <div className="mt-2">
           <ShiLogo />

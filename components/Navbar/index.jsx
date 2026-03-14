@@ -1,5 +1,5 @@
 'use client';
-import Link from 'next/link';
+import { Link } from 'next-view-transitions';
 import clsx from 'clsx';
 import { usePathname } from 'next/navigation';
 import React from 'react';
@@ -55,7 +55,8 @@ const Navbar = ({ token }) => {
             key={label}
             className={clsx(
               pathname === value ? 'text-shi_brown' : '',
-              styles['border-animation']
+              styles['border-animation'],
+              'outline-none'
             )}
           >
             {label}

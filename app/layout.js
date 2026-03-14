@@ -5,6 +5,7 @@ import ToastContainer from '@/components/ToastContainer';
 import { cookies } from 'next/headers';
 import { AUTH_TOKEN } from '@/constants';
 import { UserProfileProvider } from '@/guard/UserProfileProvider';
+import { ViewTransitions } from 'next-view-transitions';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -19,9 +20,9 @@ const geistMono = Geist_Mono({
 export const metadata = {
   title: 'SHI',
   description: 'Satya Handloom Industries',
-  icons:{
-    icon:  "/images/icon-512x512.png"
-  }
+  icons: {
+    icon: '/images/icon-512x512.png',
+  },
 };
 
 export default async function RootLayout({ children }) {
@@ -32,10 +33,12 @@ export default async function RootLayout({ children }) {
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased scroll-smooth`}
       >
-        <UserProfileProvider>
-          <Navbar token={token} />
-          {children}
-        </UserProfileProvider>
+        <ViewTransitions>
+          <UserProfileProvider>
+            <Navbar token={token} />
+            {children}
+          </UserProfileProvider>
+        </ViewTransitions>
         <ToastContainer />
       </body>
     </html>
