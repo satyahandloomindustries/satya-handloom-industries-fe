@@ -17,7 +17,7 @@ const ShopHeader = () => {
   }
   return (
     <div>
-      <div className="bg-gray-100 pl-[77px] h-[80px] flex items-center justify-start">
+      <div className="bg-[linear-gradient(270deg,#91631b_23%,#5f4718_89%)] pl-[77px] h-[80px] flex items-center justify-start">
         <Link href="/">
           <IoMdHome className="hover:text-shi_brown" />
         </Link>

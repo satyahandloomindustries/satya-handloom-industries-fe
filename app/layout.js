@@ -19,6 +19,9 @@ const geistMono = Geist_Mono({
 export const metadata = {
   title: 'SHI',
   description: 'Satya Handloom Industries',
+  icons:{
+    icon:  "/images/icon-512x512.png"
+  }
 };
 
 export default async function RootLayout({ children }) {

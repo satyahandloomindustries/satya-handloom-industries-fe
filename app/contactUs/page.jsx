@@ -1,4 +1,3 @@
-import ShopHeader from '@/components/ShopHeader';
 import React from 'react';
 import ContactUsForm from './components/ContactUsForm';
 import ContactDetails from './components/ContactDetails';
@@ -10,8 +9,7 @@ import clsx from 'clsx';
 const ContactUs = () => {
   return (
     <div>
-      <ShopHeader />
-      <div className={clsx('relative', styles.margin)}>
+      <div className={clsx('relative', styles.padding)}>
         <FallingLeaves />
       </div>
       <div className="grid grid-cols-2 gap-x-4">
