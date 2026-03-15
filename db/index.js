@@ -10,24 +10,29 @@ let cached = global.mongoose;
 if (!cached) cached = global.mongoose = { conn: null, promise: null };
 
 async function connectToDB() {
-  if (cached.conn) return cached.conn;
+  try {
+    if (cached.conn) return cached.conn;
 
-  if (!cached.promise) {
-    cached.promise = mongoose.connect(MONGODB_URI).then((mongoose) => mongoose);
+    if (!cached.promise) {
+      cached.promise = mongoose
+        .connect(MONGODB_URI)
+        .then((mongoose) => mongoose);
+    }
+
+    cached.conn = await cached.promise;
+    return cached.conn;
+  } catch (err) {
+    console.error(err);
+    console.log('Failed to connect to database');
+    throw new Error('Failed to connect to database');
   }
-
-  cached.conn = await cached.promise;
-  return cached.conn;
 }
 
 export default connectToDB;
 
-export const db = (handler) => async (req, res) => {
-  try {
+export const db = (handler) => {
+  return async (...args) => {
     await connectToDB();
-    return handler(req, res);
-  } catch (err) {
-    console.error(err);
-    return res?.status(500)?.json({ error: 'Internal Server Error' });
-  }
+    return handler(...args);
+  };
 };

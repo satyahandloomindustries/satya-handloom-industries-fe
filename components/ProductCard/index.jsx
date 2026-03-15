@@ -1,10 +1,13 @@
 import Image from 'next/image';
 import React from 'react';
-import Tag from '../Tag';
+// import Tag from '../Tag';
 
-const ProductCard = ({ name, source }) => {
+const ProductCard = ({ name, source, onClick = () => {} }) => {
   return (
-    <div className="relative justify-center  w-fit flex flex-col items-center">
+    <div
+      className="relative justify-center  w-fit flex flex-col items-center cursor-pointer"
+      onClick={onClick}
+    >
       <Image
         src={source}
         className="h-[263px] w-[263px] object-cover "
@@ -13,7 +16,7 @@ const ProductCard = ({ name, source }) => {
         alt="product-image"
       />
       <p className="text-base mt-8">{name}</p>
-      <Tag label="Sale" />
+      {/* <Tag label="Sale" /> */}
     </div>
   );
 };

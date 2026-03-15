@@ -1,5 +1,5 @@
 'use client';
-import Link from 'next/link';
+import { Link } from 'next-view-transitions';
 import clsx from 'clsx';
 import { usePathname } from 'next/navigation';
 import React from 'react';
@@ -14,7 +14,7 @@ export const navbarRoutes = [
     value: '/products',
   },
   { label: 'Blogs', value: '/blogs' },
-  { label: 'ContactUs', value: '/contactUs' },
+  { label: 'Contact us', value: '/contactUs' },
   {
     label: 'Login',
     value: '/login',
@@ -41,12 +41,12 @@ const Navbar = ({ token }) => {
     }
   });
   return (
-    <div className="grid grid-cols-[100px_1fr] gap-30 py-5 px-6 sticky top-0 z-40 bg-white">
+    <div className="grid grid-cols-[100px_1fr] gap-30 py-5 px-6 sticky top-0 z-40 bg-gray-100">
       <ShiLogo />
       <div
         className={`grid items-center gap-10`}
         style={{
-          gridTemplateColumns: `repeat(${routes.length}, min-content)`,
+          gridTemplateColumns: `repeat(${routes.length}, max-content)`,
         }}
       >
         {routes.map(({ label, value }) => (
@@ -55,7 +55,8 @@ const Navbar = ({ token }) => {
             key={label}
             className={clsx(
               pathname === value ? 'text-shi_brown' : '',
-              styles['border-animation']
+              styles['border-animation'],
+              'outline-none'
             )}
           >
             {label}

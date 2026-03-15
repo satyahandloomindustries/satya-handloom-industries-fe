@@ -14,9 +14,11 @@ const images = [
   '/Reviving_the_Beauty_of_Traditional_Practices_317x449.jpeg',
 ];
 
-export default function SwiperImageCarousel() {
+export default function SwiperImageCarousel({ images = [] }) {
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
   const [activeIndex, setActiveIndex] = useState(0); // Track main Swiper active slide
+
+  console.log(images, 'images');
 
   return (
     <div className="w-[400px] mr-auto overflow-hidden">
@@ -36,7 +38,7 @@ export default function SwiperImageCarousel() {
               alt={`slide-${idx}`}
               width={400}
               height={400}
-              objectFit="cover"
+              style={{ objectFit: 'cover' }}
             />
           </SwiperSlide>
         ))}
@@ -45,16 +47,17 @@ export default function SwiperImageCarousel() {
       {/* Thumbnail Swiper */}
       <Swiper
         onSwiper={setThumbsSwiper}
-        slidesPerView={4}
+        slidesPerView={8}
         spaceBetween={5}
         watchSlidesProgress
         slideToClickedSlide
+        centeredSlides={false}
         className="mt-4"
       >
         {images.map((img, idx) => (
           <SwiperSlide
             key={idx}
-            className={`cursor-pointer !w-fit !mr-3 !flex items-center justify-center border-2 rounded 
+            className={`cursor-pointer !flex items-center justify-center border-2 rounded 
               ${activeIndex === idx ? 'border-blue-500' : 'border-transparent'}`}
           >
             <Image
@@ -63,7 +66,7 @@ export default function SwiperImageCarousel() {
               alt={`thumb-${idx}`}
               width={40}
               height={40}
-              objectFit="cover"
+              style={{ objectFit: 'cover', width: '100%', height: '100%' }}
             />
           </SwiperSlide>
         ))}

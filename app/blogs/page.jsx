@@ -17,7 +17,7 @@ const Blogs = async () => {
   const blogs = await getBlogs();
   return (
     <div>
-      <div className="flex h-[500px]">
+      <div className="flex h-[calc(100vh-97px)]">
         <BlogsPanel blogs={blogs} />
         <BlogsWindow />
       </div>

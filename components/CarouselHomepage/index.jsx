@@ -21,7 +21,7 @@ const CollectionLink = ({ label = '' }) => {
 
 const CarouselHomepage = () => {
   return (
-    <div className="flex overflow-x-scroll space-x-2 overflow-y-hidden h-[450] px-4 scrollbar-hide">
+    <div className="flex overflow-x-scroll space-x-2 overflow-y-hidden h-[450] px-4 scrollbar-hide bg-gray-100">
       <div className="flex-shrink-0 relative group overflow-hidden w-[400px] h-[450px]">
         <Image
           src="/traditional-macrame-composition-indoors_317x449.jpg"

@@ -45,6 +45,7 @@ export const fetchTemporaryProductAndImages = async () => {
     const temporaryImages = await TemporaryImages.find({});
     return { temporaryProduct, temporaryImages };
   } catch (err) {
+    console.log(err);
     throw new Error(err?.message);
   }
 };
@@ -69,7 +70,7 @@ export const getProducts = async ({
 
     return {
       page,
-      totalPages: Math.ceil(total / limit),
+      totalPages: Math.ceil(total / limit || 1),
       total,
       products,
     };

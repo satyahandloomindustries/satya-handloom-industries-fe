@@ -17,11 +17,16 @@ const Circle = ({ active, children, onClick = () => {} }) => {
 const PaginationFooter = ({ page = 1, totalPages = 1, setPage = () => {} }) => {
   const start = Math.ceil(page / 4) * 4 - 3;
   const end = Math.min(start + 3, totalPages);
+  if (start === end) {
+    return null;
+  }
   return (
     <div className="w-full p-5 border items-center justify-center flex gap-2 absolute bottom-0 mt-8">
-      <Circle onClick={() => setPage(Math.max(1, page - 1))}>
-        <FaChevronLeft size={18} />
-      </Circle>
+      {page > 1 && (
+        <Circle onClick={() => setPage(Math.max(1, page - 1))}>
+          <FaChevronLeft size={18} />
+        </Circle>
+      )}
       {[...range(start, end + 1)].map((item) => {
         return (
           <Circle
@@ -33,13 +38,15 @@ const PaginationFooter = ({ page = 1, totalPages = 1, setPage = () => {} }) => {
           </Circle>
         );
       })}
-      <Circle
-        onClick={() => {
-          if (totalPages > page) setPage(page + 1);
-        }}
-      >
-        <FaChevronRight size={18} />
-      </Circle>
+      {page < end && (
+        <Circle
+          onClick={() => {
+            if (totalPages > page) setPage(page + 1);
+          }}
+        >
+          <FaChevronRight size={18} />
+        </Circle>
+      )}
     </div>
   );
 };

@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import ProductModal from '../Modal';
 import ApiService from '@/services/ApiService';
 import useShop from '@/store/useShop';
@@ -20,6 +20,13 @@ const ProductListing = () => {
   } = useShop();
   const { showErrorToast } = useToast();
 
+  const modalRef = useRef(null);
+
+  const handleProductClick = useCallback((product) => {
+    customShopSet({ selectedProduct: product });
+    modalRef.current.handleOpen();
+  }, []);
+
   useEffect(() => {
     if (!selectedMainCategory || page > totalPages) return;
     const paramsQuery = createQueryParams({
@@ -28,20 +35,30 @@ const ProductListing = () => {
       page,
     });
 
-    ApiService.get(`api/create-product?${paramsQuery}`)
+    ApiService.get(`/api/create-product?${paramsQuery}`)
       .then((data) => {
         const { products, totalPages, total, page } = data;
         customShopSet({ products, totalPages, total, page });
       })
       .catch((err) => showErrorToast(err?.response?.message ?? err?.message));
-  }, [selectedMainCategory]);
+  }, [selectedMainCategory, selectedSubCategory, page]);
   return (
     <div className="pb-24 grid grid-cols-3 gap-x-8 gap-y-4">
-      {products.map(({ name, images, code }) => (
-        <ProductCard key={code} name={name} source={images?.[0]?.url} />
+      {products.map(({ name, images, code, ...rest }) => (
+        <ProductCard
+          key={code}
+          name={name}
+          source={images?.[0]?.url}
+          onClick={handleProductClick.bind(null, {
+            name,
+            images,
+            code,
+            ...rest,
+          })}
+        />
       ))}
 
-      <ProductModal />
+      <ProductModal ref={modalRef} />
     </div>
   );
 };

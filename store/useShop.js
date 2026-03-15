@@ -17,6 +17,7 @@ const useShop = create((set) => ({
   selectedSubCategory: null,
   page: 1,
   products: [],
+  selectedProduct: null,
 }));
 
 export default useShop;
