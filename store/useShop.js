@@ -3,12 +3,15 @@ import { create } from 'zustand';
 const useShop = create((set) => ({
   aggregateCategories: [],
   setAggregateCategories: (categories = []) => {
-    const { name: label, _id: value } = categories?.[0];
-    const data = label && value ? { label, value } : null;
-    set({
+    const first = categories?.[0];
+    const data =
+      first?.name && first?._id
+        ? { label: first.name, value: first._id }
+        : null;
+    set((state) => ({
       aggregateCategories: categories,
-      selectedMainCategory: data,
-    });
+      selectedMainCategory: state.selectedMainCategory ?? data,
+    }));
   },
   customShopSet: (data) => {
     set(data);
@@ -18,6 +21,9 @@ const useShop = create((set) => ({
   page: 1,
   products: [],
   selectedProduct: null,
+  categoriesLoading: true,
+  catalogLoading: true,
+  loadedCatalogKey: null,
 }));
 
 export default useShop;

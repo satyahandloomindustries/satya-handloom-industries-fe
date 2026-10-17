@@ -19,6 +19,14 @@ export default {
       borderColor: {
         shi_brown: 'var(--shi_brown)',
       },
+      keyframes: {
+        shimmer: {
+          '100%': { transform: 'translateX(100%)' },
+        },
+      },
+      animation: {
+        shimmer: 'shimmer 1.4s ease-in-out infinite',
+      },
     },
   },
   plugins: [require('tailwind-scrollbar-hide'), require('tailwind-scrollbar')],

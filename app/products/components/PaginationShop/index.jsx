@@ -4,7 +4,9 @@ import PaginationFooter from '@/components/PaginationFooter';
 import useShop from '@/store/useShop';
 
 const PaginationShop = () => {
-  const { page, totalPages, customShopSet } = useShop();
+  const { page, totalPages, customShopSet, catalogLoading } = useShop();
+
+  if (catalogLoading) return null;
 
   return (
     <PaginationFooter

@@ -3,6 +3,7 @@ import MyDropdown from '@/components/Dropdown';
 import useProductAdmin from '@/store/useProductAdmin';
 import useShop from '@/store/useShop';
 import React from 'react';
+import Shimmer from '../Shimmer';
 
 const Showing = () => {
   const {
@@ -11,6 +12,7 @@ const Showing = () => {
     selectedMainCategory,
     total,
     page,
+    catalogLoading,
   } = useShop();
   const { allCategories } = useProductAdmin();
 
@@ -23,9 +25,13 @@ const Showing = () => {
 
   return (
     <div className="flex justify-between items-center p-4 pt-0">
-      <div className="text-gray-700 ">
-        Showing {total ? (page - 1) * 10 + 1 : 0} Of {total ?? 0} results
-      </div>
+      {catalogLoading ? (
+        <Shimmer className="h-4 w-44 rounded-full" />
+      ) : (
+        <div className="text-gray-700 ">
+          Showing {total ? (page - 1) * 10 + 1 : 0} Of {total ?? 0} results
+        </div>
+      )}
       <div className="grid grid-cols-[1.25fr_0.75fr] gap-2">
         <div className="font-semibold tracking-wide text-sm text-shi_brown ml-auto self-center">
           Sub-categories:
