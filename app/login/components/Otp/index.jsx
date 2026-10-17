@@ -72,22 +72,20 @@ const Otp = ({
 
   if (!visible) return null;
   return (
-    <div className="flex items-start justify-center flex-col">
-      <p className="text-sm mb-2 font-medium text-gray-700">
+    <div className="mb-4">
+      <p className="mb-2 text-sm font-medium text-[#3d342b]">
         Enter the verification code
       </p>
-      <div
-        className="grid gap-x-4 grid-cols-[repeat(4,50px)] place-items-center mb-2"
-        onPaste={handlePaste}
-      >
+      <div className="grid grid-cols-4 gap-3" onPaste={handlePaste}>
         {inputs.map((i, index) => (
           <input
             name={index.toString()}
             autoComplete="off"
+            inputMode="numeric"
             type="text"
             ref={(i) => refs.current.push(i)}
             value={i}
-            className="border border-gray-300  w-12 h-12 text-center"
+            className="h-12 w-12 rounded-xl border border-[#ead7b4] bg-white text-center text-lg text-[#2a2118] outline-none focus:border-[#c29958] focus:ring-2 focus:ring-[#c29958]/25"
             key={index}
             onChange={(event) => handleChange(event, index)}
             onKeyDown={(event) => handleKeyDown(event, index)}

@@ -1,36 +1,73 @@
+import ShiLogo from '@/components/ShiLogo';
 import Authenticate from './components/Authenticate';
+
+const pillars = [
+  {
+    title: 'Handcrafted living',
+    text: 'Bedsheets, curtains, and home textiles woven with care.',
+    color: '#c29958',
+  },
+  {
+    title: 'Hospitality standards',
+    text: 'High-value fabrics made for homes, hotels, and everyday use.',
+    color: '#c29958',
+  },
+  {
+    title: 'Wholesale and custom',
+    text: 'Sustainable textiles for bulk orders and made-to-order work.',
+    color: '#c29958',
+  },
+];
+
 const Login = () => {
   return (
-    <div className="items-center justify-center flex-1 flex h-[calc(100%-80px)] bg-shi_brown">
-      <div className="w-[60%] h-[80%] grid grid-cols-[1fr_1fr]">
-        <div
-          className="items-center justify-start flex flex-col"
-          style={{ backgroundColor: 'rgb(145, 110, 40)' }}
-        >
-          <h1 className="text-black  text-2xl mt-20 text-start">
-            <span className="text-xl font-semibold">Welcome to,</span>
-            <br></br> Satya Handloom Industries
-          </h1>
+    <main className="flex min-h-[calc(100vh-78px)] items-center bg-[#f7f3ec] px-4 py-8 md:px-10">
+      <div className="mx-auto grid w-full max-w-5xl overflow-hidden rounded-3xl bg-[#fffaf3] shadow-[0_16px_40px_rgba(92,62,24,0.08)] ring-1 ring-[#eadfce] md:grid-cols-2">
+        <section className="relative overflow-hidden bg-[linear-gradient(180deg,#2c261f_0%,#1a1613_100%)] px-8 py-10 text-[#f7f3ec] md:px-12 md:py-14">
+          <div className="pointer-events-none absolute -right-16 -top-16 h-48 w-48 rounded-full bg-[#c29958]/20 blur-3xl" />
+          <div className="relative flex items-center gap-3">
+            <ShiLogo width={52} height={52} />
+            <div className="leading-tight">
+              <p className="text-[11px] font-medium uppercase tracking-[0.32em] text-[#e8c98a]">
+                Satya
+              </p>
+              <p className="text-[11px] font-medium uppercase tracking-[0.32em] text-[#f7f3ec]">
+                Handloom Fabrics
+              </p>
+            </div>
+          </div>
 
-          <ul className="list-disc">
-            <li className="mt-8 text-[#fff] text-md pl-4">
-              Explore our handcrafted collection of bedsheets, <br /> curtains,
-              and more
-            </li>
-            <li className="mt-8 text-[#fff] text-md pl-4">
-              Discover the beauty of handmade living
-            </li>
-            <li className="mt-8 text-[#fff] text-md pl-4">
-              Deliver affordable, high-value handloom products <br /> that meet
-              today’s lifestyle and hospitality standards.
-            </li>
+          <h1 className="relative mt-10 text-3xl leading-tight md:text-4xl">
+            Premium handloom, made for trade and home.
+          </h1>
+          <p className="relative mt-4 text-sm leading-6 text-[#f7f3ec]/70">
+            Meerut’s workshop for sustainable textiles — customizable fabrics
+            for wholesale and bulk distribution.
+          </p>
+
+          <ul className="relative mt-8 space-y-4">
+            {pillars.map(({ title, text, color }) => (
+              <li key={title} className="flex gap-3">
+                <span
+                  className="mt-1.5 h-2.5 w-2.5 shrink-0 rounded-full"
+                  style={{ backgroundColor: color }}
+                />
+                <div>
+                  <p className="text-sm font-medium">{title}</p>
+                  <p className="mt-0.5 text-sm leading-6 text-[#f7f3ec]/65">
+                    {text}
+                  </p>
+                </div>
+              </li>
+            ))}
           </ul>
-        </div>
-        <div className="items-center justify-start flex bg-white flex-col pt-8">
+        </section>
+
+        <section className="flex items-center px-8 py-10 md:px-12">
           <Authenticate />
-        </div>
+        </section>
       </div>
-    </div>
+    </main>
   );
 };
 

@@ -1,7 +1,7 @@
 'use client';
 import Searchbar from '@/components/Searchbar';
 import useBlogs from '@/store/useBlogs';
-import React, { useCallback, useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 
 const BlogsPanel = ({ blogs = [] }) => {
   const {
@@ -39,38 +39,51 @@ const BlogsPanel = ({ blogs = [] }) => {
   );
 
   return (
-    <div
-      className="w-[300px] text-white backdrop-blur p-4 flex flex-col"
-      style={{ backgroundColor: 'rgb(175, 159, 93)' }}
-    >
-      <div className="text-center text-lg">Thread Tales</div>
+    <aside className="flex max-h-[38vh] w-full shrink-0 flex-col border-b border-[#eadfce] bg-[#f3e6cf] px-5 py-6 md:h-full md:max-h-none md:w-[320px] md:border-b-0 md:border-r md:px-6 md:py-10">
+      <p className="text-[11px] uppercase tracking-[0.32em] text-[#b8893f]">
+        Thread Tales
+      </p>
+      <h2 className="mt-2 text-2xl font-medium leading-tight text-[#2a2118]">
+        The journal
+      </h2>
       <Searchbar onSearchComplete={setFilteredBlogs} />
 
       {!currentBlog ? (
-        <p>No threads to show</p>
+        <p className="mt-6 text-sm text-[#5c5146]">No threads to show</p>
       ) : (
         <ol
-          className="list-decimal pl-6 h-full mt-6 space-y-2 overflow-y-auto scrollbar-rounded scrollbar-thin scrollbar-thumb-gray-100 scrollbar-track-transparent outline-none"
+          className="scrollbar-thin scrollbar-thumb-[#e4d3b4] scrollbar-track-transparent mt-6 h-full space-y-1 overflow-y-auto outline-none"
           tabIndex={0}
           onKeyDown={handleKeydown}
         >
-          {' '}
-          {filteredBlogs.map((item, index) => (
-            <li
-              className={`p-1 tracking-wide cursor-pointer rounded text-sm ${item.id === currentBlog?.id ? 'bg-black/10 backdrop-blur' : ''}`}
-              key={item.id}
-            >
-              <button
-                className="w-full text-left active:scale-95 transition-all duration-200 focus:outline-none outline-none"
-                onClick={setCurrentBlog.bind(null, index)}
-              >
-                {item.title}
-              </button>
-            </li>
-          ))}
+          {filteredBlogs.map((item, index) => {
+            const active = item.id === currentBlog?.id;
+            const number = String(index + 1).padStart(2, '0');
+            return (
+              <li key={item.id}>
+                <button
+                  className={`flex w-full items-start gap-3 border-l-2 py-3 pl-3 text-left outline-none transition ${
+                    active
+                      ? 'border-[#c29958] text-[#2a2118]'
+                      : 'border-transparent text-[#5c5146] hover:border-[#eadfce] hover:text-[#2a2118]'
+                  }`}
+                  onClick={setCurrentBlog.bind(null, index)}
+                >
+                  <span
+                    className={`mt-0.5 text-[11px] tracking-[0.18em] ${
+                      active ? 'text-[#b8893f]' : 'text-[#a89880]'
+                    }`}
+                  >
+                    {number}
+                  </span>
+                  <span className="text-sm leading-5">{item.title}</span>
+                </button>
+              </li>
+            );
+          })}
         </ol>
       )}
-    </div>
+    </aside>
   );
 };
 

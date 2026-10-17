@@ -21,7 +21,7 @@ const Profile = () => {
             />
           </Filter>
         </div>
-        {/* <ProductAdmin /> */}
+        <ProductAdmin />
 
         <ProfileSummary />
       </main>

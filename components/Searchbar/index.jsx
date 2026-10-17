@@ -36,7 +36,7 @@ const Searchbar = ({
         id="search"
         name="search"
         placeholder="Discover in thread"
-        className="border rounded mt-4 p-1 text-shi_brown focus:outline-none cursor-default w-full px-8 placeholder:text-sm placeholder:italic  placeholder:tracking-wider placeholder:text-gray-400"
+        className="mt-4 w-full rounded-full border border-[#ead7b4] bg-white px-8 py-2 text-sm text-[#2a2118] outline-none placeholder:text-sm placeholder:text-[#a89880]"
       />
       {searchIconVisible && (
         <CiSearch className="absolute left-2 top-1/2 text-black" />
