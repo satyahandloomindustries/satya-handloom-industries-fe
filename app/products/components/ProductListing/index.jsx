@@ -71,11 +71,11 @@ const ProductListing = () => {
 
   if (catalogLoading) {
     return (
-      <div className="grid grid-cols-3 gap-x-8 gap-y-8 pb-24">
+      <div className="grid grid-cols-2 gap-x-5 gap-y-8 lg:grid-cols-4">
         {Array.from({ length: 6 }).map((_, index) => (
-          <div key={index} className="flex flex-col items-center">
-            <Shimmer className="h-[263px] w-[263px]" />
-            <Shimmer className="mt-8 h-4 w-32 rounded-full" />
+          <div key={index}>
+            <Shimmer className="aspect-[4/5] w-full" />
+            <Shimmer className="mt-3 h-4 w-32 rounded-full" />
           </div>
         ))}
       </div>
@@ -83,12 +83,13 @@ const ProductListing = () => {
   }
 
   return (
-    <div className="pb-24 grid grid-cols-3 gap-x-8 gap-y-4">
+    <div className="grid grid-cols-2 gap-x-5 gap-y-8 lg:grid-cols-4">
       {products.map(({ name, images, code, ...rest }) => (
         <ProductCard
           key={code}
           name={name}
           source={images?.[0]?.url}
+          imageClassName="aspect-[4/5] w-full"
           onClick={handleProductClick.bind(null, {
             name,
             images,

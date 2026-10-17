@@ -1,8 +1,5 @@
 'use client';
 import React, { useEffect } from 'react';
-import Filter from '@/components/Filter';
-import TextGray from '@/components/TextGray';
-import MultiRenderer from '@/components/MultiRenderer';
 import ApiService from '@/services/ApiService';
 import useShop from '@/store/useShop';
 import Shimmer from '../Shimmer';
@@ -34,7 +31,7 @@ const CategoryFilter = () => {
     ApiService.get('/api/aggregate-categories')
       .then(({ categories }) => {
         setAggregateCategories(categories);
-        if (!categories?.length && !useShop.getState().products?.length) {
+        if (!categories?.some((category) => category.count > 0)) {
           customShopSet({ catalogLoading: false });
         }
       })
@@ -52,27 +49,36 @@ const CategoryFilter = () => {
   };
 
   return (
-    <Filter title="Categories">
+    <aside>
+      <p className="text-[11px] uppercase tracking-[0.28em] text-[#b8893f]">
+        Categories
+      </p>
       {categoriesLoading ? (
-        <div className="mt-3 space-y-4">
+        <div className="mt-4 space-y-3">
           {categoryBars.map((width, index) => (
-            <Shimmer key={index} className={`h-3 rounded-full ${width}`} />
+            <Shimmer key={index} className={`h-8 rounded-lg ${width}`} />
           ))}
         </div>
       ) : (
-      <MultiRenderer
-        Component={({ name, count, _id }) => (
-          <div onClick={handleCategorySelect.bind(null, name, _id)}>
-            <TextGray
-              text={`${name} (${count})`}
-              className={`mt-3 cursor-pointer ${selectedMainCategory?.label === name ? 'text-shi_brown' : 'text-gray-600'}`}
-            />
-          </div>
-        )}
-        rendererSet={aggregateCategories}
-      />
+        <ul className="mt-4 space-y-1">
+          {aggregateCategories.map(({ name, count, _id }) => {
+            const active = selectedMainCategory?.label === name;
+            return (
+              <li key={_id}>
+                <button
+                  type="button"
+                  onClick={handleCategorySelect.bind(null, name, _id)}
+                  className={`flex w-full items-center justify-between rounded-lg px-3 py-2 text-left text-sm ${active ? 'bg-[#f7f3ec] text-[#8a5e2b]' : 'text-[#5c5146] hover:bg-[#fffdf8]'}`}
+                >
+                  <span>{name}</span>
+                  <span className="text-xs text-[#a89880]">{count}</span>
+                </button>
+              </li>
+            );
+          })}
+        </ul>
       )}
-    </Filter>
+    </aside>
   );
 };
 

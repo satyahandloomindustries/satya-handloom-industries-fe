@@ -3,15 +3,22 @@ import { create } from 'zustand';
 const useShop = create((set) => ({
   aggregateCategories: [],
   setAggregateCategories: (categories = []) => {
-    const first = categories?.[0];
+    const withItems = categories.filter((category) => category.count > 0);
+    const first = withItems[0];
     const data =
       first?.name && first?._id
         ? { label: first.name, value: first._id }
         : null;
-    set((state) => ({
-      aggregateCategories: categories,
-      selectedMainCategory: state.selectedMainCategory ?? data,
-    }));
+    set((state) => {
+      const stillVisible = withItems.some(
+        (category) =>
+          String(category._id) === String(state.selectedMainCategory?.value)
+      );
+      return {
+        aggregateCategories: withItems,
+        selectedMainCategory: stillVisible ? state.selectedMainCategory : data,
+      };
+    });
   },
   customShopSet: (data) => {
     set(data);

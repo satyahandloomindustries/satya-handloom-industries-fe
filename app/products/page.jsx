@@ -1,4 +1,3 @@
-import ShopHeader from '@/components/ShopHeader';
 import React from 'react';
 import CategoryFilter from './components/CategoryFilter';
 import ContactUsFooter from '@/components/ContactUsFooter';
@@ -9,8 +8,7 @@ import PaginationShop from '@/app/products/components/PaginationShop';
 const Shop = () => {
   return (
     <div>
-      <ShopHeader />
-      <div className="grid grid-cols-[200px_1fr] px-[80px] gap-x-4 py-[40px]">
+      <div className="grid gap-10 bg-white px-6 py-10 md:grid-cols-[220px_1fr] md:px-8">
         <CategoryFilter />
         <div className="relative">
           <Showing />

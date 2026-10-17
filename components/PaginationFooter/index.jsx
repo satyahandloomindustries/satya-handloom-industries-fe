@@ -6,10 +6,10 @@ import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 const Circle = ({ active, children, onClick = () => {} }) => {
   return (
     <button
-      className={`w-3 h-3 rounded-full p-5 flex items-center justify-center ${active ? 'bg-shi_brown text-white' : 'bg-gray-300'}`}
+      className={`flex h-10 w-10 items-center justify-center rounded-full text-sm ${active ? 'bg-[#c29958] text-white' : 'border border-[#ead7b4] bg-white text-[#5c5146]'}`}
       onClick={onClick}
     >
-      <div className="items-center justify-center flex">{children}</div>
+      {children}
     </button>
   );
 };
@@ -21,7 +21,7 @@ const PaginationFooter = ({ page = 1, totalPages = 1, setPage = () => {} }) => {
     return null;
   }
   return (
-    <div className="w-full p-5 border items-center justify-center flex gap-2 absolute bottom-0 mt-8">
+    <div className="mt-10 flex w-full items-center justify-center gap-2">
       {page > 1 && (
         <Circle onClick={() => setPage(Math.max(1, page - 1))}>
           <FaChevronLeft size={18} />

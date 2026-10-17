@@ -9,6 +9,7 @@ function MyDropdown({
   placeholder = 'Click to expand',
   dropdownDisabled = false,
   showReset = true,
+  buttonClassName = 'cursor-pointer rounded-md border border-gray-100 bg-shi_brown px-3 py-2 text-sm text-white shadow-sm outline-none disabled:cursor-not-allowed disabled:bg-gray-300 disabled:text-gray-500',
 }) {
   const divRef = useRef();
   const [width, setWidth] = useState(150);
@@ -39,7 +40,7 @@ function MyDropdown({
       <MenuButton
         style={{ minWidth: `${width}px` }}
         disabled={disabled}
-        className={`outline-none cursor-pointer text-white bg-shi_brown border border-gray-100 rounded-md px-3 py-2 text-sm shadow-sm disabled:bg-gray-300 disabled:text-gray-500 disabled:cursor-not-allowed`}
+        className={buttonClassName}
       >
         {items?.length === 0
           ? 'No varieties'
