@@ -9,7 +9,7 @@ const socialIcon = [
     iconsrc: 'https://www.linkedin.com/company/108991253/admin/dashboard/',
   },
   { Icon: FaFacebook, iconsrc: '/' },
-  { Icon: FaInstagram, iconsrc: '/' },
+  { Icon: FaInstagram, iconsrc: 'https://www.instagram.com/satyahandloomfabrics1?rpxt=cm04cjB5czRmdmhu/' },
 ];
 const SocialIconDisplay = ({ title = '' }) => {
   return (

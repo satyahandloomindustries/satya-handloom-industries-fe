@@ -19,7 +19,7 @@ export const contactUs = [
   },
   {
     Icon: PhoneOutlinedIcon,
-    label: '(+91) 7017271699',
+    label: '(+91) 9458805785',
   },
 ];
 
